@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 自定义拖动排序属性 -->
+    <declare-styleable name="DragSortListView">
+        <!-- 是否启用拖动功能 -->
+        <attr name="drag_enabled" format="boolean" />
+        <!-- 是否启用删除功能 -->
+        <attr name="remove_enabled" format="boolean" />
+        <!-- 设置拖动图标ID -->
+        <attr name="drag_handle_id" format="integer" />
+        <!-- 设置删除图标ID -->
+        <attr name="remove_handle_id" format="integer" />
+    </declare-styleable> 
+    
+    
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <!-- Crop相关属性定义 -->
+    <attr name="cropImageStyle" format="reference" />
+
+    <declare-styleable name="CropImageView">
+        <attr name="highlightColor" format="reference|color" />
+        <attr name="showThirds" format="boolean" />
+        <attr name="showHandles">
+            <enum name="changing" value="0" />
+            <enum name="always" value="1" />
+            <enum name="never" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="debugDraw" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_horizontalSpacing" format="dimension"/>
+        <attr name="layout_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="EzAttachement">
+        <attr name="mime_layout" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="main_attrs">
+    <attr name="main_Value" format="color" />
+    <attr name="title_Value" format="color" />
+    <attr name="des_Value" format="color" />
+        <attr name="main_gray" format="color" />
+        <attr name="main_red" format="color" />
+
+        <attr name="main_theme_color" format="color" />
+        <attr name="main_bottom_color" format="color" />
+        <attr name="main_main_color" format="color" />
+        <attr name="info_tab_title_color" format="color" />
+        <attr name="lable_list_style" format="color" />
+        <attr name="lable_item_style" format="color" />
+        <attr name="shadow1" format="color" />
+        <attr name="shadow_button" format="color" />
+        <attr name="shadow_line" format="color" />
+        <attr name="white_text_color" format="color" />
+        <attr name="shadow_white_color" format="color" />
+        <attr name="market_title_color" format="color" />
+        <attr name="market_divide_color" format="color" />
+        <attr name="market_divide_single_color" format="color" />
+        <attr name="market_area_title_color" format="color" />
+        <attr name="shadow0" format="color" />
+        <attr name="charts_background" format="color" />
+        <attr name="info_tab_background" format="color" />
+        <attr name="info_tab_title" format="color" />
+        <attr name="market_tab_title" format="color" />
+        <attr name="talk_background" format="color" />
+        <attr name="talk_bottom_input" format="color" />
+        <attr name="title_main_color" format="color" />
+        <attr name="red_main_color" format="color" />
+        <attr name="green_main_color" format="color" />
+        <attr name="red_zi_color" format="color" />
+        <attr name="green_zi_color" format="color" />
+        <attr name="stock_white_color" format="color" />
+        <attr name="red_zi_background_color" format="color" />
+        <attr name="green_zi_background_color" format="color" />
+
+        <attr name="info_edite_color" format="color" />
+        <attr name="info_edite_tv_color" format="color" />
+        <attr name="info_edite_line_color" format="color" />
+
+        <attr name="title_tv_pre" format="color" />
+        <attr name="title_tv_nor" format="color" />
+
+        <attr name="shadow_jiaoyi_bg" format="color"></attr>
+        <attr name="daodi_line" format="color"></attr>
+        <attr name="shadow12" format="color"></attr>
+        <attr name="shadow_bottom_text" format="color"></attr>
+        <attr name="white_black_day_night" format="color"></attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="custom_banner">
+        <attr name="indicatorGravity" format="enum">
+            <enum name="LEFT" value="1" />
+            <enum name="RIGHT" value="2" />
+            <enum name="CENTER" value="3" />
+        </attr>
+        <attr name="indicatorStyle" format="enum">
+            <enum name="NONE" value="1" />
+            <enum name="NUMBER" value="2" />
+            <enum name="ORDINARY" value="3" />
+        </attr>
+        <attr name="indicatorSelectRes" format="reference" />
+        <attr name="indicatorUnSelectRes" format="reference" />
+        <attr name="indicatorInterval" format="dimension" />
+    </declare-styleable>
+</resources>

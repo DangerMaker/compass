@@ -1,0 +1,115 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <!-- 背景 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊 -->
+    </style>
+
+    <style name="AppBaseTheme" parent="android:Theme.Light"/>
+
+    <style name="DayTheme" parent="AppBaseTheme">>
+        <item name="main_Value">@color/black</item>
+        <item name="main_gray">@color/gray</item>
+        <item name="main_red">@color/red</item>
+        <item name="main_theme_color">@color/red</item>
+        <item name="main_bottom_color">@color/charts_background</item>
+        <item name="main_main_color">@color/white</item>
+        <item name="info_tab_title_color">@color/info_tab_title</item>
+        <item name="lable_list_style">@color/lable_list_style</item>
+        <item name="lable_item_style">@color/lable_item_style</item>
+        <item name="shadow1">@color/shadow1</item>
+        <item name="shadow0">@color/shadow0</item>
+        <item name="shadow_button">@color/white</item>
+        <item name="shadow_line">@color/shadow1</item>
+        <item name="white_text_color">@color/white</item>
+        <item name="shadow_white_color">@color/shadow</item>
+        <item name="market_title_color">@color/market_title</item>
+        <item name="market_divide_color">@color/market_divide</item>
+        <item name="market_divide_single_color">@color/market_divide</item>
+        <item name="market_area_title_color">@color/market_area_title</item>
+        <item name="charts_background">@color/charts_background</item>
+        <item name="info_tab_background">@color/info_tab_background</item>
+        <item name="info_tab_title">@color/info_tab_title</item>
+        <item name="market_tab_title">@color/market_hot_hint</item>
+        <item name="talk_background">@color/im_talk_color_bg</item>
+        <item name="talk_bottom_input">@color/gray</item>
+        <item name="title_main_color">@color/white</item>
+        <item name="red_main_color">@color/red</item>
+        <item name="green_main_color">@color/green</item>
+        <item name="red_zi_color">@color/lable_stock_red</item>
+        <item name="green_zi_color">@color/zi_green</item>
+        <item name="stock_white_color">@color/shadow0</item>
+        <item name="red_zi_background_color">@color/lable_stock_red</item>
+        <item name="green_zi_background_color">@color/zi_green</item>
+        <item name="info_edite_color">@color/shadow3</item>
+        <item name="info_edite_tv_color">@color/shadowbtn3</item>
+        <item name="info_edite_line_color">@color/shadowline3</item>
+        <item name="title_tv_nor">@color/shadow3</item>
+        <item name="title_tv_pre">@color/white</item>
+        <item name="shadow_jiaoyi_bg">@color/shadow1</item>
+        <item name="daodi_line">#aaaaaa</item>
+        <item name="shadow12">@color/shadow</item>
+        <item name="shadow_bottom_text">@color/shadow_bottom_day</item>
+    </style>
+    <style name="NightTheme" parent="AppBaseTheme">
+        <item name="main_Value">@color/dark_text_color</item>
+        <item name="main_gray">@color/dark_text_color</item>
+        <item name="main_red">@color/red_main_color_night</item>
+        <item name="main_theme_color">@color/black_background_bottom</item>
+        <item name="main_bottom_color">@color/black_background_bottom</item>
+        <item name="main_main_color">@color/black_background_new</item>
+        <item name="info_tab_title_color">@color/dark_text_color</item>
+        <item name="lable_list_style">@color/dark_text_color</item>
+        <item name="lable_item_style">@color/dark_text_color</item>
+        <item name="shadow1">@color/black_background</item>
+        <item name="shadow_button">@color/shadow_button</item>
+        <item name="shadow_line">@color/shadow_line_new</item>
+        <item name="white_text_color">@color/dark_text_color</item>
+        <item name="shadow_white_color">@color/dark_text_color</item>
+        <item name="market_title_color">@color/dark_text_color</item>
+        <item name="market_divide_color">@color/shadow_button</item>
+        <item name="market_divide_single_color">@color/line_dark</item>
+        <item name="market_area_title_color">@color/dark_text_color</item>
+        <item name="shadow0">@color/line_dark</item>
+        <item name="charts_background">@color/shadow_button</item>
+        <item name="info_tab_background">@color/black_background</item>
+        <item name="info_tab_title">@color/dark_text_color</item>
+        <item name="market_tab_title">@color/dark_text_color</item>
+        <item name="talk_background">@color/black_background</item>
+        <item name="talk_bottom_input">@color/shadow_button</item>
+        <item name="red_main_color">@color/red_main_color_night</item>
+        <item name="green_main_color">@color/green_main_color_night</item>
+        <item name="red_zi_color">@color/red_main_color_night</item>
+        <item name="green_zi_color">@color/green_main_color_night</item>
+        <!--<item name="stock_white_color">@color/stock_equal_white</item>-->
+        <item name="stock_white_color">@color/stock_equal_white</item>
+        <item name="red_zi_background_color">@color/red_zi_background_color_night</item>
+        <item name="green_zi_background_color">@color/green_zi_background_color_night</item>
+        <item name="info_edite_color">@color/black_background</item>
+        <item name="info_edite_tv_color">@color/line_dark</item>
+        <item name="info_edite_line_color">@color/shadow_button</item>
+        <item name="title_tv_nor">@color/shadowline11</item>
+        <item name="title_tv_pre">@color/shadow3</item>
+        <item name="shadow_jiaoyi_bg">@color/black_background_new</item>
+        <item name="daodi_line">@color/dark_text_color</item>
+        <item name="shadow12">@color/gray</item>
+        <item name="shadow_bottom_text">@color/shadow_bottom_night</item>
+    </style>
+</resources>

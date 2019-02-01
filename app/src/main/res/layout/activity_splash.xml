@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/start_layout"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:id="@+id/advert_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/load_bottom_layout"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/start_logo0"
+                android:layout_centerHorizontal="true"
+                android:layout_width="239dip"
+                android:layout_height="100dip"
+                android:background="@drawable/zhinanzhen_bottom" />
+        </RelativeLayout>
+        <ImageView
+            android:layout_above="@id/load_bottom_layout"
+            android:scaleType="centerCrop"
+            android:id="@+id/advert_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/start_logo"
+        android:layout_width="240dip"
+        android:layout_height="100dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dip"
+        android:background="@drawable/biaoti" />
+
+    <ImageView
+        android:id="@+id/start_logo1"
+        android:layout_width="239dip"
+        android:layout_height="100dip"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dip"
+        android:background="@drawable/zhinanzhen_bottom"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/start_logo2"
+        android:layout_width="239dip"
+        android:layout_height="100dip"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dip"
+        android:background="@drawable/zhinanzhen_bottom" />
+
+    <TextView
+        android:id="@+id/time_view"
+        android:text="3"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/splash_dot_ads"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>
