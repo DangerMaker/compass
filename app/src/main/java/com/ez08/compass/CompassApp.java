@@ -33,7 +33,7 @@ public class CompassApp extends Application {
 
     //常量
     public static class Constants {
-        public static final String REQUEST_URL = "http://imapp.compass.cn/update.php?type=0&testmode=1"; //testmode = 0正式* 1测试* type = 0android 1ios
+        public static final String REQUEST_URL = "https://imapp.compass.cn/update.php?type=0&testmode=1"; //testmode = 0正式* 1测试* type = 0android 1ios
         public static final String MAINAPP_NAME = "zhinantong_app";
         public static final String APPUID = "zhinantong_android";
         //首页行情代码  上证 深证 创业板 中小板
@@ -93,7 +93,7 @@ public class CompassApp extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        ThinkiveInitializer.getInstance().initialze(this); //第一创业sdk
+//        ThinkiveInitializer.getInstance().initialze(this); //第一创业sdk
         UMConfigure.init(this, "55a8a80f67e58ec0420006ef", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         PlatformConfig.setWeixin("wxae22025f248bd50f", "a11764469f0743a2474b4b3e12710909");
         PlatformConfig.setSinaWeibo("1679428760", "e36e4fe521da287ad503fa30d8c5439b", "http://sns.whalecloud.com");

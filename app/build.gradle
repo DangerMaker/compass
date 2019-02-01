@@ -42,4 +42,5 @@ dependencies {
     implementation files('libs/umeng-share-wechat-full-6.9.2.jar')
     implementation files('libs/universal-image-loader-1.9.2-SNAPSHOT-with-sources.jar')
     implementation files('libs/gson-2.2.2.jar')
+    implementation files('libs/wechat-sdk-android-without-mta-5.1.4.jar')
 }
