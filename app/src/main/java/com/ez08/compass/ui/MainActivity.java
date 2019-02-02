@@ -227,21 +227,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
             newsIntent.putExtra("entity", itemStock);
             startActivity(newsIntent);
         }
-
-
-        if (CompassApp.GLOBAL.THEME_STYLE == 0) {
-            tab1 = R.drawable.tab1_day_normal;
-            tab2 = R.drawable.tab2_day_normal;
-            tab3 = R.drawable.tab3_day_normal;
-            tab4 = R.drawable.tab4_day_normal;
-            tab5 = R.drawable.tab5_day_normal;
-        } else {
-            tab1 = R.drawable.tab1_night_normal;
-            tab2 = R.drawable.tab2_night_normal;
-            tab3 = R.drawable.tab3_night_normal;
-            tab4 = R.drawable.tab4_night_normal;
-            tab5 = R.drawable.tab5_night_normal;
-        }
     }
 
     private IMDBHelper helper;
@@ -612,8 +597,18 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     private void initViews() {
 
         if (CompassApp.GLOBAL.THEME_STYLE == 0) {
+            tab1 = R.drawable.tab1_day_normal;
+            tab2 = R.drawable.tab2_day_normal;
+            tab3 = R.drawable.tab3_day_normal;
+            tab4 = R.drawable.tab4_day_normal;
+            tab5 = R.drawable.tab5_day_normal;
             colorNormal = Color.parseColor("#282828");
         } else {
+            tab1 = R.drawable.tab1_night_normal;
+            tab2 = R.drawable.tab2_night_normal;
+            tab3 = R.drawable.tab3_night_normal;
+            tab4 = R.drawable.tab4_night_normal;
+            tab5 = R.drawable.tab5_night_normal;
             colorNormal = Color.parseColor("#BFBFBF");
         }
         colorSelected = Color.parseColor("#FB0E1B");
@@ -636,18 +631,22 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
         txtSeek = (TextView) findViewById(R.id.textView4);
         txtTrade = (TextView) findViewById(R.id.textView5);
 
-        txtHome.setTextColor(colorSelected);
-        txtService.setTextColor(colorNormal);
-        txtClass.setTextColor(colorNormal);
-        txtSeek.setTextColor(colorNormal);
-        txtTrade.setTextColor(colorNormal);
-
         imgHome = (ImageView) findViewById(R.id.img_home_page);
         imgClass = (ImageView) findViewById(R.id.img_class);
         imgService = (ImageView) findViewById(R.id.img_my_service);
         imgSeek = (ImageView) findViewById(R.id.img_seek);
         imgTrade = (ImageView) findViewById(R.id.img_trade);
         iv_red_dot = (ImageView) findViewById(R.id.iv_red_dot);
+
+        clearSelection();
+
+        txtHome.setTextColor(colorSelected);
+        txtService.setTextColor(colorNormal);
+        txtClass.setTextColor(colorNormal);
+        txtSeek.setTextColor(colorNormal);
+        txtTrade.setTextColor(colorNormal);
+
+        imgHome.setImageResource(R.drawable.tab1_select);
     }
 
     public void setTabSelection(int index) {
@@ -759,11 +758,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     /**
      * ???????е????????
      */
-    int tab1 = R.drawable.tab1_day_normal;
-    int tab2 = R.drawable.tab2_day_normal;
-    int tab3 = R.drawable.tab3_day_normal;
-    int tab4 = R.drawable.tab4_day_normal;
-    int tab5 = R.drawable.tab5_day_normal;
+    int tab1;
+    int tab2;
+    int tab3;
+    int tab4;
+    int tab5;
 
     private void clearSelection() {
 

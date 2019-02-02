@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -69,7 +70,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private SharedPreferences mySharedPreferences;
 
     private boolean AUTO_LOGIN = true;  //自动登录的开关
-    private CheckBox mAutoCheck;
+    private AppCompatCheckBox mAutoCheck;
     private boolean mIsCheck;
     private String mMd5PassWord;
     private final String mTmpPassword = "000000";
@@ -87,7 +88,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         mMd5PassWord = mySharedPreferences.getString("md5password", "");
 
         setContentView(R.layout.activity_login);
-        mAutoCheck = (CheckBox) findViewById(R.id.login_auto_check);
+        mAutoCheck = (AppCompatCheckBox) findViewById(R.id.login_auto_check);
 
         if (mIsCheck) {
             mAutoCheck.setChecked(true);
@@ -209,7 +210,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             chksum = MD5.mD5Encode(verifyCode + ts + verifyCode, "UTF-8");
             String lEncodeContented = contented;
 
-            url = "http://app.compass.cn/autologin.php?chid=" + chid + "&ts=" + ts + "&chksum=" + chksum + lEncodeContented;
+            url = "https://app.compass.cn/autologin.php?chid=" + chid + "&ts=" + ts + "&chksum=" + chksum + lEncodeContented;
             final HttpUtils u = new HttpUtils();
             final String finalUrl = url;
             new Thread() {
@@ -498,6 +499,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
+        unregisterReceiver(finishReceiver);
         lgroup.removeAllViews();
         isOnLogin = false;
     }

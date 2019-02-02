@@ -2,7 +2,6 @@ package com.ez08.compass.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -15,6 +14,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -69,7 +69,6 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
 
         mAddStatus = false;
         mContext = this;
@@ -201,7 +200,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void showNetDialog() {
-        new AlertDialog.Builder(mContext).setTitle("无可用网络")
+        new AlertDialog.Builder(mContext)
+                .setTitle("指南针提示")
+                .setMessage("没有网络可用，请检查网络!")
                 .setPositiveButton("重试", new OnClickListener() {
 
                     @Override
@@ -224,7 +225,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void showNetDialog2() {
-        new AlertDialog.Builder(mContext).setTitle("获取分发地址失败")
+        new AlertDialog.Builder(mContext)
+                .setTitle("指南针提示")
+                .setMessage("获取分发地址失败,请检查网络!")
                 .setPositiveButton("重试", new OnClickListener() {
 
                     @Override

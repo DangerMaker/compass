@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ez08.compass.CompassApp;
@@ -34,6 +35,8 @@ public class BaseActivity extends AppCompatActivity {
             setTheme(R.style.NightTheme);
         }
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+
         TypedArray a = this.obtainStyledAttributes(null, R.styleable.main_attrs, 0, 0);
         shadow0Color = getResources().getColor(a.getResourceId(R.styleable.main_attrs_shadow0, 0));
         textContentColor = getResources().getColor(a.getResourceId(R.styleable.main_attrs_lable_list_style, 0));

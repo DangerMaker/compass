@@ -46,7 +46,7 @@
             android:name=".autoupdate.updateModule.AutoUpdateActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <activity
             android:name="com.ez08.compass.ui.personal.LoginActivity"
@@ -60,6 +60,9 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="compass10001" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55a8a80f67e58ec0420006ef"/>
 
     </application>
 

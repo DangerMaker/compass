@@ -46,7 +46,6 @@ public class AdsManager {
     }
 
     public void setUrl(String path) {
-        Log.e("AdManager", path);
         AdsAsyncTask task = new AdsAsyncTask(context);
         task.execute(path);
     }
@@ -124,7 +123,7 @@ public class AdsManager {
         @Override
         protected Void doInBackground(String... strings) {
             HttpUtils httpUtils = new HttpUtils();
-            Log.e("Ads Http",strings[0]);
+            Log.e("AdsManager",strings[0]);
             String result = httpUtils.getJsonContent(strings[0]);
 
             if (TextUtils.isEmpty(result)) {

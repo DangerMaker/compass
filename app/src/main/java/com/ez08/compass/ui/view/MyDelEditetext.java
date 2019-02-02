@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
 
+import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.R;
 
 
@@ -52,8 +53,8 @@ public class MyDelEditetext extends AppCompatEditText implements OnFocusChangeLi
 					R.drawable.chazi);
 		}
 		setPadding(20, 0, 15, 0);
-		mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(),
-				mClearDrawable.getIntrinsicHeight());
+		mClearDrawable.setBounds(0, 0, (int)ScreenUtil.dpToPx(getContext(),20),
+				(int)ScreenUtil.dpToPx(getContext(),20));
 		// 默认设置隐藏图标
 		setClearIconVisible(false);
 		// 设置焦点改变的监听

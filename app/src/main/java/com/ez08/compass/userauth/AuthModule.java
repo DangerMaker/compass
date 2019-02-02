@@ -146,7 +146,7 @@ public class AuthModule {
         if (bd != null) {
 
             cv.put("sex", bd.getInt("sex"));
-            cv.put("email", bd.getString("email"));
+//            cv.put("email", bd.getString("email"));
             cv.put("cfg_descript", bd.getString("cfg_descript"));
             AuthUserService.saveUserInfo(cid, cv);
         }
