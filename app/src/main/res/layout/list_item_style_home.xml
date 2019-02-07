@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/list_title_line"
+        android:layout_width="fill_parent"
+        android:layout_height="10dip"
+        android:background="?attr/shadow1"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="96dip"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+
+            <ImageView
+                android:id="@+id/zixun_img"
+                android:layout_width="95dip"
+                android:layout_height="70dip"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/chaogu" />
+
+            <ImageView
+                android:id="@+id/video_logo"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginTop="48dip"
+                android:background="@drawable/video_logo"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="11dip"
+            android:layout_marginTop="13dip" >
+
+            <TextView
+                android:id="@+id/time_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:maxLines="1"
+                android:text="反对方答复"
+                android:textColor="?attr/lable_list_style"
+                android:textSize="17sp" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/time_name" >
+
+                <TextView
+                    android:id="@+id/time_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10dip"
+                    android:textColor="?attr/lable_item_style"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/class_living"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dip"
+                android:text="直播中"
+                android:textColor="@color/red"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/time_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/class_living"
+                android:layout_marginBottom="5dip"
+                android:layout_marginLeft="10dip"
+                android:ellipsize="end"
+                android:maxLength="25"
+                android:singleLine="true"
+                android:text="11"
+                android:textColor="?attr/lable_item_style"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/attention_l"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_above="@id/class_living"
+                android:layout_marginBottom="3dip"
+                android:layout_marginLeft="2dip"
+                android:layout_toRightOf="@id/time_detail"
+                android:background="@drawable/attention_l" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/class_no_money"
+            android:layout_width="54dip"
+            android:layout_height="49dip"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/no_money"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="?attr/shadow1"
+         />
+
+</LinearLayout>

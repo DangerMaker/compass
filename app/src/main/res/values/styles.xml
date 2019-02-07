@@ -1,12 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--Dialog的windowFrame框为无 -->
@@ -21,7 +16,10 @@
 
     <style name="AppBaseTheme" parent="android:Theme.Light"/>
 
-    <style name="DayTheme" parent="AppBaseTheme">>
+    <style name="DayTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red</item>
+        <item name="colorAccent">@color/red</item>
         <item name="main_Value">@color/black</item>
         <item name="main_gray">@color/gray</item>
         <item name="main_red">@color/red</item>
@@ -66,6 +64,9 @@
         <item name="shadow_bottom_text">@color/shadow_bottom_day</item>
     </style>
     <style name="NightTheme" parent="AppBaseTheme">
+        <item name="colorPrimary">@color/black_background_bottom</item>
+        <item name="colorPrimaryDark">@color/black_background_bottom</item>
+        <item name="colorAccent">@color/black_background_bottom</item>
         <item name="main_Value">@color/dark_text_color</item>
         <item name="main_gray">@color/dark_text_color</item>
         <item name="main_red">@color/red_main_color_night</item>

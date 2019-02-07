@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/main_theme_color"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/stock_left_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"></RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="自选股"
+            android:textColor="?attr/white_text_color"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="?attr/main_theme_color">
+
+        <Button
+            android:id="@+id/theme_style"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/day_3x" />
+
+        <Button
+            android:id="@+id/add_stock"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:padding="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/stock_to_search_2x" />
+
+        <com.ez08.compass.ui.market.customtab.SlidingTabLayout
+            android:id="@+id/sliding_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dip"
+            android:layout_marginRight="50dip"
+            android:layout_weight="1" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="?attr/shadow_line" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/info_tab_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

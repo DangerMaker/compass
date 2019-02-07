@@ -256,14 +256,20 @@ public class SplashActivity extends BaseActivity {
 
     }
 
+    long a;
+    long b;
+
     private void startNetWork() {
+        a = System.currentTimeMillis();
         final HttpUtils u = new HttpUtils();
         new Thread() {
             public void run() {
                 String result = u.getJsonContent(CompassApp.Constants.REQUEST_URL);
                 InitEntity entity = parserResult(result);
                 if (entity != null) {
-                    Log.e("", "success+" + result);
+                    b = System.currentTimeMillis();
+                    Log.e("startNetWork use time",(b-a) + "ms");
+                    Log.e("startNetWork", "success : " + result);
                     SharedPreferences.Editor editor = mySharedPreferences
                             .edit();
                     editor.putString("updateresult", result);
@@ -287,7 +293,7 @@ public class SplashActivity extends BaseActivity {
                 } else {
                     String data = mySharedPreferences.getString("updateresult",
                             "");
-                    Log.e("", "error+" + data);
+                    Log.e("startNetWork", "failure : " + data);
                     if (!TextUtils.isEmpty(data)) {
                         setNet(data);
                     } else {

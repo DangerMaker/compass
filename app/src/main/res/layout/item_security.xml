@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="?attr/shadow_jiaoyi_bg"
+    android:id="@+id/sec_item_group"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:background="?attr/shadow_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_cb_selcet"
+            android:layout_width="50dp"
+            android:layout_height="70dp"
+            >
+            <ImageView
+                android:id="@+id/cb_all_select"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_centerInParent="true"
+                android:background="@drawable/sec_del"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/sec_name_img"
+                android:layout_width="40dip"
+                android:layout_height="40dip" />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dip"
+                android:textColor="?attr/lable_list_style"
+                android:id="@+id/sec_name_tv"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:id="@+id/sec_add_group"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/sec_add"
+                android:layout_width="30dip"
+                android:layout_height="30dip" />
+            <TextView
+                android:layout_marginLeft="10dip"
+                android:layout_gravity="center_vertical"
+                android:textColor="?attr/red_main_color"
+                android:id="@+id/sec_name_add"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:text="添加账户"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

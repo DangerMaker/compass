@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="70dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:text=""
+        android:clickable="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dip"
+        android:id="@+id/itemDemo_tv_name"
+        android:gravity="center"
+        android:textColor="@color/info_edite_below_color"
+        android:background="@drawable/item_bg_nor"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/itemDemo_im_del"
+        android:layout_width="15dp"
+        android:visibility="gone"
+        android:background="@drawable/chazi"
+        android:layout_height="15dp" />
+</RelativeLayout>

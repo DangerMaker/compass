@@ -1,0 +1,59 @@
+/***************************
+网络图片管理接口使用说明：
+***************************/
+
+接口1：获取图片文件夹中已有的文件的Bitmap
+	public static Bitmap getBitmapOfImage(String imageid)；
+	public static Bitmap getThumbnailImage(String imageid)；
+接口2：向服务器请求一个图片文件
+	public static int requestImage(String id, int what, Handler handler)；
+	public static int requestThumbnailImage(String id, int what, Handler handler)；
+	返回值为网络包得SN编号，请求成功后返回数据包中主要参数有imageid和data，data为图片文件的byte数组
+
+接口3：在ImageView中显示图片
+	public static boolean bindImage(View iv, String imageid, int noimage)
+	public static boolean bindThumbnail(View iv, String imageid, int noimage);
+	如果本地没有对应的文件，则向服务器请求
+	返回值为false时，表示自动发送了服务器请求
+	参数noimage为占位图片的资源id
+	
+接口4：获取灰度图片
+	public static Bitmap getGrayImg(Bitmap paramBitmap)；
+	
+接口5：保存图片
+	public static void save(String id, byte[] bytes)；
+	文件会自动保存在图片文件夹中。
+	
+===========================
+异步图片获取接口
+===========================
+Bitmap EzImageManager.getBitmap(String imageid, boolean isThumbnail, Handler handler);
+
+说明：
+	1、如果本地有图片缓存，则直接返回一个Bitmap；
+	2、如果本地没有图片缓存并且handler不为空，则发起网络请求，在图片请求返回后通过handler通知调用者，调用本身会返回null
+	3、如果本地没有图片缓存且handler为空，则直接返回null。
+
+	结果通知的方式如下：
+
+	（以下是图片请求代码发送通知的源码示意）
+		if(获取图片成功){
+		  ir.mReqHandler.obtainMessage(EzImageManager.WHAT_IMAGE_RESPONSE_OK,bitmapPaire).sendToTarget();
+		}else{
+		  ir.mReqHandler.obtainMessage(EzImageManager.WHAT_IMAGE_RESPONSE_BAD_IMAGE).sendToTarget();
+		}
+		
+	bitmapPaire是一个BitmapPaire类的实例，类的定义如下：
+	-----------------------------------
+	public class BitmapPaire {
+		 public Bitmap mBitmap;
+		 public String mImageId;
+
+		public BitmapPaire(String id, Bitmap bm){
+			mBitmap = bm;
+			mImageId = id;
+		}
+
+	}
+	--------------------------------
+	

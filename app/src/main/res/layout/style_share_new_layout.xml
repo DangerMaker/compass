@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/style_share_date"
+                android:textSize="15sp"
+                android:textColor="?attr/red_main_color"
+                android:layout_marginTop="12dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/style_share_time"
+                android:textSize="15sp"
+                android:textColor="?attr/red_main_color"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="9dip"
+            android:layout_marginTop="9dip"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dip"
+                android:layout_marginRight="10dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/time_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dip"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:paddingTop="3dip"
+                    android:text="2怀孕覅客户广泛宽高汇丰控股昆明铁路22"
+                    android:textColor="?attr/lable_item_style"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/style_info_share"
+                    android:src="@drawable/iv_share_new"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/time_detail"
+                    android:layout_width="25dip"
+                    android:layout_height="25dip" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="?attr/shadow1"
+         />
+
+</LinearLayout>

@@ -46,12 +46,18 @@ import com.ez08.compass.tools.MessageService;
 import com.ez08.compass.tools.PushManager;
 import com.ez08.compass.tools.PushService;
 import com.ez08.compass.tools.ToastUtils;
+import com.ez08.compass.ui.kefu.MyKefuFragment;
+import com.ez08.compass.ui.market.HomeTabFragment;
+import com.ez08.compass.ui.media.ClassFragment;
+import com.ez08.compass.ui.news.InfoNewTabFragment;
 import com.ez08.compass.ui.personal.BindMobileDialog;
 import com.ez08.compass.ui.personal.LoginActivity;
+import com.ez08.compass.ui.trader.SecurityFragment;
 import com.ez08.compass.userauth.AuthModule;
 import com.ez08.compass.userauth.AuthUserInfo;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.EzNet;
+import com.ez08.support.net.NetManager;
 import com.ez08.support.net.NetResponseHandler;
 import com.ez08.support.net.NetResponseHandler2;
 import com.ez08.tools.IntentTools;
@@ -69,11 +75,11 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity implements OnClickListener, NetStatisInterFace.StatisticsFace {
     private FragmentManager fragmentManager;
-    //    private HomeTabFragment mHomeFragment;
-//    private MyKefuFragment mSeekFragment;
-//    private InfoNewTabFragment mInfoTabFragment;
-//    private ClassFragment mClassFragment;
-//    private SecurityFragment mSecurityFragment;
+    private HomeTabFragment mHomeFragment;
+    private MyKefuFragment mSeekFragment;
+    private InfoNewTabFragment mInfoTabFragment;
+    private ClassFragment mClassFragment;
+    private SecurityFragment mSecurityFragment;
     private TextView txtHome, txtClass, txtTrade, txtService, txtSeek;
     private ImageView imgHome, imgClass, imgTrade, imgService, imgSeek;
     private int colorSelected, colorNormal;
@@ -384,13 +390,23 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
+        unregisterReceiver(dataChangeReceiver);
+        unregisterReceiver(refreshReceiver);
+        unregisterReceiver(delLiveReceiver);
 //
 //        IS_ALIVE = false;
-//        Intent intent = new Intent();
-//        intent.setAction(MessageService.ACTION_SERVICE_STOP);
-//        this.sendBroadcast(intent);
-//        Intent intent1 = new Intent(this, MessageService.class);
-//        this.stopService(intent1);
+        Intent intent = new Intent();
+        intent.setAction(MessageService.ACTION_SERVICE_STOP);
+        this.sendBroadcast(intent);
+        Intent intent1 = new Intent(this, MessageService.class);
+        this.stopService(intent1);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AuthModule.stopNet();
+            }
+        }).start();
 //        unregisterReceiver(delLiveReceiver);
 //        unregisterReceiver(finishReceiver);
     }
@@ -459,7 +475,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                         }
                         editor.putString("auths", auths);
                         editor.commit();
-//                        mHomeFragment.setHomeLevel(); //设置3看榜visible
+                        mHomeFragment.setHomeLevel(); //设置3看榜visible
 
                         if (getIntent() != null && getIntent().getBooleanExtra("theme", false)) {
                             return;
@@ -650,109 +666,107 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     }
 
     public void setTabSelection(int index) {
-//        if (index == mCurrentSelect) {
-//            return;
-//        }
-//        clearSelection();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        hideFragments(transaction);
-//        // transaction.commit();
-//        switch (index) {
-//            case 0:
-//
-//                imgHome.setImageResource(R.drawable.tab1_select);
-//                txtHome.setTextColor(colorSelected);
-//                if (mHomeFragment == null) {
-//                    mHomeFragment = new HomeTabFragment();
-//                    transaction.add(R.id.tab_content, mHomeFragment);
-//                } else {
-//                    mHomeFragment.setCurrentPage();
-//                }
+        if (index == mCurrentSelect) {
+            return;
+        }
+        clearSelection();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        hideFragments(transaction);
+        // transaction.commit();
+        switch (index) {
+            case 0:
+                imgHome.setImageResource(R.drawable.tab1_select);
+                txtHome.setTextColor(colorSelected);
+                if (mHomeFragment == null) {
+                    mHomeFragment = new HomeTabFragment();
+                    transaction.add(R.id.tab_content, mHomeFragment);
+                } else {
+                    mHomeFragment.setCurrentPage();
+                }
 //                mHomeFragment.setVisible(true);
-//                transaction.show(mHomeFragment);
-//
-//                break;
-//            case 1:
+                transaction.show(mHomeFragment);
+
+                break;
+            case 1:
 //                mHomeFragment.setVisible(false);
-//                imgService.setImageResource(R.drawable.tab2_select);
-//                txtService.setTextColor(colorSelected);
-//                if (mInfoTabFragment == null) {
-////                    mInfoTabFragment = new InfoTabFragment();
-//                    mInfoTabFragment = new InfoNewTabFragment();
-//                    mInfoTabFragment.setCallBack(new InfoNewTabFragment.callBack() {
-//                        @Override
-//                        public void setInfoCallBack(boolean mBarStatus) {
-//                            if (!mBarStatus) {
-//                                mTabBar.setVisibility(View.GONE);
-//                            } else {
-//                                mTabBar.setVisibility(View.VISIBLE);
-//                            }
-//                        }
-//                    });
-//                    transaction.add(R.id.tab_content, mInfoTabFragment);
-//                } else {
-//                    mInfoTabFragment.getCurrentName();
-//                }
-//                transaction.show(mInfoTabFragment);
-//
-//                break;
-//            case 2:
+                imgService.setImageResource(R.drawable.tab2_select);
+                txtService.setTextColor(colorSelected);
+                if (mInfoTabFragment == null) {
+                    mInfoTabFragment = new InfoNewTabFragment();
+                    mInfoTabFragment.setCallBack(new InfoNewTabFragment.callBack() {
+                        @Override
+                        public void setInfoCallBack(boolean mBarStatus) {
+                            if (!mBarStatus) {
+                                mTabBar.setVisibility(View.GONE);
+                            } else {
+                                mTabBar.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    transaction.add(R.id.tab_content, mInfoTabFragment);
+                } else {
+                    mInfoTabFragment.getCurrentName();
+                }
+                transaction.show(mInfoTabFragment);
+
+                break;
+            case 2:
 //                mHomeFragment.setVisible(false);
-//                imgClass.setImageResource(R.drawable.tab3_select);
-//                txtClass.setTextColor(colorSelected);
-//                if (mClassFragment == null) {
-//                    mClassFragment = new ClassFragment();
-//                    transaction.add(R.id.tab_content, mClassFragment);
-//                } else {
-//                    if (mClassFragment.getCurPosition() == 0) {
-//                        CompassApp.addStatis(CompassApp.mgr.LIVE_ROOMLIST, "0", "",
-//                                System.currentTimeMillis());
-//                    } else {
-//                        CompassApp.addStatis(CompassApp.mgr.LIVE_VIDEOLIST, "0", "",
-//                                System.currentTimeMillis());
-//                    }
-//                }
-//                transaction.show(mClassFragment);
-//                mClassFragment.refreshClassData();
-//
-//                break;
-//            case 3:
-//                CompassApp.addStatis(CompassApp.mgr.KEFU_MAIN, "0", "",
-//                        System.currentTimeMillis());
+                imgClass.setImageResource(R.drawable.tab3_select);
+                txtClass.setTextColor(colorSelected);
+                if (mClassFragment == null) {
+                    mClassFragment = new ClassFragment();
+                    transaction.add(R.id.tab_content, mClassFragment);
+                } else {
+                    if (mClassFragment.getCurPosition() == 0) {
+                        CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "0", "",
+                                System.currentTimeMillis());
+                    } else {
+                        CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_VIDEOLIST, "0", "",
+                                System.currentTimeMillis());
+                    }
+                }
+                transaction.show(mClassFragment);
+                mClassFragment.refreshClassData();
+
+                break;
+            case 3:
+                CompassApp.addStatis(CompassApp.GLOBAL.mgr.KEFU_MAIN, "0", "",
+                        System.currentTimeMillis());
 //                mHomeFragment.setVisible(false);
-//                imgSeek.setImageResource(R.drawable.tab5_select);
-//                txtSeek.setTextColor(colorSelected);
-//                if (mSeekFragment == null) {
-//                    mSeekFragment = new MyKefuFragment();
-//                    transaction.add(R.id.tab_content, mSeekFragment);
-//                    mSeekFragment.setCallBack(new MyKefuFragment.CallBack() {
-//                        @Override
-//                        public void hasRedDot(boolean dot) {
-//                            if (dot) {
-//                                iv_red_dot.setVisibility(View.VISIBLE);
-//                            } else {
-//                                iv_red_dot.setVisibility(View.GONE);
-//                            }
-//                        }
-//                    });
-//                }
-//                transaction.show(mSeekFragment);
+                imgSeek.setImageResource(R.drawable.tab5_select);
+                txtSeek.setTextColor(colorSelected);
+                if (mSeekFragment == null) {
+                    mSeekFragment = new MyKefuFragment();
+                    transaction.add(R.id.tab_content, mSeekFragment);
+                    mSeekFragment.setCallBack(new MyKefuFragment.CallBack() {
+                        @Override
+                        public void hasRedDot(boolean dot) {
+                            if (dot) {
+                                iv_red_dot.setVisibility(View.VISIBLE);
+                            } else {
+                                iv_red_dot.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                }
+                transaction.show(mSeekFragment);
 //                mSeekFragment.refreshTalk();
-//                break;
-//            case 4:
-//                CompassApp.addStatis(CompassApp.mgr.TRADE_LIST, "0", "", System.currentTimeMillis());
+                break;
+            case 4:
+                CompassApp.addStatis(CompassApp.GLOBAL.mgr.TRADE_LIST, "0", "", System.currentTimeMillis());
 //                mHomeFragment.setVisible(false);
-//                imgTrade.setImageResource(R.drawable.tab4_select);
-//                txtTrade.setTextColor(colorSelected);
-//                if (mSecurityFragment == null) {
-//                    mSecurityFragment = new SecurityFragment();
-//                    transaction.add(R.id.tab_content, mSecurityFragment);
-//                }
-//                transaction.show(mSecurityFragment);
-//                break;
-//        }
-//        transaction.commitAllowingStateLoss();
-//        mCurrentSelect = index;
+                imgTrade.setImageResource(R.drawable.tab4_select);
+                txtTrade.setTextColor(colorSelected);
+                if (mSecurityFragment == null) {
+                    mSecurityFragment = new SecurityFragment();
+                    transaction.add(R.id.tab_content, mSecurityFragment);
+                }
+                transaction.show(mSecurityFragment);
+                break;
+        }
+        transaction.commitAllowingStateLoss();
+        mCurrentSelect = index;
     }
 
     /**
@@ -781,21 +795,21 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     }
 
     private void hideFragments(FragmentTransaction transaction) {
-//        if (mHomeFragment != null) {
-//            transaction.hide(mHomeFragment);
-//        }
-//        if (mSeekFragment != null) {
-//            transaction.hide(mSeekFragment);
-//        }
-//        if (mInfoTabFragment != null) {
-//            transaction.hide(mInfoTabFragment);
-//        }
-//        if (mClassFragment != null) {
-//            transaction.hide(mClassFragment);
-//        }
-//        if (mSecurityFragment != null) {
-//            transaction.hide(mSecurityFragment);
-//        }
+        if (mHomeFragment != null) {
+            transaction.hide(mHomeFragment);
+        }
+        if (mSeekFragment != null) {
+            transaction.hide(mSeekFragment);
+        }
+        if (mInfoTabFragment != null) {
+            transaction.hide(mInfoTabFragment);
+        }
+        if (mClassFragment != null) {
+            transaction.hide(mClassFragment);
+        }
+        if (mSecurityFragment != null) {
+            transaction.hide(mSecurityFragment);
+        }
     }
 
 
@@ -843,17 +857,17 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                 && event.getAction() == KeyEvent.ACTION_DOWN) {
 
             //自选股恢复默认
-//            if (mHomeFragment.getSortStatus()) {
-//                mHomeFragment.setSortStatus();
-//                return true;
-//            }
+            if (mHomeFragment.getSortStatus()) {
+                mHomeFragment.setSortStatus();
+                return true;
+            }
             //新闻收回菜单
-//            if (mInfoTabFragment != null) {
-//                boolean status = mInfoTabFragment.setBarStatus();
-//                if (status) {
-//                    return true;
-//                }
-//            }
+            if (mInfoTabFragment != null) {
+                boolean status = mInfoTabFragment.setBarStatus();
+                if (status) {
+                    return true;
+                }
+            }
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序",
                         Toast.LENGTH_SHORT).show();

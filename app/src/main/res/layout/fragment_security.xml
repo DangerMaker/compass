@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/shadow_jiaoyi_bg">
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/main_theme_color"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="交易"
+            android:textColor="?attr/white_text_color"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginLeft="10dip"
+            android:id="@+id/security_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/back_indicator" />
+
+        <TextView
+            android:layout_marginRight="10dip"
+            android:id="@+id/security_edite"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="编辑"
+            android:textColor="?attr/white_text_color"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:id="@+id/sec_bottom_bar"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textColor="?attr/lable_item_style"
+            android:layout_above="@id/sec_bottom_bar"
+            android:id="@+id/security_des"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_centerHorizontal="true"
+            android:text="    根据证监会要求，本公司不提供直接股票买卖功能，但可以为您便捷跳转到券商交易软件"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:visibility="gone"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="100dip"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tv_add_security"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/iv_add_stock"
+            android:layout_centerInParent="true"
+            android:text="请添加券商"
+            android:textColor="@color/white_gray"
+            android:drawablePadding="20dp"
+            android:textSize="14sp"
+            />
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_above="@id/security_des"
+            android:id="@+id/stock_charts_lv_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false"
+            android:paddingTop="6dp"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/security_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -55,6 +55,13 @@
         <activity android:name=".ui.WebActivity" />
         <activity android:name=".ui.personal.ImgScanActivity" />
         <activity android:name=".ui.stocks.StockVertcialTabActivity" />
+        <activity android:name=".ui.kefu.KefuTalkActivity" />
+        <activity android:name=".ui.kefu.PersonActivity" />
+        <activity android:name=".ui.personal.MessageCenterActivity" />
+        <activity android:name=".ui.personal.MyCollectActivity" />
+        <activity android:name=".ui.trader.SecurityListActivity" />
+        <activity android:name=".ui.media.ClassRoomActivity" />
+        <activity android:name=".ui.stocks.SearchStockActivity" />
 
         <!-- 友盟统计 -->
         <meta-data
@@ -64,6 +71,9 @@
             android:name="UMENG_APPKEY"
             android:value="55a8a80f67e58ec0420006ef"/>
 
+
+        <service android:name=".tools.MessageService" />
+        <service android:name=".tools.PushService" />
     </application>
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />

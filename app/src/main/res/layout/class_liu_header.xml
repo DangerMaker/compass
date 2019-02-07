@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ez08.compass.ui.media.banner.ClassLiuHeader xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ez08.compass.ui.media.banner.CustomBanner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:indicatorGravity="CENTER"
+        app:indicatorInterval="10dp"
+        app:indicatorSelectRes="@drawable/shape_point_select"
+        app:indicatorStyle="ORDINARY"
+        app:indicatorUnSelectRes="@drawable/shape_point_unselect" />
+    //指示器的点的间隔
+
+
+</com.ez08.compass.ui.media.banner.ClassLiuHeader>

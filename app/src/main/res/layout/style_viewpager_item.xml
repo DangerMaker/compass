@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/style_pager_linear"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.ez08.compass.ui.view.ChildrenViewPager
+        android:id="@+id/style_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.ez08.compass.ui.view.ChildrenViewPager>
+    <LinearLayout
+        android:alpha="0.6"
+        android:background="@color/black"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:id="@+id/style_paget_title"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginBottom="3dip"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dip"
+        android:orientation="horizontal" >
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/dot_0"
+            android:layout_width="5dip"
+            android:layout_height="5dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/dot_focused" />
+        <View
+            android:visibility="gone"
+            android:id="@+id/dot_1"
+            android:layout_width="5dip"
+            android:layout_height="5dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/dot_focused" />
+        <View
+            android:id="@+id/dot_2"
+            android:layout_width="5dip"
+            android:layout_height="5dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="2dip"
+            android:visibility="gone"
+            android:background="@drawable/dot_focused" />
+        <View
+            android:visibility="gone"
+            android:id="@+id/dot_3"
+            android:layout_width="5dip"
+            android:layout_height="5dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/dot_normal" />
+        <View
+            android:visibility="gone"
+            android:id="@+id/dot_4"
+            android:layout_width="5dip"
+            android:layout_height="5dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="2dip"
+            android:background="@drawable/dot_normal" />
+
+    </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+</LinearLayout>

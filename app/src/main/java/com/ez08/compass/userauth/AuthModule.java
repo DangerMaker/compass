@@ -50,6 +50,10 @@ public class AuthModule {
         }
     }
 
+    public static void stopNet(){
+        NetManager.stopNet();
+    }
+
     public static void logout() {
         NetManager.mTid = null;
         NetManager.mToken = null;
@@ -72,10 +76,10 @@ public class AuthModule {
         packgeName = pageName;
         SysVarsManager.setContext(context);
         AuthUserInfo.restoreUserInfoBundle();
-        // 监听网络状�?的变�?
+//        // 监听网络状�?的变�?
         IntentFilter filter = new IntentFilter(
                 NetManager.EZ_NET_STATE_CHANGE_BROADCAST);
-        authContext.registerReceiver(receiver, filter);
+//        authContext.registerReceiver(receiver, filter);
 
         // 监听用户状�?的变化以便当前用户信息进行处�?
         IntentFilter filter2 = new IntentFilter(NetManager.ACTION_AUTH_CONNECT);
@@ -161,16 +165,16 @@ public class AuthModule {
 
     }
 
-    private static BroadcastReceiver receiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            switch (NetManager.mState) {
-                case NetManager.STATE_CONNECT:
-
-                    break;
-            }
-        }
-    };
+//    private static BroadcastReceiver receiver = new BroadcastReceiver() {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//
+//            switch (NetManager.mState) {
+//                case NetManager.STATE_CONNECT:
+//
+//                    break;
+//            }
+//        }
+//    };
 }
