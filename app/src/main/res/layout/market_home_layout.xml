@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ez08.compass.ui.market.view.MarketHomeHeader xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/market_home_header"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ez08.compass.ui.market.view.StockHeader
+        android:id="@+id/stock_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dip"
+            android:layout_marginRight="10dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/sh_layout"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/main_main_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6dip"
+                android:paddingTop="6dip">
+
+
+                <TextView
+                    android:id="@+id/sh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="上证指数"
+                    android:textColor="?attr/lable_list_style"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/sh_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/sh_increase"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/red"
+                    android:textSize="9sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="20dp"
+                android:background="?attr/shadow_line" />
+
+            <LinearLayout
+                android:id="@+id/sz_layout"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/main_main_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6dip"
+                android:paddingTop="6dip">
+
+
+                <TextView
+                    android:id="@+id/se"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="深证成指"
+                    android:textColor="?attr/lable_list_style"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:id="@+id/sz_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/sz_increase"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/red"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="20dp"
+                android:background="?attr/shadow_line" />
+
+            <LinearLayout
+                android:id="@+id/cy_layout"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/main_main_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6dip"
+                android:paddingTop="6dip">
+
+                <TextView
+                    android:id="@+id/cy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="创业板指"
+                    android:textColor="?attr/lable_list_style"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:id="@+id/cy_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/cy_increase"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/red"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="20dp"
+                android:background="?attr/shadow_line" />
+
+            <LinearLayout
+                android:id="@+id/zxbz_layout"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/main_main_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="6dip"
+                android:paddingTop="6dip">
+
+
+                <TextView
+                    android:id="@+id/zxbz"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="中小板指"
+                    android:textColor="?attr/lable_list_style"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/zxbz_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/zxbz_increase"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/red"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </com.ez08.compass.ui.market.view.StockHeader>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dip"
+        android:background="?attr/market_divide_color" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:text="指数全景监控"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/market_index_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:text="全部"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="?attr/shadow_line" />
+
+        <LinearLayout
+            android:id="@+id/market_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="?attr/market_divide_color" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dip"
+            android:background="?attr/main_main_color">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:text="领涨板块"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/market_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:text="全部"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="?attr/shadow_line" />
+
+        <LinearLayout
+            android:id="@+id/market_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="?attr/market_divide_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:text="领跌板块"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/market_down_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:text="全部"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="?attr/shadow_line" />
+
+        <LinearLayout
+            android:id="@+id/market_down"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="?attr/market_divide_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:text="涨幅榜"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/stock_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:text="全部"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="?attr/shadow_line" />
+
+        <LinearLayout
+            android:id="@+id/market_up_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:background="?attr/market_divide_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:text="跌幅榜"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/stock_down_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:text="全部"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="?attr/shadow_line" />
+
+        <LinearLayout
+            android:id="@+id/market_down_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+    </LinearLayout>
+</com.ez08.compass.ui.market.view.MarketHomeHeader>

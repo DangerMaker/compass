@@ -62,6 +62,8 @@
         <activity android:name=".ui.trader.SecurityListActivity" />
         <activity android:name=".ui.media.ClassRoomActivity" />
         <activity android:name=".ui.stocks.SearchStockActivity" />
+        <activity android:name=".ui.market.IndexListActivity" />
+        <activity android:name=".ui.market.StockListActivity" />
 
         <!-- 友盟统计 -->
         <meta-data

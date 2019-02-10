@@ -7,8 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,8 @@ import com.ez08.compass.tools.AdsManager;
 import com.ez08.compass.tools.TimeTool;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.BaseFragment;
+import com.ez08.compass.ui.IntervelFragment;
+import com.ez08.compass.ui.market.view.MarketHomeHeader;
 import com.ez08.compass.ui.view.PopupAdView;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/7/27.
  * 行情fragment
  */
-public class MarketFragment extends BaseFragment implements View.OnClickListener {
+public class MarketFragment extends IntervelFragment {
 
     private final int WHAT_REFRESH_MARKLIST = 1000; //行情数据
     private final int AUTO_TASK_STOCK = 1005;
@@ -56,14 +57,8 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     private ArrayList<PlateMarketEntity> boardlist1;
     private ArrayList<PlateMarketEntity> boardlist2;
 
-    private MyThread mThread;
-    private boolean loadData = true;
     private MarketHomeHeader mMarketHeader;
-
-    private RecyclerView mListView;
     private SmartRefreshLayout mListViewFrame;
-    private MarketAdapter adapter;
-    Context mContext;
 
     PopupAdView popupAds;
     private LinearLayout mOptionalGroup;
@@ -72,11 +67,6 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
-        mThread = new MyThread();
-        if (loadData) {
-            loadData = false;
-            mThread.start();
-        }
 
         boardlist0 = new ArrayList<>();
         boardlist1 = new ArrayList<>();
@@ -84,27 +74,18 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
         stocklist1 = new ArrayList<>();
         stocklist2 = new ArrayList<>();
         View view = View.inflate(getActivity(), R.layout.fragment_market, null);
-        mMarketHeader = (MarketHomeHeader) View.inflate(getActivity(), R.layout.market_home_layout, null);
+        mMarketHeader = (MarketHomeHeader) view.findViewById(R.id.market_home_header);
+        mOptionalGroup = (LinearLayout) view.findViewById(R.id.market_group);
+        popupAds = (PopupAdView) view.findViewById(R.id.popup_ad);
 
-        mListView = (RecyclerView) view.findViewById(R.id.market_lv);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.market_lv_frame);
         mListViewFrame.autoRefresh();
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
-                NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.Constants.STOCK_VALUE_CODE);
+                postImmediately();
             }
         });
-
-        MarketAdapter adapter = new MarketAdapter();
-        mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mListView.setAdapter(adapter);
-
-        mMarketHeader.init();
-
-        mOptionalGroup = (LinearLayout) view.findViewById(R.id.market_group);
-        popupAds = (PopupAdView) view.findViewById(R.id.popup_ad);
 
         IntentFilter adFilter = new IntentFilter();
         adFilter.addAction(AdsManager.ADS_FINISH);
@@ -116,13 +97,13 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void onDestroyView() {
-        if(mContext != null){
+        if (mContext != null) {
             mContext.unregisterReceiver(receiver);
         }
         super.onDestroyView();
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver(){
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -131,7 +112,6 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     };
 
     private void getAds() {
-
         NewAdvertEntity entity = AdsManager.getInstance(getActivity()).getAdsAtOptional();
         if (entity != null) {
             popupAds.setVisibility(View.VISIBLE);
@@ -140,9 +120,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
             groupLayoutParams.bottomMargin = height;
             mOptionalGroup.setLayoutParams(groupLayoutParams);
             popupAds.setAdVisible(entity.getImageurl(), entity.getInfourl());
-
             CompassApp.addStatis(CompassApp.GLOBAL.mgr.ADVERT_STOCK, "0", "", System.currentTimeMillis());
-
             popupAds.setCloseListener(new PopupAdView.CloseListener() {
                 @Override
                 public void invoke() {
@@ -157,56 +135,6 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
             });
         } else {
             popupAds.setVisibility(View.GONE);
-        }
-    }
-
-    class MyThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            while (true) {
-                try {
-                    sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if (isOnresume) {
-                    NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
-                    NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.STOCK_VALUE_CODE);
-                }
-
-            }
-        }
-    }
-
-    private void setValue(TextView view, double increase, int exp) {
-        if (increase == 0 || increase == 0) {
-            view.setText("— —");
-            view.setTextColor(getResources().getColor(R.color.shadow0));
-            return;
-        }
-        String inside = UtilTools.getFormatNum(increase + "", exp, true);
-        if (increase > 0) {
-            view
-                    .setTextColor(redColor);
-            inside = "+" + (inside);
-        } else if (increase == 0) {
-//            inside = (inside) ;
-            view.setTextColor(getResources().getColor(R.color.shadow0));
-        } else {
-//            inside = (inside) ;
-            view.setTextColor(greenColor);
-        }
-        while (inside.length() < 7) {
-            inside = " " + inside;
-        }
-        view.setText(inside);
-        if (TimeTool.isBeforeTotalTrade()) { // 早八点到集合竞价阶段，所有股票都显示"- -"
-            view.setText("— —");
-            view.setBackgroundResource(R.color.shadow0);
-        } else if (TimeTool.isInTotalTrade()) { // 集合竞价阶段，如果股票价格不为0，就显示价格，不区分是否停牌
-            //-----
         }
     }
 
@@ -305,7 +233,6 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                         }
                     }
                     mMarketHeader.setData(stocklist1, stocklist2, boardlist0, boardlist1, boardlist2);
-
                     break;
                 case AUTO_TASK_STOCK:
                     if (mMarketHeader != null) {
@@ -319,33 +246,9 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     };
 
     @Override
-    public void onClick(View v) {
+    public void postMethod() {
+        Log.e("postMethod","postMethod");
+        NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
+        NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.Constants.STOCK_VALUE_CODE);
     }
-
-    class MarketAdapter extends RecyclerView.Adapter {
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            HeaderHolder holder = new HeaderHolder(mMarketHeader);
-            return holder;
-
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 1;
-        }
-
-        class HeaderHolder extends RecyclerView.ViewHolder {
-            public HeaderHolder(View itemView) {
-                super(itemView);
-            }
-        }
-    }
-
 }

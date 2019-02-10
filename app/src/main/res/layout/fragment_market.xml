@@ -10,24 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/market_lv_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnableLoadMore="false">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/market_lv"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@drawable/list_divider"
-                android:dividerHeight="1dip" />
+                android:layout_height="match_parent">
+                <include layout="@layout/market_home_layout" />
+            </ScrollView>
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </LinearLayout>
 
-    <com.ez08.compass.view.PopupAdView
+    <com.ez08.compass.ui.view.PopupAdView
         android:id="@+id/popup_ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
