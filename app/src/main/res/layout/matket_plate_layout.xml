@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <View
-        android:layout_width="1dp"
+        android:layout_width="1px"
         android:layout_height="match_parent"
         android:background="?attr/shadow_line"/>
     <LinearLayout
@@ -68,7 +68,7 @@
 
     </LinearLayout>
     <View
-        android:layout_width="1dp"
+        android:layout_width="1px"
         android:layout_height="match_parent"
         android:background="?attr/shadow_line"/>
 </LinearLayout>

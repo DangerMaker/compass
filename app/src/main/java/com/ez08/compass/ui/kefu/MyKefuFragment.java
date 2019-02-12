@@ -13,7 +13,6 @@ import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -23,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -50,12 +48,12 @@ import com.ez08.compass.tools.FileUtils;
 import com.ez08.compass.tools.MessageService;
 import com.ez08.compass.tools.PermissionHelper;
 import com.ez08.compass.tools.UtilTools;
-import com.ez08.compass.ui.BaseFragment;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.WebActivity;
 import com.ez08.compass.ui.personal.MessageCenterActivity;
 import com.ez08.compass.ui.personal.MyCollectActivity;
 import com.ez08.compass.ui.view.TouchLayout;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.ez08.support.net.NetResponseHandler2;
 
 import org.json.JSONArray;
@@ -63,7 +61,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

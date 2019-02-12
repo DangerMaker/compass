@@ -18,7 +18,7 @@ import android.view.View;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;

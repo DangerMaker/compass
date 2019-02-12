@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.ez08.compass.entity.SearchItem;
 import com.ez08.compass.tools.FileUtils;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.ez08.support.net.EzMessage;
 
 public class IMDBHelper extends SQLiteOpenHelper {

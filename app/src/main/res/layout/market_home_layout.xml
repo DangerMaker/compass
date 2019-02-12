@@ -34,7 +34,7 @@
                 <TextView
                     android:id="@+id/sh"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="上证指数"
                     android:textColor="?attr/lable_list_style"
@@ -43,7 +43,7 @@
                 <TextView
                     android:id="@+id/sh_price"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:textColor="@color/red"
@@ -52,7 +52,7 @@
                 <TextView
                     android:id="@+id/sh_increase"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
@@ -70,7 +70,6 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/main_main_color"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="6dip"
@@ -80,7 +79,7 @@
                 <TextView
                     android:id="@+id/se"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="深证成指"
                     android:textColor="?attr/lable_list_style"
@@ -90,7 +89,7 @@
                 <TextView
                     android:id="@+id/sz_price"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:textColor="@color/red"
@@ -99,7 +98,7 @@
                 <TextView
                     android:id="@+id/sz_increase"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
@@ -117,7 +116,6 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/main_main_color"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="6dip"
@@ -126,7 +124,7 @@
                 <TextView
                     android:id="@+id/cy"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="创业板指"
                     android:textColor="?attr/lable_list_style"
@@ -136,7 +134,7 @@
                 <TextView
                     android:id="@+id/cy_price"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:textColor="@color/red"
@@ -145,7 +143,7 @@
                 <TextView
                     android:id="@+id/cy_increase"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
@@ -163,7 +161,6 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/main_main_color"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="6dip"
@@ -173,7 +170,7 @@
                 <TextView
                     android:id="@+id/zxbz"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="中小板指"
                     android:textColor="?attr/lable_list_style"
@@ -182,7 +179,7 @@
                 <TextView
                     android:id="@+id/zxbz_price"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:textColor="@color/red"
@@ -191,7 +188,7 @@
                 <TextView
                     android:id="@+id/zxbz_increase"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
@@ -206,8 +203,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="8dip"
-        android:background="?attr/market_divide_color" />
+        android:layout_height="5dip"
+        android:background="?attr/shadow_line" />
 
 
     <LinearLayout
@@ -243,7 +240,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="?attr/shadow_line" />
@@ -256,14 +253,14 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dip"
-            android:background="?attr/market_divide_color" />
+            android:layout_height="5dip"
+            android:background="?attr/shadow_line" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dip"
-            android:background="?attr/main_main_color">
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -288,7 +285,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="?attr/shadow_line" />
@@ -301,8 +298,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dip"
-            android:background="?attr/market_divide_color" />
+            android:layout_height="5dip"
+            android:background="?attr/shadow_line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -331,7 +328,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="?attr/shadow_line" />
@@ -344,8 +341,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dip"
-            android:background="?attr/market_divide_color" />
+            android:layout_height="5dip"
+            android:background="?attr/shadow_line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -374,7 +371,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="?attr/shadow_line" />
@@ -387,8 +384,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dip"
-            android:background="?attr/market_divide_color" />
+            android:layout_height="5dip"
+            android:background="?attr/shadow_line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -417,7 +414,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="?attr/shadow_line" />

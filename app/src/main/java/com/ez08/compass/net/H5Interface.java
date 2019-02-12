@@ -3,9 +3,9 @@ package com.ez08.compass.net;
 import android.content.Context;
 import android.util.Log;
 
-import com.ez08.compass.autoupdate.tools.AutoPackageUtility;
+import com.ez08.compass.update.tools.AutoPackageUtility;
 import com.ez08.compass.tools.UtilTools;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

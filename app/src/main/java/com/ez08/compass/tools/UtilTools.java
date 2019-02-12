@@ -1,6 +1,5 @@
 package com.ez08.compass.tools;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.thinkive.framework.util.ScreenUtil;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

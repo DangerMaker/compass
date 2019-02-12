@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dip">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:text="流通盘维度"
+            android:textColor="?attr/market_title_color"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="?attr/shadow_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/background1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/market_top_name1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dip"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="大盘股"
+                android:layout_marginBottom="7dp"
+                android:textColor="?attr/market_area_title_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/market_index_price1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/market_top_name1"
+                android:gravity="center_horizontal"
+                android:text="+10%"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="?attr/shadow_line" />
+
+        <RelativeLayout
+            android:id="@+id/background2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/market_top_name2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dip"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="大盘股"
+                android:layout_marginBottom="7dp"
+
+                android:textColor="?attr/market_area_title_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/market_index_price2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/market_top_name2"
+                android:gravity="center_horizontal"
+                android:text="+10%"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="?attr/shadow_line" />
+
+        <RelativeLayout
+            android:id="@+id/background3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/market_top_name3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dip"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="大盘股"
+                android:layout_marginBottom="7dp"
+                android:textColor="?attr/market_area_title_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/market_index_price3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/market_top_name3"
+                android:gravity="center_horizontal"
+                android:text="+10%"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dip"
+        android:background="?attr/shadow_line" />
+
+</LinearLayout>

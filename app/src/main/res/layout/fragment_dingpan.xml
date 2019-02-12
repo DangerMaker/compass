@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/main_main_color">
+
+
+    <RelativeLayout
+        android:id="@+id/selector"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/_selector"
+            android:layout_width="180dp"
+            android:layout_height="42dp"
+            android:src="@drawable/highs_and_lows_selector"
+            />
+
+        <LinearLayout
+            android:id="@+id/popup_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/date_choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="每日"
+                android:textSize="15sp"
+                android:textColor="?attr/market_area_title_color"
+                android:layout_marginLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginRight="5dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_k_minchart"
+                android:layout_width="8dp"
+                android:layout_height="6dp"
+                android:src="@drawable/jiantou_day"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_below="@id/selector"
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px" android:background="?attr/shadow_line" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_below="@id/line"
+            android:id="@+id/market_lv_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
+
+           <android.support.v7.widget.RecyclerView
+               android:id="@+id/recycler_view"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <com.ez08.compass.ui.view.PopupAdView
+        android:id="@+id/popup_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

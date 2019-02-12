@@ -11,7 +11,7 @@ import android.util.Log;
 import com.ez08.compass.entity.NewAdvertEntity;
 import com.ez08.compass.entity.NewAdvertRespone;
 import com.ez08.compass.net.HttpUtils;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.google.gson.Gson;
 
 import java.io.File;

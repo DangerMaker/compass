@@ -34,7 +34,7 @@ import com.ez08.compass.tools.AdsManager;
 import com.ez08.compass.tools.MD5;
 import com.ez08.compass.ui.WebActivity;
 import com.ez08.compass.ui.media.ClassRoomActivity;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

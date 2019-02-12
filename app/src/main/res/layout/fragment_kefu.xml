@@ -214,8 +214,8 @@
                         android:id="@+id/kefu_fram_1"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginLeft="20dip"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginLeft="15dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg"
                         >
@@ -248,7 +248,7 @@
                         android:id="@+id/kefu_fram_2"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 
@@ -280,7 +280,7 @@
                         android:id="@+id/kefu_fram_3"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 
@@ -312,7 +312,7 @@
                         android:id="@+id/kefu_fram_4"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 
@@ -342,7 +342,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:id="@+id/kefu_frag2"
                     android:layout_width="fill_parent"
                     android:layout_height="75dip"
@@ -354,8 +354,8 @@
                         android:id="@+id/kefu_fram_5"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginLeft="20dip"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginLeft="15dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 
@@ -416,7 +416,7 @@
                         android:id="@+id/kefu_fram_6"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 
@@ -448,7 +448,7 @@
                         android:id="@+id/kefu_fram_7"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 
@@ -480,7 +480,7 @@
                         android:id="@+id/kefu_fram_8"
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
-                        android:layout_marginRight="20dip"
+                        android:layout_marginRight="15dip"
                         android:layout_weight="1"
                         android:background="@drawable/kefu_item_btn_bg" >
 

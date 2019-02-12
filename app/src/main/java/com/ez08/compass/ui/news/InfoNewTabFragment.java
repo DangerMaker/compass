@@ -2,7 +2,6 @@ package com.ez08.compass.ui.news;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,10 +26,10 @@ import com.ez08.compass.R;
 import com.ez08.compass.database.IMDBHelper;
 import com.ez08.compass.entity.InfoTabEntity;
 import com.ez08.compass.tools.AuthTool;
-import com.ez08.compass.ui.BaseFragment;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.news.tab.InfoTabBarView;
 import com.ez08.compass.ui.news.tab.ParentViewPager;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

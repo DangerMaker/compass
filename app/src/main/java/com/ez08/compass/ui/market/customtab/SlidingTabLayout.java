@@ -328,10 +328,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
             TextView textView = (TextView) mTabStrip.getChildAt(i);
             if(i == position) {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP + 5);
-                System.out.println(20);
             }else{
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
-                System.out.println(0);
             }
 
         }

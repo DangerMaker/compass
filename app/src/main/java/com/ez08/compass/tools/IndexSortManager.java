@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.ez08.compass.entity.IndexCurvesItemEntity;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
-import com.ez08.compass.ui.BaseFragment;
+import com.ez08.compass.ui.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

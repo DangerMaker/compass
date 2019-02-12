@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.entity.StatisEntity;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthUserInfo;
 
 import java.util.ArrayList;
 import java.util.List;

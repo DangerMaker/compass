@@ -6,7 +6,7 @@ import java.security.PrivateKey;
 
 public class MD5 {
 
-	/** MD5加密后转成字符串 */    
+	/** MD5鍔犲瘑鍚庤浆鎴愬瓧绗︿覆 */    
 	/*public static String getMD5Base64(String srcString)     
 	{     
 	    java.security.MessageDigest md = null;     

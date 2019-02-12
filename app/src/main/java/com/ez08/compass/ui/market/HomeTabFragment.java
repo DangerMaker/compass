@@ -52,7 +52,6 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getActivity(), R.layout.home_tab_layout, null);
-        TypedArray a = getActivity().obtainStyledAttributes(null, R.styleable.main_attrs, 0, 0);
         mViewPager = (ViewPager) view.findViewById(R.id.info_tab_pager);
         mViewPager.setOffscreenPageLimit(4);
         sliding_tabs = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
@@ -212,6 +211,7 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
         setVisible(true);
     }
 
+    //非得这么统计
     public void setCurrentPage() {
         switch (mIndex) {
             case 0:
@@ -243,9 +243,9 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setVisible(boolean isVisible) {
-//        if (marketFragment != null) {
-//            marketFragment.setOnresume(false);
-//        }
+        if (marketFragment != null) {
+            marketFragment.intervelStop();
+        }
 //        if (stockFragment != null) {
 //            stockFragment.setOnresume(false);
 //        }
@@ -256,17 +256,17 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //            watchFragment.setOnresume(false);
 //        }
 //
-//        if (dingPanFragment != null) {
-//            dingPanFragment.setOnresume(false);
-//        }
-//
-//        if (isVisible) {
-//            switch (mIndex) {
-//                case 0:
-//                    if (marketFragment != null) {
-//                        marketFragment.setOnresume(true);
-//                    }
-//                    break;
+        if (dingPanFragment != null) {
+            dingPanFragment.intervelStop();
+        }
+
+        if (isVisible) {
+            switch (mIndex) {
+                case 0:
+                    if (marketFragment != null) {
+                        marketFragment.intervelBegin();
+                    }
+                    break;
 //                case 1:
 //
 //                    if (stockFragment != null) {
@@ -275,11 +275,11 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //                    break;
 //
 //
-//                case 2:
-//                    if (dingPanFragment != null) {
-//                        dingPanFragment.setOnresume(true);
-//                    }
-//                    break;
+                case 2:
+                    if (dingPanFragment != null) {
+                        dingPanFragment.intervelBegin();
+                    }
+                    break;
 //                case 3:
 //                    if (chartsFragment != null) {
 //                        chartsFragment.setOnresume(true);
@@ -290,9 +290,9 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //                        watchFragment.setOnresume(true);
 //                    }
 //                    break;
-//
-//            }
-//        }
+
+            }
+        }
     }
 
 

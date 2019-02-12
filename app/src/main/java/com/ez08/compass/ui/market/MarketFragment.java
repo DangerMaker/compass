@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.CompassApp;
@@ -26,9 +25,6 @@ import com.ez08.compass.parser.PlateMarketParser;
 import com.ez08.compass.parser.StockDetailListParser;
 import com.ez08.compass.parser.StockMarketParser;
 import com.ez08.compass.tools.AdsManager;
-import com.ez08.compass.tools.TimeTool;
-import com.ez08.compass.tools.UtilTools;
-import com.ez08.compass.ui.BaseFragment;
 import com.ez08.compass.ui.IntervelFragment;
 import com.ez08.compass.ui.market.view.MarketHomeHeader;
 import com.ez08.compass.ui.view.PopupAdView;
@@ -247,7 +243,7 @@ public class MarketFragment extends IntervelFragment {
 
     @Override
     public void postMethod() {
-        Log.e("postMethod","postMethod");
+        Log.e("postMethod","MarketFragment");
         NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
         NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.Constants.STOCK_VALUE_CODE);
     }

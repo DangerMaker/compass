@@ -1,6 +1,6 @@
 package com.ez08.compass.ui.market;
 
-import com.ez08.compass.ui.BaseActivity;
+import com.ez08.compass.ui.base.BaseActivity;
 
 public class StockListActivity extends BaseActivity {
 }

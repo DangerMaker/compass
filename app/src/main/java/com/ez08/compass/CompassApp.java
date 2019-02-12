@@ -7,11 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.multidex.MultiDex;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.android.thinkive.framework.ThinkiveInitializer;
 import com.android.thinkive.framework.util.ScreenUtil;
-import com.ez08.compass.autoupdate.updateModule.AutoUpdateModule;
+import com.ez08.compass.update.updateModule.AutoUpdateModule;
 import com.ez08.compass.database.DBManager;
 import com.ez08.compass.entity.ItemStock;
 import com.ez08.compass.entity.StockCodeEntity;
@@ -19,7 +19,7 @@ import com.ez08.compass.net.protocol.Protocol_UserInfo;
 import com.ez08.compass.net.protocol.Protocol_ZhiNanTong;
 import com.ez08.compass.net.protocol.StockFinMessageProtocol;
 import com.ez08.compass.tools.UtilTools;
-import com.ez08.compass.userauth.AuthModule;
+import com.ez08.compass.auth.AuthModule;
 import com.ez08.support.net.EzMessageFactory;
 import com.ez08.support.net.NetManager;
 import com.ez08.tools.EzLog;
@@ -85,6 +85,10 @@ public class CompassApp extends Application {
         public static boolean mFirstInstall = true;  //首次安装，要实时传所有得操作
         public static boolean mUpLoadSwitch = false;   //上传统计的开关，默认打开，传输中关闭
         public static long mStatisTimes;  //上传传数据的时间
+
+        public static int RED;
+        public static int GREEN;
+        public static int LIGHT_GRAY;
     }
 
     public static Context mContext;
@@ -101,6 +105,10 @@ public class CompassApp extends Application {
         GLOBAL.mgr = new DBManager(this);
         GLOBAL.SCREEN_W = (int)ScreenUtil.getScreenWidth(mContext);
         GLOBAL.SCREEN_H = (int)ScreenUtil.getScreenHeight(mContext);
+
+        GLOBAL.RED = ContextCompat.getColor(this,R.color.red);
+        GLOBAL.GREEN = ContextCompat.getColor(this,R.color.green);
+        GLOBAL.LIGHT_GRAY = ContextCompat.getColor(this,R.color.shadow0);
     }
 
     public static Context getmContext() {

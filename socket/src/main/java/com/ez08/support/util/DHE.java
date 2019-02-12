@@ -9,8 +9,8 @@ public class DHE {
 	public static final  BigInteger g = BigInteger.valueOf(2L);
 	private static final  BigInteger MAXRC4 = new BigInteger("AAAAAAAAAAAAAAAA".getBytes());
 	/**
-	 * ·µ»Ø keyPair[0]ÎªË½Ô¿£¬keyPair[1]Îª¹«Ô¿£»
-	 * ¹«Ô¿ÓÃÓÚ´«µİ¸ø¶Ô·½£»
+	 * è¿”å› keyPair[0]ä¸ºç§é’¥ï¼ŒkeyPair[1]ä¸ºå…¬é’¥ï¼›
+	 * å…¬é’¥ç”¨äºä¼ é€’ç»™å¯¹æ–¹ï¼›
 	 */
 	public static boolean createKeyPair(BigInteger[] keyPair)
 	{
@@ -26,8 +26,8 @@ public class DHE {
 	}
 
 	/**
-	 * 1.¸ù¾İ¶Ô·½·µ»ØµÄ¹«Ô¿ºÍ±¾µØµÄË½Ô¿£¬¼ÆËã¹²ÏíµÄÁÙÊ±¼ÓÃÜÃÜÔ¿;
-	 * ¿ØÖÆ³¤¶ÈÔÚ 128bit;
+	 * 1.æ ¹æ®å¯¹æ–¹è¿”å›çš„å…¬é’¥å’Œæœ¬åœ°çš„ç§é’¥ï¼Œè®¡ç®—å…±äº«çš„ä¸´æ—¶åŠ å¯†å¯†é’¥;
+	 * æ§åˆ¶é•¿åº¦åœ¨ 128bit;
 	 */
 	public static byte[] calcShareKey(BigInteger pkeyb,BigInteger skeya)
 	{
@@ -42,8 +42,8 @@ public class DHE {
 		return tempSharekey.toByteArray();
 	}
 	/**
-	 * 1.¸ù¾İ¶Ô·½·µ»ØµÄ¹«Ô¿ºÍ±¾µØµÄË½Ô¿£¬¼ÆËã¹²ÏíµÄÁÙÊ±¼ÓÃÜÃÜÔ¿;
-	 * 2.½«RC4µÄSecrectKeyÓÃÁÙÊ±¹²ÏíÃÜÔ¿½âÃÜ³ÉÕæÕıÊ¹ÓÃµÄRC4Key,×Ö·û´®Ä£Ê½
+	 * 1.æ ¹æ®å¯¹æ–¹è¿”å›çš„å…¬é’¥å’Œæœ¬åœ°çš„ç§é’¥ï¼Œè®¡ç®—å…±äº«çš„ä¸´æ—¶åŠ å¯†å¯†é’¥;
+	 * 2.å°†RC4çš„SecrectKeyç”¨ä¸´æ—¶å…±äº«å¯†é’¥è§£å¯†æˆçœŸæ­£ä½¿ç”¨çš„RC4Key,å­—ç¬¦ä¸²æ¨¡å¼
 	 */
 	public static byte[] calcRealKey(BigInteger pkeyb,BigInteger skeya,byte[] SecrectKey)
 	{

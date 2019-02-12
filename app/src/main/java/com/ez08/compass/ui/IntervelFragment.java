@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 
+import com.ez08.compass.ui.base.BaseFragment;
+
 public abstract class IntervelFragment extends BaseFragment {
     private static final int INTERVEL_POST = 8001;
     private static final int INTERVEL_POST_DELAY = 8002;
@@ -38,16 +40,22 @@ public abstract class IntervelFragment extends BaseFragment {
         intervelHandler.sendEmptyMessage(INTERVEL_POST);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+
+    public void intervelBegin(){
         postImmediately();
-        intervelHandler.sendEmptyMessageDelayed(INTERVEL_POST_DELAY, INTERVEL_TIME);
+//        intervelHandler.sendEmptyMessageDelayed(INTERVEL_POST_DELAY, INTERVEL_TIME);
+    }
+
+    public void intervelStop(){
+        intervelHandler.removeMessages(INTERVEL_POST_DELAY);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        intervelHandler.removeMessages(INTERVEL_POST_DELAY);
+    public void onDestroy() {
+        super.onDestroy();
+        if(intervelHandler != null){
+            intervelHandler.removeMessages(INTERVEL_POST_DELAY);
+            intervelHandler = null;
+        }
     }
 }

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.net.NetInterface;
-import com.ez08.compass.ui.BaseActivity;
+import com.ez08.compass.ui.base.BaseActivity;
 import com.ez08.compass.ui.trader.sort.CharacterParser;
 import com.ez08.compass.ui.trader.sort.PinyinComparator;
 import com.ez08.compass.ui.trader.sort.SideBar;

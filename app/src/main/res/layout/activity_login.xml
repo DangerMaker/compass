@@ -23,7 +23,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:background="?attr/main_main_color"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -166,7 +165,6 @@
         android:visibility="invisible"
         android:layout_marginTop="20dip"
         android:layout_gravity="center_horizontal"
-        android:background="?attr/main_main_color"
         android:id="@+id/login_wv"
         android:layout_width="100dip"
         android:layout_height="50dip"

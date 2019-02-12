@@ -2,7 +2,7 @@ package com.ez08.compass.ui.kefu;
 
 import android.os.Bundle;
 
-import com.ez08.compass.ui.BaseActivity;
+import com.ez08.compass.ui.base.BaseActivity;
 
 public class KefuTalkActivity extends BaseActivity {
     @Override

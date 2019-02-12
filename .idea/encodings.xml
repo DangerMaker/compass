@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzCommField.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzCommField.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzMessage.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzMessageFactory.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzMessageFactory.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzNet.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzNetRequest.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzNetRequest.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzSocket.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/EzSocket.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/NetManager.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/NetManager.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/NetResponseHandler2.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/net/NetResponseHandler2.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/EzImageManager.txt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/EzLog.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/EzLog.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/IntentTools.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/IntentTools.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/SDTools.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/tools/SDTools.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/util/DHE.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/socket/src/main/java/com/ez08/support/util/MD5.java" charset="UTF-8" />
   </component>
 </project>

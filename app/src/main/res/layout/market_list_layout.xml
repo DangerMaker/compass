@@ -97,6 +97,6 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="?attr/shadow_line"/>
 </LinearLayout>

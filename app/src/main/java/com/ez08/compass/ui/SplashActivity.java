@@ -18,15 +18,15 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
-import com.ez08.compass.autoupdate.updateModule.AutoUpdateActivity;
-import com.ez08.compass.autoupdate.updateModule.AutoUpdatePacket;
+import com.ez08.compass.ui.base.BaseActivity;
+import com.ez08.compass.update.updateModule.AutoUpdateActivity;
+import com.ez08.compass.update.updateModule.AutoUpdatePacket;
 import com.ez08.compass.entity.InitEntity;
 import com.ez08.compass.entity.NewAdvertEntity;
 import com.ez08.compass.net.HttpUtils;
@@ -37,8 +37,8 @@ import com.ez08.compass.tools.AuthTool;
 import com.ez08.compass.tools.UpLoadTools;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.personal.LoginActivity;
-import com.ez08.compass.userauth.AuthModule;
-import com.ez08.compass.userauth.AuthUserInfo;
+import com.ez08.compass.auth.AuthModule;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -48,7 +48,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 
 public class SplashActivity extends BaseActivity {
 
