@@ -74,10 +74,4 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-
-    <com.ez08.compass.ui.view.PopupAdView
-        android:id="@+id/popup_ad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
 </RelativeLayout>

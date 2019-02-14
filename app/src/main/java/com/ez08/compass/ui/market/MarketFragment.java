@@ -88,6 +88,7 @@ public class MarketFragment extends IntervelFragment {
         getActivity().registerReceiver(receiver, adFilter);
         CompassApp.addStatis(CompassApp.GLOBAL.mgr.STOCK_MARKET, "0", "",
                 System.currentTimeMillis());
+
         return view;
     }
 

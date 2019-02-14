@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"    >
+
+    <RelativeLayout
+        android:id="@+id/rl_stock_info"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_stock_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/lable_list_style"
+                android:gravity="left"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_stock_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_below="@id/tv_stock_name"
+                android:layout_marginTop="2dp"
+                android:textColor="?attr/market_title_color"
+                android:textSize="12sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_stock_people_notice_count"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="?attr/lable_list_style"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_stock_news_notice_count"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="?attr/lable_list_style"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_stock_capital_notice_count"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="?attr/lable_list_style"
+        android:textSize="15sp" />
+
+
+</LinearLayout>
+

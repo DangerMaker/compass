@@ -53,7 +53,7 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getActivity(), R.layout.home_tab_layout, null);
         mViewPager = (ViewPager) view.findViewById(R.id.info_tab_pager);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
         sliding_tabs = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
 
         mFragmentList = new ArrayList<>();
@@ -252,10 +252,10 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //        if (chartsFragment != null) {
 //            chartsFragment.setOnresume(false);
 //        }
-//        if (watchFragment != null) {
-//            watchFragment.setOnresume(false);
-//        }
-//
+        if (watchFragment != null) {
+            watchFragment.intervelStop();
+        }
+
         if (dingPanFragment != null) {
             dingPanFragment.intervelStop();
         }
@@ -285,11 +285,11 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //                        chartsFragment.setOnresume(true);
 //                    }
 //                    break;
-//                case 4:
-//                    if (watchFragment != null) {
-//                        watchFragment.setOnresume(true);
-//                    }
-//                    break;
+                case 4:
+                    if (watchFragment != null) {
+                        watchFragment.intervelBegin();
+                    }
+                    break;
 
             }
         }

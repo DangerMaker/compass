@@ -35,7 +35,7 @@
         <item name="shadow_line">@color/shadow1</item>
         <item name="white_text_color">@color/white</item>
         <item name="shadow_white_color">@color/shadow</item>
-        <item name="market_title_color">@color/market_title</item>
+        <item name="market_title_color">@color/info_tab_title</item>
         <item name="market_divide_color">@color/market_divide</item>
         <item name="market_divide_single_color">@color/market_divide</item>
         <item name="market_area_title_color">@color/market_area_title</item>

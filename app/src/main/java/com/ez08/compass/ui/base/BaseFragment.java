@@ -25,6 +25,12 @@ public class BaseFragment extends Fragment {
     protected int greenColor;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = getActivity();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         typedArray = getActivity().obtainStyledAttributes(null, R.styleable.main_attrs, 0, 0);
@@ -32,7 +38,6 @@ public class BaseFragment extends Fragment {
         titleColor = getResources().getColor(typedArray.getResourceId(R.styleable.main_attrs_lable_list_style, 0));
         redColor = getResources().getColor(typedArray.getResourceId(R.styleable.main_attrs_red_main_color, 0));
         greenColor = getResources().getColor(typedArray.getResourceId(R.styleable.main_attrs_green_main_color, 0));
-        mContext = getActivity();
     }
 
 }

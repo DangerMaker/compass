@@ -63,6 +63,7 @@
         <activity android:name=".ui.stocks.SearchStockActivity" />
         <activity android:name=".ui.market.IndexListActivity" />
         <activity android:name=".ui.market.StockListActivity" />
+        <activity android:name=".ui.stocks.StockTopActivity" />
 
         <!-- 友盟统计 -->
         <meta-data

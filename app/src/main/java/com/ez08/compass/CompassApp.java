@@ -89,6 +89,7 @@ public class CompassApp extends Application {
         public static int RED;
         public static int GREEN;
         public static int LIGHT_GRAY;
+        public static int BLACK;
     }
 
     public static Context mContext;
@@ -109,6 +110,7 @@ public class CompassApp extends Application {
         GLOBAL.RED = ContextCompat.getColor(this,R.color.red);
         GLOBAL.GREEN = ContextCompat.getColor(this,R.color.green);
         GLOBAL.LIGHT_GRAY = ContextCompat.getColor(this,R.color.shadow0);
+        GLOBAL.BLACK = ContextCompat.getColor(this,R.color.market_area_title);
     }
 
     public static Context getmContext() {
