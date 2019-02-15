@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.ez08.compass.R;
 import com.ez08.compass.entity.HolderOnlyTitle;
+import com.ez08.compass.tools.MyAppCompat;
 import com.ez08.compass.ui.base.BaseViewHolder;
 
 public class SingleTitleHolder extends BaseViewHolder<HolderOnlyTitle> {
@@ -21,7 +22,9 @@ public class SingleTitleHolder extends BaseViewHolder<HolderOnlyTitle> {
     public void setData(HolderOnlyTitle data) {
         name.setText(data.getTitle());
         if(!data.isWhite()){
-            itemView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.shadow1));
+            itemView.setBackgroundColor(MyAppCompat.getColor(getContext(),R.attr.shadow_line));
+        }else{
+            itemView.setBackgroundColor(MyAppCompat.getColor(getContext(),R.attr.main_main_color));
         }
 
     }

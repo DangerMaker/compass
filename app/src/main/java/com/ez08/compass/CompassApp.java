@@ -33,7 +33,7 @@ public class CompassApp extends Application {
 
     //常量
     public static class Constants {
-        public static final String REQUEST_URL = "https://imapp.compass.cn/update.php?type=0&testmode=1"; //testmode = 0正式* 1测试* type = 0android 1ios
+        public static final String REQUEST_URL = "https://imapp.compass.cn/update.php?type=0&testmode=0"; //testmode = 0正式* 1测试* type = 0android 1ios
         public static final String MAINAPP_NAME = "zhinantong_app";
         public static final String APPUID = "zhinantong_android";
         //首页行情代码  上证 深证 创业板 中小板

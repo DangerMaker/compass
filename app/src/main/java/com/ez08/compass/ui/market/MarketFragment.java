@@ -64,6 +64,8 @@ public class MarketFragment extends IntervelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
 
+        Log.e("BaseFragment",this.getClass().getSimpleName());
+
         boardlist0 = new ArrayList<>();
         boardlist1 = new ArrayList<>();
         boardlist2 = new ArrayList<>();

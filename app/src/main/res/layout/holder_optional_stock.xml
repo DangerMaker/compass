@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/stock_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txt_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dip"
+            android:layout_marginBottom="5dp"
+            android:textColor="?attr/lable_item_style"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_increase"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:background="@color/red"
+        android:paddingTop="6dip"
+        android:paddingRight="12dip"
+        android:paddingBottom="6dip"
+        android:paddingLeft="12dp"
+        android:singleLine="true"
+        android:text="+12.25%"
+        android:textColor="?attr/white_text_color"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/txt_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="30dp"
+        android:layout_toLeftOf="@+id/txt_increase"
+        android:paddingTop="6dip"
+        android:paddingRight="10dip"
+        android:paddingBottom="6dip"
+        android:singleLine="true"
+        android:text="34.98"
+        android:textColor="?attr/lable_list_style"
+        android:textSize="16sp" />
+</RelativeLayout>
+

@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.ez08.compass.parser.ChartsHolderParser;
 import com.ez08.compass.parser.StockMarketParser;
 import com.ez08.compass.ui.IntervelFragment;
 import com.ez08.compass.ui.market.adapter.ChartsAdapter;
+import com.ez08.compass.ui.market.view.CustomGridItemDecoration;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
 import com.ez08.support.util.EzValue;
@@ -57,6 +59,8 @@ public class ChartsFragment extends IntervelFragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Log.e("BaseFragment",this.getClass().getSimpleName());
+
         View view = View.inflate(getActivity(), R.layout.fragment_watch, null);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.watch_lv_frame);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -79,11 +83,12 @@ public class ChartsFragment extends IntervelFragment implements View.OnClickList
         mListViewFrame.autoRefresh();
 
 
-        DividerItemDecoration divider = new DividerItemDecoration(
-                mContext,
-                DividerItemDecoration.VERTICAL
-        );
-        divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.line_light_1px));
+//        DividerItemDecoration divider = new DividerItemDecoration(
+//                mContext,
+//                DividerItemDecoration.VERTICAL
+//        );
+//        divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.line_light_1px));
+        CustomGridItemDecoration divider = new CustomGridItemDecoration(mContext);
         mRecyclerView.addItemDecoration(divider);
 
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {

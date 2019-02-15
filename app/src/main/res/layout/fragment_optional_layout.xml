@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/main_main_color">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/optional_share_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/tv_add_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@drawable/iv_add_stock"
+        android:drawablePadding="20dp"
+        android:text="您还没有自选股，请点击添加股票"
+        android:textColor="@color/white_gray"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_important_tips1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="普通关注列表“长按个股”添加"
+            android:textColor="@color/white_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_important_tips2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_important_tips1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="加入规则：最多30只"
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

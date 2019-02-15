@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,7 +54,7 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getActivity(), R.layout.home_tab_layout, null);
         mViewPager = (ViewPager) view.findViewById(R.id.info_tab_pager);
-        mViewPager.setOffscreenPageLimit(5);
+//        mViewPager.setOffscreenPageLimit(5);
         sliding_tabs = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
 
         mFragmentList = new ArrayList<>();
@@ -160,6 +161,11 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
         public CharSequence getPageTitle(int position) {
             return mFragments.get(position).getName();
         }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+//            super.destroyItem(container, position, object);
+        }
     }
 
     private class PageChangeListener implements ViewPager.OnPageChangeListener {
@@ -247,11 +253,11 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
             marketFragment.intervelStop();
         }
 //        if (stockFragment != null) {
-//            stockFragment.setOnresume(false);
+//            stockFragment.intervelStop();
 //        }
-//        if (chartsFragment != null) {
-//            chartsFragment.setOnresume(false);
-//        }
+        if (chartsFragment != null) {
+            chartsFragment.intervelStop();
+        }
         if (watchFragment != null) {
             watchFragment.intervelStop();
         }
@@ -268,29 +274,25 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
                     }
                     break;
 //                case 1:
-//
 //                    if (stockFragment != null) {
-//                        stockFragment.setOnresume(true);
+//                        stockFragment.intervelBegin();
 //                    }
 //                    break;
-//
-//
                 case 2:
                     if (dingPanFragment != null) {
                         dingPanFragment.intervelBegin();
                     }
                     break;
-//                case 3:
-//                    if (chartsFragment != null) {
-//                        chartsFragment.setOnresume(true);
-//                    }
-//                    break;
+                case 3:
+                    if (chartsFragment != null) {
+                        chartsFragment.intervelBegin();
+                    }
+                    break;
                 case 4:
                     if (watchFragment != null) {
                         watchFragment.intervelBegin();
                     }
                     break;
-
             }
         }
     }

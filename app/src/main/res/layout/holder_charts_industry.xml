@@ -28,20 +28,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
         android:maxLines="2"
+        android:minLines="2"
         android:text="金属非金金属"
         android:textColor="?attr/lable_list_style"
         android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/industry_name"
-        android:layout_centerHorizontal="true"
-        android:maxLines="2"
-        android:text=" "
-        android:textColor="?attr/lable_list_style"
-        android:textSize="13sp" />
 
 
 </RelativeLayout>
