@@ -113,10 +113,6 @@ public class CompassApp extends Application {
         GLOBAL.BLACK = ContextCompat.getColor(this,R.color.market_area_title);
     }
 
-    public static Context getmContext() {
-        return mContext;
-    }
-
     public void init() {
         String str = getCurProcessName(this);
         if (str == null || !str.contains("com.ez08.compass")) {

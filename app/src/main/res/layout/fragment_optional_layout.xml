@@ -4,7 +4,10 @@
     android:layout_height="match_parent"
     android:background="?attr/main_main_color">
 
+    <include android:id="@+id/edit" layout="@layout/view_sort_title"/>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/edit"
         android:id="@+id/optional_share_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -38,7 +38,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatchFragment extends IntervelFragment implements View.OnClickListener {
+public class WatchFragment extends IntervelFragment{
 
     private final int WHAT_REFRESH_WATCH = 1000; //行情数据
     private final int WHAT_GET_ALL_DETAIL = 1001; //个股详细
@@ -204,10 +204,4 @@ public class WatchFragment extends IntervelFragment implements View.OnClickListe
             }
         }
     };
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        }
-    }
 }

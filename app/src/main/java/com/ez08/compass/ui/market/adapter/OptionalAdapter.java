@@ -17,10 +17,11 @@ import java.util.List;
 
 public class OptionalAdapter extends BaseAdapter<ItemStock> {
 
-    boolean mSetPriceValue = false;
+    boolean mSetPriceValue;
 
-    public OptionalAdapter(Context context, List<ItemStock> mList) {
+    public OptionalAdapter(Context context, List<ItemStock> mList,boolean flag) {
         super(context,mList);
+        mSetPriceValue = flag;
     }
 
     @Override

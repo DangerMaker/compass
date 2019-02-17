@@ -58,6 +58,12 @@ public class OptionalContainerFragment extends BaseFragment {
         tabLayout = (SlidingTabLayout) view.findViewById(R.id.tab_content);
         viewPager = (ViewPager) view.findViewById(R.id.vp_content);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.info_lv_frame);
+        tabFragments = new ArrayList<>();
+        fragment1 = OptionalFragment.getInstance(0);
+        fragment2 = OptionalFragment.getInstance(1);
+        tabFragments.add(new EasyFragment(fragment1, "普通关注"));
+        tabFragments.add(new EasyFragment(fragment2, "重点关注"));
+        initTabAndVP();
 
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -65,15 +71,7 @@ public class OptionalContainerFragment extends BaseFragment {
                 NetInterface.requestGetMyStockList(mHandler, GET_MYSTOCK);
             }
         });
-
         mListViewFrame.autoRefresh();
-
-        tabFragments = new ArrayList<>();
-        fragment1 = OptionalFragment.getInstance(0);
-        fragment2 = OptionalFragment.getInstance(1);
-        tabFragments.add(new EasyFragment(fragment1, "普通关注"));
-        tabFragments.add(new EasyFragment(fragment2, "重点关注"));
-        initTabAndVP();
         return view;
     }
 
