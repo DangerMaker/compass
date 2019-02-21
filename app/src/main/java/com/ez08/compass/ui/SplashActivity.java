@@ -21,12 +21,14 @@ import android.widget.TextView;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
+import com.ez08.compass.auth.AuthUserInfo;
 import com.ez08.compass.entity.NewAdvertEntity;
 import com.ez08.compass.tools.AdsManager;
 import com.ez08.compass.tools.LoadBalancingManager;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseActivity;
 import com.ez08.compass.ui.personal.LoginActivity;
+import com.ez08.support.net.NetManager;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -202,7 +204,6 @@ public class SplashActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(connectReceiver);
-        CompassApp.GLOBAL.JUMP = 3;
     }
 
     private void showNetDialog() {
@@ -240,36 +241,35 @@ public class SplashActivity extends BaseActivity {
     ;
 
     boolean isTimeOver = false;
-    int jump = 0; //0 hold 1 login 2 main 3 failure pls retry
     String message = "请检查网络";
 
     private void startNetWork() {
-        if(mContext == null){
+        if (mContext == null) {
             return;
         }
 
-        if (CompassApp.GLOBAL.APP_IS_NEW) {
-            CompassApp.GLOBAL.JUMP = jump;
-        }
-        if (CompassApp.GLOBAL.JUMP == 0) {
-            showBusyDialog();
-        } else if (CompassApp.GLOBAL.JUMP == 1) {
-            Intent i = new Intent(mContext, LoginActivity.class);
-            i.putExtra("fromstart", true);
-            i.putExtra("install", mInstall);
-            startActivity(i);
-            finish();
-        } else if (CompassApp.GLOBAL.JUMP == 2) {
-            Intent i = new Intent(mContext, MainActivity.class);
-            i.putExtra("infourl", infourl);
-            startActivity(i);
-            finish();
-            CompassApp.addStatis(CompassApp.GLOBAL.mgr.START_APP, "0", mInstall ? "1" : "0", System.currentTimeMillis());
-            if (addAdvertStatis) {
-                CompassApp.addStatis(CompassApp.GLOBAL.mgr.ADVERT_START, "0", "", System.currentTimeMillis());
-            }
-        } else if (jump == 3) {
+        if (NetManager.mState == 0) {
             showNetDialog();
+        } else if (NetManager.mState == 2) {
+            String cid = AuthUserInfo.getMyCid();
+            if (!TextUtils.isEmpty(cid) && cid.contains("T-")) {
+                Intent i = new Intent(mContext, LoginActivity.class);
+                i.putExtra("fromstart", true);
+                i.putExtra("install", mInstall);
+                startActivity(i);
+                finish();
+            } else {
+                Intent i = new Intent(mContext, MainActivity.class);
+                i.putExtra("infourl", infourl);
+                startActivity(i);
+                finish();
+                CompassApp.addStatis(CompassApp.GLOBAL.mgr.START_APP, "0", mInstall ? "1" : "0", System.currentTimeMillis());
+                if (addAdvertStatis) {
+                    CompassApp.addStatis(CompassApp.GLOBAL.mgr.ADVERT_START, "0", "", System.currentTimeMillis());
+                }
+            }
+        } else if (NetManager.mState == 1) {
+            showBusyDialog();
         }
     }
 
@@ -281,22 +281,16 @@ public class SplashActivity extends BaseActivity {
                 dismissBusyDialog();
                 if (intent.getAction().equals(LOAD_BALANCING_FINISH)) {
                     if (!intent.getBooleanExtra("success", false)) {
-                        jump = 3;
-                        message = intent.getStringExtra("message");
-                    } else {
-                        return;
+                        //failure
+                        if (isTimeOver) {
+                            message = intent.getStringExtra("message");
+                            showNetDialog();
+                        }
                     }
                 } else if (intent.getAction().equals(SOCKET_CONNECT_SUCCESS)) {
-                    String cid = intent.getStringExtra("cid");
-                    if (!TextUtils.isEmpty(cid) && cid.contains("T-")) {
-                        jump = 1;
-                    } else {
-                        jump = 2;
+                    if (isTimeOver) {
+                        startNetWork();
                     }
-                }
-
-                if (isTimeOver) {
-                    startNetWork();
                 }
             }
         }

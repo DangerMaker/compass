@@ -501,7 +501,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         unregisterReceiver(finishReceiver);
         lgroup.removeAllViews();
         isOnLogin = false;
-        CompassApp.GLOBAL.JUMP = 1;
     }
 
     //判断剪切板的内容来实现自动登录

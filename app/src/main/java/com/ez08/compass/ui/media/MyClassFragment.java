@@ -421,6 +421,7 @@ public class MyClassFragment extends BaseFragment {
                 case WHAT_ADD_LIVING:
                     break;
                 case WHAT_LIVE_REFRESH:
+                    mListViewFrame.finishRefresh();
                     break;
                 default:
                     break;

@@ -430,7 +430,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
         this.sendBroadcast(intent);
         Intent intent1 = new Intent(this, MessageService.class);
         this.stopService(intent1);
-        CompassApp.GLOBAL.JUMP = 2;
     }
 
     private NetResponseHandler responseReceiver = new NetResponseHandler() {

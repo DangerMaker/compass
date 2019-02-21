@@ -16,6 +16,7 @@
     <drawable name="gray">#ffe1e0de</drawable>
     <drawable name="blue">#770000ff</drawable>
 
+    <color name="pull_text">#666666</color>xxx
     <!-- 深蓝 -->
     <color name="darkBlue">#3366FF</color>xxx
     <color name="lable_stock_red">#d10a2c</color>

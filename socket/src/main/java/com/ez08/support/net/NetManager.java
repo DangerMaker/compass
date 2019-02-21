@@ -226,6 +226,7 @@ public class NetManager {
 	}
 
 	private static void setState(int state) {
+		EzLog.e(true, "NetManager", "setState:"+state );
 		Intent bintent = new Intent("ez08.net.state.change.broadcast");
 		bintent.putExtra("oldState", mState);
 		bintent.putExtra("newState", state);

@@ -62,7 +62,6 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void onDestroy() {
         super.onDestroy();
-        CompassApp.GLOBAL.APP_IS_NEW = false;
         Log.i("-zhang", "onDestroy");
     }
 
