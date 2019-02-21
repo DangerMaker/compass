@@ -143,11 +143,13 @@ public class MarketFragment extends IntervelFragment {
         @Override
         public void netConnectLost(int what) {
             super.netConnectLost(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
         public void timeout(int what) {
             super.timeout(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override

@@ -32,7 +32,7 @@ public class AuthModule {
         final String token = AuthUserInfo.getMyToken();
         Log.e("token", "trouble=" + token);
         if (cid != null && !"".equalsIgnoreCase(cid)) {
-            EzLog.i(D, tag, "已经登录成功过，使用登录成功的信息连接网�?...");
+            EzLog.i(D, tag, "已经登录成功过，使用登录成功的信息连接网...");
             EzLog.i(D, tag, "系统保存的用户信息：cid:" + cid + ", tid:" + tid
                     + ", token:" + token);
             new Thread() {

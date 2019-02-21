@@ -5,12 +5,12 @@
     android:background="?attr/main_main_color"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/tab_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/main_tab_bar"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"></RelativeLayout>
 
     <LinearLayout
         android:id="@+id/main_tab_bar"

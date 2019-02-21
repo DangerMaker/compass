@@ -4,6 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +22,7 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -43,6 +47,7 @@ import com.ez08.compass.tools.AuthTool;
 import com.ez08.compass.tools.DataCleanManager;
 import com.ez08.compass.tools.IndexSortManager;
 import com.ez08.compass.tools.MessageService;
+import com.ez08.compass.tools.NotificationUtils;
 import com.ez08.compass.tools.PushManager;
 import com.ez08.compass.tools.PushService;
 import com.ez08.compass.tools.ToastUtils;
@@ -100,6 +105,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     public static final String GOTO_SHARE = "com.ez08.gotoshare";
     public static final String REFRESH_FRAGMENT = "com.ez08.refresh_fragment";
 
+    public static final String TAG_HOME = "tag_home";
+    public static final String TAG_MEWS = "tag_news";
+    public static final String TAG_VIDEO = "tag_video";
+    public static final String TAG_TRADE = "tag_trade";
+    public static final String TAG_KEFU = "tag_kefu";
+
     private Context mContext;
     public static boolean IS_ALIVE = false;
     public static boolean canShow = false;
@@ -113,7 +124,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     private SharedPreferences advertSharedPreferences;
 
     private final static int WHAT_PUSH_RESULT = 20;
-
     AlertDialog mlDialog;
     public static boolean forceLogout = false;    //是否被强制踢出
     public static String forceMsg = "";
@@ -131,13 +141,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (AppStatusManager.getInstance().getAppStatus() == AppStatusConstant.STATUS_FORCE_KILLED) {
-            finish();
-            Intent main = new Intent(MainActivity.this,
-                    SplashActivity.class);
-            startActivity(main);
-        }
-
         myPermission();
         AdsManager.getInstance(MainActivity.this).setUrl(CompassApp.GLOBAL.ADVERT_URL + "?personid=" + AuthUserInfo.getMyCid());
 
@@ -146,7 +149,23 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
         setContentView(R.layout.activity_main);
         initViews();
         fragmentManager = getSupportFragmentManager();
-        NetInterface.getMyInfo(mHandler, WHAT_REQUEST_GET_MY_INFO);
+        if (savedInstanceState != null) {
+            if (fragmentManager.findFragmentByTag(TAG_HOME) != null)
+                mHomeFragment = (HomeTabFragment) fragmentManager.findFragmentByTag(TAG_HOME);
+            if (fragmentManager.findFragmentByTag(TAG_MEWS) != null)
+                mInfoTabFragment = (InfoNewTabFragment) fragmentManager.findFragmentByTag(TAG_MEWS);
+            if (fragmentManager.findFragmentByTag(TAG_VIDEO) != null)
+                mClassFragment = (ClassFragment) fragmentManager.findFragmentByTag(TAG_VIDEO);
+            if (fragmentManager.findFragmentByTag(TAG_TRADE) != null)
+                mSecurityFragment = (SecurityFragment) fragmentManager.findFragmentByTag(TAG_TRADE);
+            if (fragmentManager.findFragmentByTag(TAG_KEFU) != null)
+                mSeekFragment = (MyKefuFragment) fragmentManager.findFragmentByTag(TAG_KEFU);
+            mCurrentSelect = savedInstanceState.getInt("mCurrentSelect");
+            setTabSelection(mCurrentSelect);
+        }else{
+            setTabSelection(0);
+        }
+
 
         IntentFilter filter1 = new IntentFilter();
         filter1.addAction("del_living");
@@ -157,15 +176,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
         rehreshFilter.addAction(REFRESH_FRAGMENT);
         registerReceiver(refreshReceiver, rehreshFilter);
 
-        //获取客服信息、开启直播间和客户会话
-        getKefuService();
-
         //开启推送会话
         Intent pushIntent = new Intent(MainActivity.this, PushService.class);
         pushIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startService(pushIntent);
-
-        setTabSelection(0);
 
         mySharedPreferences = getSharedPreferences(
                 "kefu", Activity.MODE_PRIVATE);
@@ -233,6 +247,23 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
             newsIntent.putExtra("entity", itemStock);
             startActivity(newsIntent);
         }
+
+        if (intent.getAction() != null && intent.getAction().equals("force_logout")) {
+            Message message = Message.obtain();
+            message.what = 0;
+            message.obj = intent.getStringExtra("force_message");
+            msgHandler.sendMessage(message);
+        }
+
+        //获取客服信息、开启直播间和客户会话
+        NetInterface.requestKefuInfo(mHandler, WHAT_GET_KEFU_INFO);
+        NetInterface.getMyInfo(mHandler, WHAT_REQUEST_GET_MY_INFO);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mCurrentSelect", mCurrentSelect);
     }
 
     private IMDBHelper helper;
@@ -393,22 +424,13 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
         unregisterReceiver(dataChangeReceiver);
         unregisterReceiver(refreshReceiver);
         unregisterReceiver(delLiveReceiver);
-//
-//        IS_ALIVE = false;
+
         Intent intent = new Intent();
         intent.setAction(MessageService.ACTION_SERVICE_STOP);
         this.sendBroadcast(intent);
         Intent intent1 = new Intent(this, MessageService.class);
         this.stopService(intent1);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AuthModule.stopNet();
-            }
-        }).start();
-//        unregisterReceiver(delLiveReceiver);
-//        unregisterReceiver(finishReceiver);
+        CompassApp.GLOBAL.JUMP = 2;
     }
 
     private NetResponseHandler responseReceiver = new NetResponseHandler() {
@@ -422,11 +444,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
             msgHandler.sendMessage(message);
         }
     };
-
-    private void getKefuService() {
-        NetInterface.requestKefuInfo(mHandler, WHAT_GET_KEFU_INFO);
-    }
-
 
     @SuppressLint("HandlerLeak")
     private NetResponseHandler2 mHandler = new NetResponseHandler2() {
@@ -560,7 +577,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                     break;
                 case WHAT_DEL_LIVING:
                     break;
-                    //exp upload
+                //exp upload
                 case 102:
                     break;
                 case GET_KH_SEND_CODE:
@@ -679,7 +696,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                 txtHome.setTextColor(colorSelected);
                 if (mHomeFragment == null) {
                     mHomeFragment = new HomeTabFragment();
-                    transaction.add(R.id.tab_content, mHomeFragment);
+                    transaction.add(R.id.tab_content, mHomeFragment, TAG_HOME);
                 } else {
                     mHomeFragment.setCurrentPage();
                 }
@@ -703,7 +720,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                             }
                         }
                     });
-                    transaction.add(R.id.tab_content, mInfoTabFragment);
+                    transaction.add(R.id.tab_content, mInfoTabFragment, TAG_MEWS);
                 } else {
                     mInfoTabFragment.getCurrentName();
                 }
@@ -716,7 +733,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                 txtClass.setTextColor(colorSelected);
                 if (mClassFragment == null) {
                     mClassFragment = new ClassFragment();
-                    transaction.add(R.id.tab_content, mClassFragment);
+                    transaction.add(R.id.tab_content, mClassFragment, TAG_VIDEO);
                 } else {
                     if (mClassFragment.getCurPosition() == 0) {
                         CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "0", "",
@@ -738,7 +755,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                 txtSeek.setTextColor(colorSelected);
                 if (mSeekFragment == null) {
                     mSeekFragment = new MyKefuFragment();
-                    transaction.add(R.id.tab_content, mSeekFragment);
+                    transaction.add(R.id.tab_content, mSeekFragment, TAG_KEFU);
                     mSeekFragment.setCallBack(new MyKefuFragment.CallBack() {
                         @Override
                         public void hasRedDot(boolean dot) {
@@ -760,7 +777,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                 txtTrade.setTextColor(colorSelected);
                 if (mSecurityFragment == null) {
                     mSecurityFragment = new SecurityFragment();
-                    transaction.add(R.id.tab_content, mSecurityFragment);
+                    transaction.add(R.id.tab_content, mSecurityFragment, TAG_TRADE);
                 }
                 transaction.show(mSecurityFragment);
                 break;
@@ -911,41 +928,26 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
             switch (msg.what) {
                 case 0:
                     //登出处理
-//                    if (logout) {
-//                        return;
-//                    }
-//                    logout = true;
-//                    String message = (String) msg.obj;
-//                    if (BaseActivity.IS_ONRESUME
-//                            || MainActivity.IS_ONRESUME || BaseFragmentLActivity.IS_ONRESUME) {
-//                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
-//                        intent.putExtra("force_message", message);
-//                        startActivity(intent);
-//                    } else {
-//                        forceLogout = true;
-//                        forceMsg = message;
-//                        NotificationManager nm = (NotificationManager) MainActivity.this
-//                                .getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//                        NotificationCompat.Builder builder = new NotificationCompat.Builder(
-//                                MainActivity.this)
-//                                .setSmallIcon(R.drawable.logo_)
-//                                .setContentTitle("登出提示").setTicker("登出提示");
-//                        builder.setAutoCancel(true);
-//
-//                        builder.setDefaults(Notification.DEFAULT_SOUND);
-//                        builder.setContentText(message);
-//
-//                        Intent talkIntent = new Intent();
-//                        talkIntent.setAction("force_logout");
-//                        talkIntent.setClassName("com.ez08.compass",
-//                                "com.ez08.compass.activity.HandleMessageActivity");
-//                        PendingIntent pi = PendingIntent.getActivity(
-//                                MainActivity.this, 0, talkIntent,
-//                                PendingIntent.FLAG_UPDATE_CURRENT);
-//                        builder.setContentIntent(pi);
-//                        nm.notify(11, builder.build());
-//                    }
+                    if (logout) {
+                        return;
+                    }
+                    logout = true;
+
+                    if (!AuthUserInfo.isLogined()) {
+                        return;
+                    }
+
+                    String message = (String) msg.obj;
+                    if (CompassApp.GLOBAL.count > 0) {
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.putExtra("force_message", message);
+                        startActivity(intent);
+                    } else {
+                        forceLogout = true;
+                        forceMsg = message;
+                        NotificationUtils notificationUtils = new NotificationUtils(MainActivity.this);
+                        notificationUtils.sendNotification("登出提示", message);
+                    }
                     break;
             }
         }
@@ -974,6 +976,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                         AdsManager.getInstance(mContext).clearCid();
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
+                        finish();
                     }
                 });
         // 显示

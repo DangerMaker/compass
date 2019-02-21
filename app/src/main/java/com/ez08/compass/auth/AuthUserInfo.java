@@ -14,6 +14,13 @@ public class AuthUserInfo {
 		return localIntent;
 	}
 
+	public static boolean isEmpty() {
+		if(mBundle == null){
+			return true;
+		}
+		return false;
+	}
+
 	public static void setUserInfoBundle(Bundle bd){
 		mBundle = bd;		
 		SysVarsManager.setBundle("AuthUserInfo", bd);

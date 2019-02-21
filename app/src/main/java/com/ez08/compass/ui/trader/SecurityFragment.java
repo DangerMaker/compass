@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +62,23 @@ public class SecurityFragment extends BaseFragment implements View.OnClickListen
     private SmartRefreshLayout mListViewFrame;
     private boolean scrollToBottom = false;
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.e("SecurityFragment","onActivityCreated");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("SecurityFragment","onSaveInstanceState");
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e("SecurityFragment","onCreateView");
 
         if (CompassApp.GLOBAL.THEME_STYLE == 0) {
             options = new DisplayImageOptions.Builder()
@@ -163,6 +179,16 @@ public class SecurityFragment extends BaseFragment implements View.OnClickListen
 
     @SuppressLint("HandlerLeak")
     private NetResponseHandler2 mHandler = new NetResponseHandler2() {
+
+        @Override
+        public void netConnectLost(int what) {
+            mListViewFrame.finishRefresh();
+        }
+
+        @Override
+        public void timeout(int what) {
+            mListViewFrame.finishRefresh();
+        }
 
         @Override
         public void receive(int i, boolean b, Intent intent) {

@@ -24,6 +24,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,6 +120,7 @@ public class MyKefuFragment extends BaseFragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
+        Log.e("MyKefuFragment","onCreateView");
         View view = View.inflate(getActivity(), R.layout.fragment_kefu,
                 null);
         kefu_block1 = (RelativeLayout) view.findViewById(R.id.kefu_fram_1);

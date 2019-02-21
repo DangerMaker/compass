@@ -1,16 +1,23 @@
 package com.ez08.compass;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.thinkive.framework.util.ScreenUtil;
+import com.ez08.compass.tools.AppLifecycleCallbacks;
+import com.ez08.compass.tools.AppUtils;
+import com.ez08.compass.tools.LoadBalancingManager;
+import com.ez08.compass.ui.personal.LoginActivity;
 import com.ez08.compass.update.updateModule.AutoUpdateModule;
 import com.ez08.compass.database.DBManager;
 import com.ez08.compass.entity.ItemStock;
@@ -49,6 +56,10 @@ public class CompassApp extends Application {
         public static int THEME_STYLE = 0;    //0日间，1夜间
         public static int DEVELOPER_MODE = 0;    //0正常；1开发者模式
         public static boolean isActive = false; //app是否处于活跃状态
+        public static int count = 0; //多少个activity on stack
+
+        public static boolean APP_IS_NEW = true;
+        public static int JUMP = 0;
 
         //网络配置
         public static String IP = "";
@@ -97,50 +108,48 @@ public class CompassApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getApplicationContext();
-//        ThinkiveInitializer.getInstance().initialze(this); //第一创业sdk
-        UMConfigure.init(this, "55a8a80f67e58ec0420006ef", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-        PlatformConfig.setWeixin("wxae22025f248bd50f", "a11764469f0743a2474b4b3e12710909");
-        PlatformConfig.setSinaWeibo("1679428760", "e36e4fe521da287ad503fa30d8c5439b", "http://sns.whalecloud.com");
-        PlatformConfig.setQQZone("1104947532", "oIBgb6hWY6BoyhEx");
-        GLOBAL.mgr = new DBManager(this);
-        GLOBAL.SCREEN_W = (int)ScreenUtil.getScreenWidth(mContext);
-        GLOBAL.SCREEN_H = (int)ScreenUtil.getScreenHeight(mContext);
 
-        GLOBAL.RED = ContextCompat.getColor(this,R.color.red);
-        GLOBAL.GREEN = ContextCompat.getColor(this,R.color.green);
-        GLOBAL.LIGHT_GRAY = ContextCompat.getColor(this,R.color.shadow0);
-        GLOBAL.BLACK = ContextCompat.getColor(this,R.color.market_area_title);
-    }
-
-    public void init() {
-        String str = getCurProcessName(this);
+        Log.e("CompassApp", "onCreate");
+        String str = AppUtils.getCurProcessName(this);
         if (str == null || !str.contains("com.ez08.compass")) {
             Log.e("tag", "进入 compassApp--》onCreate().....不需要初始化");
             return;
         }
 
-        Log.e("", GLOBAL.IP + "=" + GLOBAL.PORT + "===");
-        NetManager.NET_DEBUG = false;
+        mContext = getApplicationContext();
+        registerActivityLifecycleCallbacks(new AppLifecycleCallbacks());
+
+//        ThinkiveInitializer.getInstance().initialze(this); //第一创业sdk
+        UMConfigure.init(this, "55a8a80f67e58ec0420006ef", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+        PlatformConfig.setWeixin("wxae22025f248bd50f", "a11764469f0743a2474b4b3e12710909");
+        PlatformConfig.setSinaWeibo("1679428760", "e36e4fe521da287ad503fa30d8c5439b", "http://sns.whalecloud.com");
+        PlatformConfig.setQQZone("1104947532", "oIBgb6hWY6BoyhEx");
+
+        //网络初始化
+        NetManager.NET_DEBUG = true;
         NetManager.NET_DEBUG_DETAIL = false;
-        Log.e("nettt", "cid=" + NetManager.mCid + ";tid=" + NetManager.mTid + ";token=" + NetManager.mToken);
-        String chid = UtilTools.getChannel(mContext);
-        NetManager.setChid(chid);
+        EzLog.TO_FILE = false;// 关闭日志
+        String channelId = UtilTools.getChannel(mContext);
+        NetManager.setChid(channelId);
         NetManager.Init(this, Constants.MAINAPP_NAME, Constants.APPUID);
         EzMessageFactory.AddMessageProto(Protocol_ZhiNanTong.proto_zhinantong);
         EzMessageFactory.AddMessageProto(Protocol_UserInfo.proto_userinfo);
         EzMessageFactory.AddMessageProto(StockFinMessageProtocol.proto_znz_stockfindata);
-        NetManager.setIpAndPort(GLOBAL.IP, GLOBAL.PORT);
+//        NetManager.setIpAndPort(GLOBAL.IP, GLOBAL.PORT);
         AuthModule.initImageLoader(getApplicationContext());
         AuthModule.init(this, this.getPackageName());
         AutoUpdateModule.init(this);
-        EzLog.TO_FILE = false;// 关闭日志
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("ez08.net.connect.judge.broadcast");
-        registerReceiver(connectReceiver, filter);
+        GLOBAL.mgr = new DBManager(this);
+        GLOBAL.SCREEN_W = (int)ScreenUtil.getScreenWidth(mContext);
+        GLOBAL.SCREEN_H = (int)ScreenUtil.getScreenHeight(mContext);
+        GLOBAL.RED = ContextCompat.getColor(this,R.color.red);
+        GLOBAL.GREEN = ContextCompat.getColor(this,R.color.green);
+        GLOBAL.LIGHT_GRAY = ContextCompat.getColor(this,R.color.shadow0);
+        GLOBAL.BLACK = ContextCompat.getColor(this,R.color.market_area_title);
+
+        LoadBalancingManager.getInstance(this).setUrl(Constants.REQUEST_URL);
     }
-
     //加入埋点
     public static void addStatis(String action, String type, String params, long times) {
         if (GLOBAL.mgr == null) {
@@ -151,24 +160,6 @@ public class CompassApp extends Application {
     }
 
 
-    /**
-     * @param context 获得程序名
-     * @return
-     */
-    private String getCurProcessName(Context context) {
-        int pid = android.os.Process.myPid();
-        ActivityManager mActivityManager = (ActivityManager) context
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
-                .getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-
-                return appProcess.processName;
-            }
-        }
-
-        return null;
-    }
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -176,19 +167,4 @@ public class CompassApp extends Application {
         MultiDex.install(this);
     }
 
-    private BroadcastReceiver connectReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-//                String action = intent.getStringExtra("ez08.net.connect.judge.broadcast");
-//                String cid = intent.getStringExtra("cid");
-//                if (!TextUtils.isEmpty(cid) && cid.contains("T-")) {
-//                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(i);
-//                }
-//                unregisterReceiver(this);
-            }
-        }
-    };
 }

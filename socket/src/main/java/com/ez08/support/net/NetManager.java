@@ -77,7 +77,7 @@ public class NetManager {
 	public static EzCoder mEzCoder = new EzCoder(0);
 	private static BroadcastReceiver netBroadcastReceiver = new BroadcastReceiver() {
 		public synchronized void onReceive(Context context, Intent intent) {
-			if ("android.net.conn.CONNECTIVITY_CHANGE".equalsIgnoreCase(intent.getAction()) && NetManager.NetStarted) {
+			if (NetManager.NetStarted) {
 				NetManager.wirelessStateChange();
 			}
 
@@ -134,10 +134,9 @@ public class NetManager {
 			mTid = tid;
 			mCid = cid;
 			mToken = token;
-			NetStarted = true;
 			return tryConnect();
 		} else {
-			Log.i("NetManager", "������δ��ʼ�����޷������������ӣ�");
+			Log.i("NetManager", "未完成初始化配置，不能startNet");
 			return false;
 		}
 	}
@@ -154,7 +153,7 @@ public class NetManager {
 	}
 
 	public static void stopNet() {
-		Log.i("NetManager", "��ʼ�ر�����....");
+		Log.i("NetManager", "停止网络中....");
 		NetStarted = false;
 		mTimer.cancel();
 		if (mEzSocket != null) {
@@ -169,7 +168,7 @@ public class NetManager {
 		ConnectivityManager conMan = (ConnectivityManager) application.getSystemService("connectivity");
 		NetworkInfo info = conMan.getActiveNetworkInfo();
 		if (info == null) {
-			Log.e("NetManager", "û�п��õ����磬�޷���������");
+			Log.e("NetManager", "NetworkInfo == null socket stop");
 			if (mEzSocket != null) {
 				mEzSocket.stop();
 			}
@@ -238,13 +237,13 @@ public class NetManager {
 	}
 
 	static void connectFail(String msg) {
-		Log.i("NetManager", "�����������ӳ��ִ���" + msg);
+		Log.i("NetManager", "connectFail" + msg);
 		setState(0);
 		EzNet.connectLost();
 	}
 
 	static void connectLost() {
-		EzLog.e(true, "NetManager", "�������Ӷ�ʧ");
+		EzLog.e(true, "NetManager", "connectLost");
 		setState(0);
 		EzNet.connectLost();
 	}
@@ -262,22 +261,21 @@ public class NetManager {
 		Intent intent = IntentTools.messageToIntent(message);
 		String action = intent.getAction();
 		if ("ez08.auth.connect".equalsIgnoreCase(action)) {
-			EzLog.e(true, "NetManager", "�յ��������ְ�������������� action=" + action);
+			EzLog.e(true, "NetManager", "确认握手成功 action=" + action);
 			
 	        Intent bintent = new Intent("ez08.net.connect.judge.broadcast");
 	        bintent.putExtra("cid", intent.getStringExtra("cid"));
 	        application.sendBroadcast(bintent);
-			
 			connected(intent);
 		}
 
 		boolean result = intent.getBooleanExtra("result", false);
 		if (result) {
 			if ("ez08.auth.login.response".equalsIgnoreCase(action)) {
-				EzLog.e(true, "NetManager", "�յ���¼Ӧ����������趨tid����Ϣ action = " + action);
+				EzLog.e(true, "NetManager", "确认登录成功 action = " + action);
 				connected(intent);
 			} else if ("ez08.auth.logout.response".equalsIgnoreCase(action)) {
-				EzLog.e(true, "NetManager", "�յ��˳���¼Ӧ����������趨tid����Ϣ action = " + action);
+				EzLog.e(true, "NetManager", "确认登出 action = " + action);
 				connected(intent);
 			}
 		}
@@ -289,7 +287,7 @@ public class NetManager {
 		mTid = intent.getStringExtra("tid");
 		mCid = intent.getStringExtra("cid");
 		mToken = intent.getStringExtra("token");
-		EzLog.e(true, "NetManager", "��NetManger�����¼���ĵط��趨cid��Ϣtid= " + mTid + "   cid=" + mCid + "  token=" + mToken);
+		EzLog.e(true, "NetManager", "正在线上的是 tid= " + mTid + "   cid=" + mCid + "  token=" + mToken);
 		byte[] pkeybytes = intent.getByteArrayExtra("pkeyb");
 		String str = intent.getStringExtra("encnames");
 		mEncNames = null;
@@ -322,7 +320,7 @@ public class NetManager {
 	}
 
 	private static void wirelessStateChange() {
-		Log.i("NetManager", "����״̬�����仯");
+		Log.i("NetManager", "wirelessStateChange网络状态发生变化");
 		ConnectivityManager conMan = (ConnectivityManager) application.getSystemService("connectivity");
 		NetworkInfo info = conMan.getActiveNetworkInfo();
 		showNetworkInfo("wirelessStateChange() show netWork Info", info);
@@ -332,7 +330,7 @@ public class NetManager {
 				restartNet();
 			}
 		} else if (mState != 0 && mEzSocket != null) {
-			Log.i("NetManager", "�Ѿ����������ӵ����������ò����ã��ر��Ѿ����ӵ�socket");
+			Log.i("NetManager", "wirelessStateChange断开socket");
 			mEzSocket.stop();
 			setState(0);
 		}

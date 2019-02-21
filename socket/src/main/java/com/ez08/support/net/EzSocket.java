@@ -423,7 +423,7 @@ public class EzSocket {
     	
     	private void ParsePackage(byte[] pack)
     	{
-    		EzLog.i(D, tag, "测试增加一条调试信息");
+    		EzLog.i(D, tag, "解析一条信息");
     			EzMessage msg = EzMessageFactory.CreateMessageObject(pack);
     			String action = msg.getKVData("action").getString();
     			EzLog.i(D,tag,"action = :" + action);

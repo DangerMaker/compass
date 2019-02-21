@@ -127,7 +127,6 @@ public class OptionalContainerFragment extends BaseFragment {
         viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager);
         tabLayout.setOnPageChangeListener(new PageChangeListener());
-        viewPager.setCurrentItem(1);
         viewPager.setCurrentItem(0);
     }
 

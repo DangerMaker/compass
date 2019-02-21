@@ -14,7 +14,6 @@
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
 
-    <style name="AppBaseTheme" parent="android:Theme.Light"/>
 
     <style name="DayTheme" parent="AppTheme">
         <item name="colorPrimary">@color/red</item>
@@ -63,7 +62,8 @@
         <item name="shadow12">@color/shadow</item>
         <item name="shadow_bottom_text">@color/shadow_bottom_day</item>
     </style>
-    <style name="NightTheme" parent="AppBaseTheme">
+
+    <style name="NightTheme" parent="AppTheme">
         <item name="colorPrimary">@color/black_background_bottom</item>
         <item name="colorPrimaryDark">@color/black_background_bottom</item>
         <item name="colorAccent">@color/black_background_bottom</item>
@@ -96,7 +96,6 @@
         <item name="green_main_color">@color/green_main_color_night</item>
         <item name="red_zi_color">@color/red_main_color_night</item>
         <item name="green_zi_color">@color/green_main_color_night</item>
-        <!--<item name="stock_white_color">@color/stock_equal_white</item>-->
         <item name="stock_white_color">@color/stock_equal_white</item>
         <item name="red_zi_background_color">@color/red_zi_background_color_night</item>
         <item name="green_zi_background_color">@color/green_zi_background_color_night</item>
@@ -110,7 +109,6 @@
         <item name="shadow12">@color/gray</item>
         <item name="shadow_bottom_text">@color/shadow_bottom_night</item>
     </style>
-
 
     <style name="CompassCheckBox" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/gray</item>

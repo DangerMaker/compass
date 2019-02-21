@@ -1,22 +1,19 @@
 package com.ez08.compass.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -24,33 +21,22 @@ import android.widget.TextView;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
-import com.ez08.compass.ui.base.BaseActivity;
-import com.ez08.compass.update.updateModule.AutoUpdateActivity;
-import com.ez08.compass.update.updateModule.AutoUpdatePacket;
-import com.ez08.compass.entity.InitEntity;
 import com.ez08.compass.entity.NewAdvertEntity;
-import com.ez08.compass.net.HttpUtils;
 import com.ez08.compass.tools.AdsManager;
-import com.ez08.compass.tools.AppStatusConstant;
-import com.ez08.compass.tools.AppStatusManager;
-import com.ez08.compass.tools.AuthTool;
-import com.ez08.compass.tools.UpLoadTools;
+import com.ez08.compass.tools.LoadBalancingManager;
 import com.ez08.compass.tools.UtilTools;
+import com.ez08.compass.ui.base.BaseActivity;
 import com.ez08.compass.ui.personal.LoginActivity;
-import com.ez08.compass.auth.AuthModule;
-import com.ez08.compass.auth.AuthUserInfo;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+
+import static com.ez08.compass.tools.LoadBalancingManager.LOAD_BALANCING_FINISH;
 
 public class SplashActivity extends BaseActivity {
 
+    public static final String SOCKET_CONNECT_SUCCESS = "ez08.net.connect.judge.broadcast";
     Context mContext;
     CompassApp mCompassApp;
     private String infourl = "";
@@ -62,6 +48,38 @@ public class SplashActivity extends BaseActivity {
 
     private SharedPreferences mySharedPreferences;
     private ImageView mLogo;
+    ProgressDialog pDialog;
+
+    protected void dismissBusyDialog() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
+
+    protected void showBusyDialog() {
+        if (pDialog == null) {
+            pDialog = new ProgressDialog(this);
+            pDialog.setMessage("请稍候...");
+            pDialog.setCancelable(true);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        }
+
+        if (pDialog.isShowing()) {
+            return;
+        }
+
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            pDialog.show();
+        } else {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    pDialog.show();
+                }
+            });
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,22 +87,17 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        setContentView(R.layout.activity_splash);
+
         mAddStatus = false;
         mContext = this;
-        AppStatusManager.getInstance().setAppStatus(AppStatusConstant.STATUS_NORMAL);
-        if (!this.isTaskRoot()) {
-            Intent intent = getIntent();
-            if (intent != null) {
-                String action = intent.getAction();
-                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
-                    finish();
-                    return;
-                }
-            }
-        }
-
         MobclickAgent.openActivityDurationTrack(false);
         AnalyticsConfig.enableEncrypt(false); // 不加密
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(SOCKET_CONNECT_SUCCESS); //socket connect
+        filter.addAction(LOAD_BALANCING_FINISH); //http request finish
+        registerReceiver(connectReceiver, filter);
 
         //获取mac地址
         SharedPreferences mSharedPreferences = getSharedPreferences("wifi", 0);
@@ -109,19 +122,6 @@ public class SplashActivity extends BaseActivity {
         mCompassApp = (CompassApp) this.getApplication();
         //取消状态栏
 
-        SharedPreferences sp = getSharedPreferences(
-                "kefu", Activity.MODE_PRIVATE);
-
-        CompassApp.GLOBAL.CUSTOMER_LEVEL = sp.getInt("compass_level", -1);
-        CompassApp.GLOBAL.CUSTOMER_AUTHS = sp.getString("auths", "");
-        CompassApp.GLOBAL.THEME_STYLE = sp.getInt("theme_style", 0);
-        CompassApp.GLOBAL.DEVELOPER_MODE = sp.getInt("developer_mode", 0);
-        //确认auth
-        AuthTool.initType(CompassApp.GLOBAL.CUSTOMER_LEVEL, CompassApp.GLOBAL.CUSTOMER_AUTHS);
-
-        setContentView(R.layout.activity_splash);
-        MobclickAgent.openActivityDurationTrack(false);
-        AnalyticsConfig.enableEncrypt(false); // 不加密
         mLogo = (ImageView) findViewById(R.id.start_logo);
         if (CompassApp.GLOBAL.THEME_STYLE == 0) {
             mLogo.setBackgroundResource(R.drawable.biaoti);
@@ -186,7 +186,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 ((TextView) findViewById(R.id.time_view)).setText("1");
-                // TODO Auto-generated method stub
+                isTimeOver = true;
                 if (!isNetworkAvailble()) {
                     showNetDialog();
                 } else {
@@ -198,51 +198,34 @@ public class SplashActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(connectReceiver);
+        CompassApp.GLOBAL.JUMP = 3;
+    }
+
     private void showNetDialog() {
         new AlertDialog.Builder(mContext)
                 .setTitle("指南针提示")
-                .setMessage("没有网络可用，请检查网络!")
+                .setMessage(message)
+                .setCancelable(false)
                 .setPositiveButton("重试", new OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        // TODO Auto-generated method stub
                         if (!isNetworkAvailble()) {
                             showNetDialog();
                         } else {
-                            startNetWork();
+                            //todo 加载Loading 加个
+                            showBusyDialog();
+                            LoadBalancingManager.getInstance(mContext).setUrl(CompassApp.Constants.REQUEST_URL);
                         }
                     }
                 }).setNegativeButton("退出", new OnClickListener() {
 
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        }).show();
-    }
-
-    private void showNetDialog2() {
-        new AlertDialog.Builder(mContext)
-                .setTitle("指南针提示")
-                .setMessage("获取分发地址失败,请检查网络!")
-                .setPositiveButton("重试", new OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        // TODO Auto-generated method stub
-                        if (!isNetworkAvailble()) {
-                            showNetDialog();
-                        } else {
-                            startNetWork();
-                        }
-                    }
-                }).setNegativeButton("退出", new OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                // TODO Auto-generated method stub
                 finish();
             }
         }).show();
@@ -250,226 +233,73 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
 
     }
 
-    long a;
-    long b;
+    ;
+
+    boolean isTimeOver = false;
+    int jump = 0; //0 hold 1 login 2 main 3 failure pls retry
+    String message = "请检查网络";
 
     private void startNetWork() {
-        a = System.currentTimeMillis();
-        final HttpUtils u = new HttpUtils();
-        new Thread() {
-            public void run() {
-                String result = u.getJsonContent(CompassApp.Constants.REQUEST_URL);
-                InitEntity entity = parserResult(result);
-                if (entity != null) {
-                    b = System.currentTimeMillis();
-                    Log.e("startNetWork use time",(b-a) + "ms");
-                    Log.e("startNetWork", "success : " + result);
-                    SharedPreferences.Editor editor = mySharedPreferences
-                            .edit();
-                    editor.putString("updateresult", result);
-                    editor.commit();
-                    String ipport = entity.getServer();
-                    int index = ipport.indexOf(":");
-                    String t_ip = ipport.substring(0, index);
-                    CompassApp.GLOBAL.IP = getIP(t_ip);
-//                    CompassApp.IP="172.17.241.132";
-                    CompassApp.GLOBAL.PORT = Integer.parseInt(ipport
-                            .substring(index + 1));
-                    UpLoadTools.URL = entity.getImageupload();
-                    CompassApp.GLOBAL.ADVERT_URL = entity.getAdurl2();
-
-                    mHandler.sendEmptyMessage(0);
-                    Message mesg = Message.obtain();
-                    mesg.what = 1;
-                    mesg.obj = entity;
-                    mHandler.sendMessage(mesg);
-
-                } else {
-                    String data = mySharedPreferences.getString("updateresult",
-                            "");
-                    Log.e("startNetWork", "failure : " + data);
-                    if (!TextUtils.isEmpty(data)) {
-                        setNet(data);
-                    } else {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                showNetDialog2();
-                            }
-                        });
-                    }
-                }
-            }
-        }.start();
-    }
-
-    public String getIP(String name) {
-        InetAddress address = null;
-        try {
-            address = InetAddress.getByName(name);
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("获取失败");
-        }
-        return address.getHostAddress();
-    }
-
-    private void setUpDate(InitEntity entity) {
-        String local_version = "";
-        PackageManager pm = getPackageManager();
-        try {
-            PackageInfo pi = pm.getPackageInfo(getPackageName(),
-                    PackageManager.GET_ACTIVITIES);
-            local_version = pi.versionName;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String tatget_version = entity.getVersion();
-        String[] target = tatget_version.split("\\.");
-        String[] local = local_version.split("\\.");
-        boolean setVersion = false;
-        for (int i = 0; i < local.length; i++) {
-            int a = Integer.parseInt(local[i]);
-            int b = Integer.parseInt(target[i]);
-            if (a < b) {
-                setVersion = true;
-                break;
-            } else if (a > b) {
-                setVersion = false;
-                break;
-            } else {
-                setVersion = false;
-            }
-        }
-        if (!setVersion) {
+        if(mContext == null){
             return;
         }
-        final AutoUpdatePacket up = new AutoUpdatePacket();
-        up.setType(0);
-        up.setCaburl(entity.getUrl());
-        up.setBrief(entity.getInfo());
-        up.setTver(entity.getVersion());
-        Intent intent1 = new Intent(this, AutoUpdateActivity.class);
-        intent1.putExtra("up", up);
-        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Message msg = Message.obtain();
-        msg.what = 2;
-        msg.obj = intent1;
-        mHandler.sendMessageDelayed(msg, 1000);
 
+        if (CompassApp.GLOBAL.APP_IS_NEW) {
+            CompassApp.GLOBAL.JUMP = jump;
+        }
+        if (CompassApp.GLOBAL.JUMP == 0) {
+            showBusyDialog();
+        } else if (CompassApp.GLOBAL.JUMP == 1) {
+            Intent i = new Intent(mContext, LoginActivity.class);
+            i.putExtra("fromstart", true);
+            i.putExtra("install", mInstall);
+            startActivity(i);
+            finish();
+        } else if (CompassApp.GLOBAL.JUMP == 2) {
+            Intent i = new Intent(mContext, MainActivity.class);
+            i.putExtra("infourl", infourl);
+            startActivity(i);
+            finish();
+            CompassApp.addStatis(CompassApp.GLOBAL.mgr.START_APP, "0", mInstall ? "1" : "0", System.currentTimeMillis());
+            if (addAdvertStatis) {
+                CompassApp.addStatis(CompassApp.GLOBAL.mgr.ADVERT_START, "0", "", System.currentTimeMillis());
+            }
+        } else if (jump == 3) {
+            showNetDialog();
+        }
     }
 
-    private void setNet(String result) {
-        InitEntity entity = parserResult(result);
-        String ipport = entity.getServer();
-        int index = ipport.indexOf(":");
-        //set socket address
-        CompassApp.GLOBAL.IP = ipport.substring(0, index);
-        CompassApp.GLOBAL.PORT = Integer.parseInt(ipport.substring(index + 1));
-        //set upload http host
-        UpLoadTools.URL = entity.getImageupload();
-        mHandler.sendEmptyMessage(0);
-        Message mesg = Message.obtain();
-        mesg.what = 1;
-        mesg.obj = entity;
-        mHandler.sendMessage(mesg);
-    }
 
-    private InitEntity parserResult(String result) {
-        JSONObject data = null;
-        InitEntity entity = new InitEntity();
-        try {
-            data = new JSONObject(result);
-            if (!data.isNull("server")) {
-                entity.setServer(data.getString("server"));
-            }
-            if (!data.isNull("imageupload")) {
-                entity.setImageupload(data.getString("imageupload"));
-            }
-            if (!data.isNull("date")) {
-                entity.setDate(data.getString("date"));
-            }
-            if (!data.isNull("info")) {
-                entity.setInfo(data.getString("info"));
-            }
-            if (!data.isNull("url")) {
-                entity.setUrl(data.getString("url"));
-            }
-            if (!data.isNull("version")) {
-                entity.setVersion(data.getString("version"));
-            }
-            if (!data.isNull("adurl")) {
-                entity.setAdurl(data.getString("adurl"));
-            }
+    private BroadcastReceiver connectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction() != null) {
+                dismissBusyDialog();
+                if (intent.getAction().equals(LOAD_BALANCING_FINISH)) {
+                    if (!intent.getBooleanExtra("success", false)) {
+                        jump = 3;
+                        message = intent.getStringExtra("message");
+                    } else {
+                        return;
+                    }
+                } else if (intent.getAction().equals(SOCKET_CONNECT_SUCCESS)) {
+                    String cid = intent.getStringExtra("cid");
+                    if (!TextUtils.isEmpty(cid) && cid.contains("T-")) {
+                        jump = 1;
+                    } else {
+                        jump = 2;
+                    }
+                }
 
-            if (!data.isNull("adurl2")) {
-                entity.setAdurl2(data.getString("adurl2"));
-            }
-            if (!data.isNull("authsmap")) {
-                JSONObject authMap = data.getJSONObject("authsmap");
-                if (authMap != null) {
-                    String level2 = authMap.getString("level2");
-                    String level2s[] = level2.split(",");
-                    CompassApp.GLOBAL.level2ID = level2s;
+                if (isTimeOver) {
+                    startNetWork();
                 }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
         }
-        return entity;
-    }
-
-
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    mCompassApp.init();
-                    AuthModule.startNet();
-                    if (AuthUserInfo.isLogined()) {
-                        Intent i = new Intent(mContext, MainActivity.class);
-                        i.putExtra("infourl", infourl);
-                        startActivity(i);
-                    } else {
-                        Intent i = new Intent(mContext, LoginActivity.class);
-                        i.putExtra("fromstart", true);
-                        i.putExtra("install", mInstall);
-                        startActivity(i);
-                    }
-                    finish();
-                    CompassApp.addStatis(CompassApp.GLOBAL.mgr.START_APP, "0", mInstall ? "1" : "0", System.currentTimeMillis());
-                    if (addAdvertStatis) {
-                        CompassApp.addStatis(CompassApp.GLOBAL.mgr.ADVERT_START, "0", "", System.currentTimeMillis());
-                    }
-                    break;
-                case 1:
-                    InitEntity result = (InitEntity) msg.obj;
-                    if (result != null) {
-                        setUpDate(result);
-                    }
-                    break;
-                case 2:
-                    Intent intent1 = (Intent) msg.obj;
-                    startActivity(intent1);
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
     };
 
 }
