@@ -23,4 +23,10 @@ public class SharedPreferenceUtils {
         return data;
     }
 
+    public static SharedPreferences getKeFu(Context context){
+        SharedPreferences preferences = context.getSharedPreferences("kefu",
+                Activity.MODE_PRIVATE);
+        return preferences;
+    }
+
 }

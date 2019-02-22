@@ -240,12 +240,12 @@ public class VideoFragment extends BaseFragment {
     private NetResponseHandler2 mHandler = new NetResponseHandler2() {
         @Override
         public void netConnectLost(int arg0) {
-            adapter.notifyDataSetChanged();
+            mListViewFrame.finishRefresh();
         }
 
         @Override
         public void timeout(int arg0) {
-            adapter.notifyDataSetChanged();
+            mListViewFrame.finishRefresh();
         }
 
         @Override

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
@@ -17,7 +18,9 @@ import android.util.Log;
 import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.tools.AppLifecycleCallbacks;
 import com.ez08.compass.tools.AppUtils;
+import com.ez08.compass.tools.AuthTool;
 import com.ez08.compass.tools.LoadBalancingManager;
+import com.ez08.compass.tools.SharedPreferenceUtils;
 import com.ez08.compass.ui.personal.LoginActivity;
 import com.ez08.compass.update.updateModule.AutoUpdateModule;
 import com.ez08.compass.database.DBManager;
@@ -168,6 +171,14 @@ public class CompassApp extends Application {
         AuthModule.initImageLoader(getApplicationContext());
         AuthModule.init(this, this.getPackageName());
         AutoUpdateModule.init(this);
+
+        SharedPreferences preferences = SharedPreferenceUtils.getKeFu(mContext);
+        CompassApp.GLOBAL.CUSTOMER_LEVEL = preferences.getInt("compass_level", -1);
+        CompassApp.GLOBAL.CUSTOMER_AUTHS = preferences.getString("auths", "");
+        CompassApp.GLOBAL.THEME_STYLE = preferences.getInt("theme_style", 0);
+        CompassApp.GLOBAL.DEVELOPER_MODE = preferences.getInt("developer_mode", 0);
+        //确认auth
+        AuthTool.initType(CompassApp.GLOBAL.CUSTOMER_LEVEL,CompassApp.GLOBAL.CUSTOMER_AUTHS);
 
         GLOBAL.mgr = new DBManager(this);
         GLOBAL.SCREEN_W = (int)ScreenUtil.getScreenWidth(mContext);

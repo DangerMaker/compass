@@ -12,11 +12,6 @@ public abstract class IntervelFragment extends BaseFragment {
     private static final int INTERVEL_POST_DELAY = 8002;
     public static final int INTERVEL_TIME = 5000;
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
 
    public Handler intervelHandler = new Handler(){
         @Override

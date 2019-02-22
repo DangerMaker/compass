@@ -94,7 +94,7 @@ public class DingpanFragment extends IntervelFragment implements View.OnClickLis
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         adapter = new DingpanAdapter(mContext);
         mRecyclerView.setAdapter(adapter);
-        mListViewFrame.autoRefresh();
+//        mListViewFrame.autoRefresh();
 
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override

@@ -49,6 +49,11 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 
     SlidingTabLayout sliding_tabs;
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

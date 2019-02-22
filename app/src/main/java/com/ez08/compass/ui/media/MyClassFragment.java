@@ -96,7 +96,7 @@ public class MyClassFragment extends BaseFragment {
                 null);
         mListView = (RecyclerView) view.findViewById(R.id.my_class_lv);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.my_class_lv_frame);
-        mListViewFrame.autoRefresh();
+//        mListViewFrame.autoRefresh();
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

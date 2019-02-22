@@ -1,6 +1,7 @@
 package com.ez08.compass.ui.media;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,6 +27,7 @@ public class ClassFragment extends BaseFragment implements OnClickListener {
 	private TextView txtClass;
 	private TextView txtVideo;
 
+	FragmentManager fragmentManager;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,7 +49,8 @@ public class ClassFragment extends BaseFragment implements OnClickListener {
 		VideoFragment timeFragment2 = new VideoFragment();
 		mFragments.add(timeFragment2);
 
-		mAdapter = new FragmentAdapter(getChildFragmentManager(), mFragments);
+		fragmentManager = getChildFragmentManager();
+		mAdapter = new FragmentAdapter(fragmentManager, mFragments);
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(new PageChangeListener());
 		return view;
@@ -57,6 +60,11 @@ public class ClassFragment extends BaseFragment implements OnClickListener {
 			mViewPager.setCurrentItem(mCurPosition);
 			timeFragment1.refreshData();
 		}
+	}
+
+	@Override
+	public void onSaveInstanceState(@NonNull Bundle outState) {
+		super.onSaveInstanceState(outState);
 	}
 
 	private int mCurPosition = 0;

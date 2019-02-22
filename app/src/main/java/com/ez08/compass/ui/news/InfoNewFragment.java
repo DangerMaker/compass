@@ -431,6 +431,8 @@ public class InfoNewFragment extends BaseFragment implements View.OnClickListene
         }
 
         private boolean hasInfoId(String id) {
+            if(mHistoryList == null)
+                return false;
             for (int i = 0; i < mHistoryList.size(); i++) {
                 if (mHistoryList.get(i).equals(id)) {
                     return true;
