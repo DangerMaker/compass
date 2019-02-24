@@ -3,21 +3,16 @@ package com.ez08.compass.ui.market;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
@@ -49,17 +44,11 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 
     SlidingTabLayout sliding_tabs;
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getActivity(), R.layout.home_tab_layout, null);
         mViewPager = (ViewPager) view.findViewById(R.id.info_tab_pager);
-//        mViewPager.setOffscreenPageLimit(5);
         sliding_tabs = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
 
         mFragmentList = new ArrayList<>();
@@ -78,12 +67,14 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
             mFragmentList.add(new EasyFragment(watchFragment, "三看榜"));
         }
 
+        mViewPager.setOffscreenPageLimit(mFragmentList.size());
+
         add_stock = (Button) view.findViewById(R.id.add_stock);
         add_stock.setOnClickListener(this);
         mAdapter = new FragmentAdapter(getChildFragmentManager(), mFragmentList);
+        mViewPager.addOnPageChangeListener(new PageChangeListener());
         mViewPager.setAdapter(mAdapter);
         sliding_tabs.setViewPager(mViewPager);
-        mViewPager.addOnPageChangeListener(new PageChangeListener());
 
         theme_style = (Button) view.findViewById(R.id.theme_style);
         theme_style.setOnClickListener(this);
@@ -166,11 +157,6 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
         public CharSequence getPageTitle(int position) {
             return mFragments.get(position).getName();
         }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-//            super.destroyItem(container, position, object);
-        }
     }
 
     private class PageChangeListener implements ViewPager.OnPageChangeListener {
@@ -219,7 +205,6 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 
     private void initTitle(int curPos) {
         mIndex = curPos;
-        setVisible(true);
     }
 
     //非得这么统计
@@ -252,56 +237,6 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //        return stockFragment.getSortStatus();
         return false;
     }
-
-    public void setVisible(boolean isVisible) {
-        if (marketFragment != null) {
-            marketFragment.intervelStop();
-        }
-//        if (stockFragment != null) {
-//            stockFragment.intervelStop();
-//        }
-        if (chartsFragment != null) {
-            chartsFragment.intervelStop();
-        }
-        if (watchFragment != null) {
-            watchFragment.intervelStop();
-        }
-
-        if (dingPanFragment != null) {
-            dingPanFragment.intervelStop();
-        }
-
-        if (isVisible) {
-            switch (mIndex) {
-                case 0:
-                    if (marketFragment != null) {
-                        marketFragment.intervelBegin();
-                    }
-                    break;
-//                case 1:
-//                    if (stockFragment != null) {
-//                        stockFragment.intervelBegin();
-//                    }
-//                    break;
-                case 2:
-                    if (dingPanFragment != null) {
-                        dingPanFragment.intervelBegin();
-                    }
-                    break;
-                case 3:
-                    if (chartsFragment != null) {
-                        chartsFragment.intervelBegin();
-                    }
-                    break;
-                case 4:
-                    if (watchFragment != null) {
-                        watchFragment.intervelBegin();
-                    }
-                    break;
-            }
-        }
-    }
-
 
     @Override
     public void onResume() {

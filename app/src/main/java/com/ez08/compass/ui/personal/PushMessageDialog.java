@@ -37,7 +37,7 @@ import com.ez08.compass.tools.PushManager;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.MainActivity;
 import com.ez08.compass.ui.WebActivity;
-import com.ez08.compass.ui.stocks.StockVertcialTabActivity;
+import com.ez08.compass.ui.stocks.StockVerticalActivity;
 import com.ez08.support.net.NetResponseHandler2;
 
 import java.io.IOException;
@@ -384,7 +384,7 @@ public class PushMessageDialog extends Dialog implements
                     entitye.codes = codes;
                     CompassApp.GLOBAL.mStockList.add(entitye);
                     intent = new Intent(context,
-                            StockVertcialTabActivity.class);
+                            StockVerticalActivity.class);
                     intent.putExtra("comefrompush", true);
                     intent.putExtra("comefrompush", true);
                     context.startActivity(intent);

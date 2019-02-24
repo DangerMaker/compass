@@ -13,7 +13,7 @@ import com.ez08.compass.entity.StockMarketEntity;
 import com.ez08.compass.tools.TimeTool;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseViewHolder;
-import com.ez08.compass.ui.stocks.StockVertcialTabActivity;
+import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +113,7 @@ public class WatchMarketHolder extends BaseViewHolder<StockMarketEntity> {
                 codeEntity.codes = codes;
                 CompassApp.GLOBAL.mStockList.add(codeEntity);
                 Intent intent = new Intent(getContext(),
-                        StockVertcialTabActivity.class);
+                        StockVerticalActivity.class);
                 getContext().startActivity(intent);
 
             }

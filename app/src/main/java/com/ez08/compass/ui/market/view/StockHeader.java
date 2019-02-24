@@ -15,7 +15,7 @@ import com.ez08.compass.R;
 import com.ez08.compass.entity.ItemStock;
 import com.ez08.compass.entity.StockCodeEntity;
 import com.ez08.compass.tools.StockUtils;
-import com.ez08.compass.ui.stocks.StockVertcialTabActivity;
+import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -234,7 +234,7 @@ public class StockHeader extends LinearLayout implements OnClickListener {
     public void onClick(View arg0) {
         // TODO Auto-generated method stub
         ItemStock item = null;
-        Intent intent = new Intent(mContext, StockVertcialTabActivity.class);
+        Intent intent = new Intent(mContext, StockVerticalActivity.class);
         switch (arg0.getId()) {
             case R.id.sh_layout:
                 item = mTempList.get(0);

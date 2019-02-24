@@ -15,7 +15,7 @@ import com.ez08.compass.tools.StockUtils;
 import com.ez08.compass.tools.TimeTool;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseViewHolder;
-import com.ez08.compass.ui.stocks.StockVertcialTabActivity;
+import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -143,7 +143,7 @@ public class DingPanItemHolder extends BaseViewHolder<List<PlateMarketEntity>> {
                 entity.code = StockUtils.getStockCode(code);
                 entity.codes = Arrays.asList(codesList);
                 CompassApp.GLOBAL.mStockList.add(entity);
-                Intent intent = new Intent(getContext(), StockVertcialTabActivity.class);
+                Intent intent = new Intent(getContext(), StockVerticalActivity.class);
                 getContext().startActivity(intent);
             }
         });

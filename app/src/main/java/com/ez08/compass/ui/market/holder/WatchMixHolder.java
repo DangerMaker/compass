@@ -10,7 +10,7 @@ import com.ez08.compass.R;
 import com.ez08.compass.entity.Mix3Entity;
 import com.ez08.compass.entity.StockCodeEntity;
 import com.ez08.compass.ui.base.BaseViewHolder;
-import com.ez08.compass.ui.stocks.StockVertcialTabActivity;
+import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class WatchMixHolder extends BaseViewHolder<Mix3Entity> {
                 codeEntity.codes = codes;
                 CompassApp.GLOBAL.mStockList.add(codeEntity);
                 Intent intent = new Intent(getContext(),
-                        StockVertcialTabActivity.class);
+                        StockVerticalActivity.class);
                 getContext().startActivity(intent);
             }
         });

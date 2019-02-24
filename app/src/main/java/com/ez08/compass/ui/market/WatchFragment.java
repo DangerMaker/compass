@@ -22,7 +22,8 @@ import com.ez08.compass.entity.HolderWatchMixTitle;
 import com.ez08.compass.entity.HolderOnlyTitle;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.StockMarketParser;
-import com.ez08.compass.ui.IntervelFragment;
+import com.ez08.compass.ui.IntervalFragment;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.adapter.WatchAdapter;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
@@ -38,7 +39,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatchFragment extends IntervelFragment{
+public class WatchFragment extends IntervalFragment {
 
     private final int WHAT_REFRESH_WATCH = 1000; //行情数据
     private final int WHAT_GET_ALL_DETAIL = 1001; //个股详细
@@ -58,7 +59,7 @@ public class WatchFragment extends IntervelFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("BaseFragment",this.getClass().getSimpleName());
+        Log.e("BaseFragment", this.getClass().getSimpleName());
 
         View view = View.inflate(getActivity(), R.layout.fragment_watch, null);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.watch_lv_frame);
@@ -66,7 +67,7 @@ public class WatchFragment extends IntervelFragment{
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         adapter = new WatchAdapter(mContext);
         mRecyclerView.setAdapter(adapter);
-        mListViewFrame.autoRefresh();
+//        mListViewFrame.autoRefresh();
 
         DividerItemDecoration divider = new DividerItemDecoration(
                 mContext,
@@ -78,19 +79,16 @@ public class WatchFragment extends IntervelFragment{
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                NetInterface.getStock3(mHandler, WHAT_REFRESH_WATCH);
+                onLazyLoad();
+//                if(TextUtils.isEmpty(target)) {
+//                    NetInterface.getStockBrief(mHandler, WHAT_GET_ALL_DETAIL, target);
+//                }
             }
         });
 
         return view;
     }
 
-    @Override
-    public void postMethod() {
-        if(TextUtils.isEmpty(target)) {
-            NetInterface.getStockBrief(mHandler, WHAT_GET_ALL_DETAIL, target);
-        }
-    }
 
     @SuppressLint("HandlerLeak")
     NetResponseHandler2 mHandler = new NetResponseHandler2() {
@@ -98,11 +96,13 @@ public class WatchFragment extends IntervelFragment{
         @Override
         public void netConnectLost(int what) {
             super.netConnectLost(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
         public void timeout(int what) {
             super.timeout(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
@@ -150,7 +150,7 @@ public class WatchFragment extends IntervelFragment{
                         NetInterface.getStockBrief(mHandler, WHAT_GET_ALL_DETAIL, target);
 
                         try {
-                            mix3List.add(new HolderOnlyTitle("交叉匹配",false));
+                            mix3List.add(new HolderOnlyTitle("交叉匹配", false));
                             mix3List.add(new HolderWatchMixTitle());
                             JSONArray jsonArray = new JSONArray(topmix);
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -185,7 +185,7 @@ public class WatchFragment extends IntervelFragment{
                                     Object temp = mix3List.get(j);
                                     if (temp instanceof StockMarketEntity &&
                                             ((StockMarketEntity) temp).getSecucode().equals(entity.getSecucode())) {
-                                        StockMarketEntity marketEntity = ((StockMarketEntity)temp);
+                                        StockMarketEntity marketEntity = ((StockMarketEntity) temp);
                                         marketEntity.setCurrent(entity.getCurrent());
                                         marketEntity.setExp(entity.getExp());
                                         marketEntity.setLastclose(entity.getLastclose());
@@ -204,4 +204,9 @@ public class WatchFragment extends IntervelFragment{
             }
         }
     };
+
+    @Override
+    public void onLazyLoad() {
+        NetInterface.getStock3(mHandler, WHAT_REFRESH_WATCH);
+    }
 }

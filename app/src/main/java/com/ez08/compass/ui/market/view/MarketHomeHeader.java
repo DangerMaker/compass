@@ -1,12 +1,10 @@
 package com.ez08.compass.ui.market.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +22,7 @@ import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.market.IndexListActivity;
 import com.ez08.compass.ui.market.PlateLListActivity;
 import com.ez08.compass.ui.market.StockListActivity;
-import com.ez08.compass.ui.stocks.StockVertcialTabActivity;
+import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +108,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                     }
                     entity.codes = codes;
                     CompassApp.GLOBAL.mStockList.add(entity);
-                    Intent intent = new Intent(mContext, StockVertcialTabActivity.class);
+                    Intent intent = new Intent(mContext, StockVerticalActivity.class);
                     mContext.startActivity(intent);
 
                 }
@@ -147,7 +145,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                     entity.codes = codes;
                     CompassApp.GLOBAL.mStockList.add(entity);
 
-                    Intent intent = new Intent(mContext, StockVertcialTabActivity.class);
+                    Intent intent = new Intent(mContext, StockVerticalActivity.class);
                     mContext.startActivity(intent);
 
                 }
@@ -182,7 +180,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                     entity.codes = codes;
                     CompassApp.GLOBAL.mStockList.add(entity);
 
-                    Intent intent = new Intent(mContext, StockVertcialTabActivity.class);
+                    Intent intent = new Intent(mContext, StockVerticalActivity.class);
                     mContext.startActivity(intent);
 
                 }
@@ -223,7 +221,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                         return;
                     }
                     Intent intent = new Intent(mContext,
-                            StockVertcialTabActivity.class);
+                            StockVerticalActivity.class);
                     mContext.startActivity(intent);
 
                 }
@@ -263,7 +261,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                         return;
                     }
                     Intent intent = new Intent(mContext,
-                            StockVertcialTabActivity.class);
+                            StockVerticalActivity.class);
                     mContext.startActivity(intent);
 
                 }

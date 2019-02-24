@@ -218,6 +218,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             tabView.setOnClickListener(tabClickListener);
 
             mTabStrip.addView(tabView,layoutParams);
+            selectText(0);
         }
     }
 

@@ -497,7 +497,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                         }
                         editor.putString("auths", auths);
                         editor.commit();
-                        mHomeFragment.setHomeLevel(); //设置3看榜visible
+//                        mHomeFragment.setHomeLevel(); //设置3看榜visible
 
                         if (getIntent() != null && getIntent().getBooleanExtra("theme", false)) {
                             return;

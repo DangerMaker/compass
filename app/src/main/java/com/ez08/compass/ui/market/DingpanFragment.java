@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,8 +25,9 @@ import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.PlateMarketParser;
 import com.ez08.compass.tools.AuthTool;
 import com.ez08.compass.tools.ToastUtils;
-import com.ez08.compass.ui.IntervelFragment;
+import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.WebActivity;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.adapter.DingpanAdapter;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
@@ -44,7 +44,7 @@ import java.util.List;
  * Created by Administrator on 2016/7/27.
  * 行情fragment
  */
-public class DingpanFragment extends IntervelFragment implements View.OnClickListener {
+public class DingpanFragment extends IntervalFragment implements View.OnClickListener {
 
     private final int WHAT_REFRESH_MARKLIST = 1000; //行情数据
     int day = 0;
@@ -99,7 +99,7 @@ public class DingpanFragment extends IntervelFragment implements View.OnClickLis
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                postImmediately();
+                onLazyLoad();
             }
         });
 
@@ -142,11 +142,6 @@ public class DingpanFragment extends IntervelFragment implements View.OnClickLis
         }
     }
 
-    @Override
-    public void postMethod() {
-        NetInterface.getDingPanData(mHandler, WHAT_REFRESH_MARKLIST, day);
-    }
-
     private void showMinPop(View view) {
         View popupView = View.inflate(mContext, R.layout.dingpan_select_layout, null);
         LinearLayout layout = (LinearLayout) popupView.findViewById(R.id.stock_popup_layout);
@@ -160,7 +155,6 @@ public class DingpanFragment extends IntervelFragment implements View.OnClickLis
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         final int popupWidth = view.getMeasuredWidth();
-        final int popupHeight = view.getMeasuredHeight();
         popupWindow.setWidth(popupWidth);
         final int[] location = new int[2];
         view.getLocationOnScreen(location);
@@ -180,12 +174,12 @@ public class DingpanFragment extends IntervelFragment implements View.OnClickLis
 
         @Override
         public void netConnectLost(int what) {
-            super.netConnectLost(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
         public void timeout(int what) {
-            super.timeout(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
@@ -364,5 +358,10 @@ public class DingpanFragment extends IntervelFragment implements View.OnClickLis
 
                 break;
         }
+    }
+
+    @Override
+    public void onLazyLoad() {
+        NetInterface.getDingPanData(mHandler, WHAT_REFRESH_MARKLIST, day);
     }
 }

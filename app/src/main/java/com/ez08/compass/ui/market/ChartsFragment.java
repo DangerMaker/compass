@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -25,7 +23,8 @@ import com.ez08.compass.entity.HolderChartsNetWord;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.ChartsHolderParser;
 import com.ez08.compass.parser.StockMarketParser;
-import com.ez08.compass.ui.IntervelFragment;
+import com.ez08.compass.ui.IntervalFragment;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.adapter.ChartsAdapter;
 import com.ez08.compass.ui.market.view.CustomGridItemDecoration;
 import com.ez08.support.net.EzMessage;
@@ -43,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChartsFragment extends IntervelFragment implements View.OnClickListener {
+public class ChartsFragment extends IntervalFragment implements View.OnClickListener {
 
     private final int WHAT_REFRESH_CHARTS = 1000; //行情数据
     private final int WHAT_REFRESH_STOCK_DETAIL = 1001;
@@ -80,33 +79,23 @@ public class ChartsFragment extends IntervelFragment implements View.OnClickList
         });
         adapter = new ChartsAdapter(mContext);
         mRecyclerView.setAdapter(adapter);
-        mListViewFrame.autoRefresh();
+//        mListViewFrame.autoRefresh();
 
-
-//        DividerItemDecoration divider = new DividerItemDecoration(
-//                mContext,
-//                DividerItemDecoration.VERTICAL
-//        );
-//        divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.line_light_1px));
         CustomGridItemDecoration divider = new CustomGridItemDecoration(mContext);
         mRecyclerView.addItemDecoration(divider);
 
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                NetInterface.getStockCharts(mHandler, WHAT_REFRESH_CHARTS);
+//                if (TextUtils.isEmpty(hotstocks)) {
+//                    NetInterface.getStockBrief(mHandler, WHAT_REFRESH_STOCK_DETAIL, hotstocks);
+//                }
 
+                onLazyLoad();
             }
         });
 
         return view;
-    }
-
-    @Override
-    public void postMethod() {
-        if (TextUtils.isEmpty(hotstocks)) {
-            NetInterface.getStockBrief(mHandler, WHAT_REFRESH_STOCK_DETAIL, hotstocks);
-        }
     }
 
     @SuppressLint("HandlerLeak")
@@ -115,11 +104,13 @@ public class ChartsFragment extends IntervelFragment implements View.OnClickList
         @Override
         public void netConnectLost(int what) {
             super.netConnectLost(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
         public void timeout(int what) {
             super.timeout(what);
+            mListViewFrame.finishRefresh();
         }
 
         @Override
@@ -347,5 +338,10 @@ public class ChartsFragment extends IntervelFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+    }
+
+    @Override
+    public void onLazyLoad() {
+        NetInterface.getStockCharts(mHandler, WHAT_REFRESH_CHARTS);
     }
 }

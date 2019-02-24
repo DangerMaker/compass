@@ -25,8 +25,8 @@ import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.StockDetailListParser;
 import com.ez08.compass.tools.SelfCodesManager;
 import com.ez08.compass.tools.StockSortManager;
-import com.ez08.compass.tools.StockUtils;
-import com.ez08.compass.ui.IntervelFragment;
+import com.ez08.compass.ui.IntervalFragment;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.adapter.OptionalAdapter;
 import com.ez08.support.net.NetResponseHandler2;
 
@@ -37,10 +37,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OptionalFragment extends IntervelFragment implements View.OnClickListener {
+public class OptionalFragment extends BaseFragment implements View.OnClickListener {
     private final int AUTO_STOCK = 1001;
 
-    public  String className = getClass().getSimpleName();
+    public String className = getClass().getSimpleName();
     private RecyclerView mRecyclerView;
     LinearLayout editLayout;
     LinearLayout lastPriceLayout;
@@ -66,32 +66,15 @@ public class OptionalFragment extends IntervelFragment implements View.OnClickLi
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("listType", listType);
-        outState.putBoolean("mSetPriceValue",mSetPriceValue);
-        Log.e(className,"onSaveInstanceState");
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.e(className,"onActivityCreated");
-        if(savedInstanceState != null){
-           listType = savedInstanceState.getInt("listType");
-           mSetPriceValue = savedInstanceState.getBoolean("mSetPriceValue");
-            Log.e(className,"savedInstanceState != null");
-
-            if(adapter == null){
-               adapter = new OptionalAdapter(mContext, mStockList, mSetPriceValue);
-               mRecyclerView.setAdapter(adapter);
-                Log.e(className,"new adapter");
-            }
-        }
+        outState.putBoolean("mSetPriceValue", mSetPriceValue);
+        Log.e(className, "onSaveInstanceState");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_optional_layout, null);
-        Log.e(className,"onCreateView");
+        Log.e(className, "onCreateView");
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.optional_share_lv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -118,21 +101,20 @@ public class OptionalFragment extends IntervelFragment implements View.OnClickLi
         return view;
     }
 
-    public void notifyDataSetChanged() {
-        if(adapter == null){
-            Log.e(className,"notifyDataSetChanged");
+    public void setFragmentVisible(boolean visible) {
+        if (visible) {
+            onLazyLoad();
+        }
+    }
+
+
+    private void notifyDataSetChanged() {
+        if (adapter == null) {
+            Log.e(className, "notifyDataSetChanged");
             return;
         }
         sortMode = 0;
         notifyHeaderMode();
-    }
-
-    @Override
-    public void postMethod() {
-        String path = SelfCodesManager.getSelfOnlyCode(listType);
-        if (!TextUtils.isEmpty(path))
-            NetInterface.getStockBrief(mHandler, AUTO_STOCK, path);
-
     }
 
     @SuppressLint("HandlerLeak")
@@ -274,4 +256,10 @@ public class OptionalFragment extends IntervelFragment implements View.OnClickLi
         }
     }
 
+    public void onLazyLoad() {
+        String path = SelfCodesManager.getSelfOnlyCode(listType);
+        mStockList = SelfCodesManager.getSelfCodes(listType);
+        if (!TextUtils.isEmpty(path))
+            NetInterface.getStockBrief(mHandler, AUTO_STOCK, path);
+    }
 }

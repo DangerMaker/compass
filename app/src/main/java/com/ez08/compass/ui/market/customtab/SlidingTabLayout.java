@@ -21,6 +21,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -105,6 +107,23 @@ public class SlidingTabLayout extends HorizontalScrollView {
         mTabStrip = new SlidingTabStrip(context);
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 //        setBackgroundColor(Color.RED);
+    }
+
+    public int currentPosition = 0;
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        MySavedState ss = new MySavedState(superState);
+        ss.currentPosition = currentPosition;
+        return  ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        MySavedState ss = (MySavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        //调用别的方法，把保存的数据重新赋值给当前的自定义View
     }
 
     /**
@@ -248,9 +267,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
         super.onAttachedToWindow();
 
         if (mViewPager != null) {
-            scrollToTab(mViewPager.getCurrentItem(), 0);
-            setTextChange(0);
-
+            scrollToTab(mViewPager.getCurrentItem(), currentPosition);
+            setTextChange(currentPosition);
         }
     }
 
@@ -308,6 +326,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         @Override
         public void onPageSelected(int position) {
+            currentPosition = position;
             if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
                 mTabStrip.onViewPagerPageChanged(position, 0f);
                 scrollToTab(position, 0);
@@ -347,4 +366,37 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
     }
 
+    static class MySavedState extends BaseSavedState{
+
+        //当前的ViewPager的位置
+        int currentPosition;
+
+        public MySavedState(Parcel source) {
+            super(source);
+            currentPosition = source.readInt();
+        }
+
+        public MySavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(currentPosition);
+        }
+
+        public static final Parcelable.Creator<MySavedState> CREATOR = new Parcelable.Creator<MySavedState>(){
+
+            @Override
+            public MySavedState createFromParcel(Parcel source) {
+                return new MySavedState(source);
+            }
+
+            @Override
+            public MySavedState[] newArray(int size) {
+                return new MySavedState[size];
+            }
+        };
+    }
 }

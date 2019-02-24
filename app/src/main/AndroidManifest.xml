@@ -53,7 +53,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.WebActivity" />
         <activity android:name=".ui.personal.ImgScanActivity" />
-        <activity android:name=".ui.stocks.StockVertcialTabActivity" />
+        <activity android:name=".ui.stocks.StockVerticalActivity" />
         <activity android:name=".ui.kefu.KefuTalkActivity" />
         <activity android:name=".ui.kefu.PersonActivity" />
         <activity android:name=".ui.personal.MessageCenterActivity" />

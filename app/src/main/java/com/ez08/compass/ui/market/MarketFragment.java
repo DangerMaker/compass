@@ -25,7 +25,9 @@ import com.ez08.compass.parser.PlateMarketParser;
 import com.ez08.compass.parser.StockDetailListParser;
 import com.ez08.compass.parser.StockMarketParser;
 import com.ez08.compass.tools.AdsManager;
-import com.ez08.compass.ui.IntervelFragment;
+import com.ez08.compass.ui.IntervalFragment;
+import com.ez08.compass.ui.base.BaseActivity;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.view.MarketHomeHeader;
 import com.ez08.compass.ui.view.PopupAdView;
 import com.ez08.support.net.EzMessage;
@@ -35,6 +37,7 @@ import com.ez08.tools.IntentTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.media.Base;
 
 import java.util.ArrayList;
 
@@ -42,7 +45,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/7/27.
  * 行情fragment
  */
-public class MarketFragment extends IntervelFragment {
+public class MarketFragment extends IntervalFragment {
 
     private final int WHAT_REFRESH_MARKLIST = 1000; //行情数据
     private final int AUTO_TASK_STOCK = 1005;
@@ -55,10 +58,8 @@ public class MarketFragment extends IntervelFragment {
 
     private MarketHomeHeader mMarketHeader;
     private SmartRefreshLayout mListViewFrame;
-
     PopupAdView popupAds;
     private LinearLayout mOptionalGroup;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,13 +76,12 @@ public class MarketFragment extends IntervelFragment {
         mMarketHeader = (MarketHomeHeader) view.findViewById(R.id.market_home_header);
         mOptionalGroup = (LinearLayout) view.findViewById(R.id.market_group);
         popupAds = (PopupAdView) view.findViewById(R.id.popup_ad);
-
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.market_lv_frame);
-        mListViewFrame.autoRefresh();
+//        mListViewFrame.autoRefresh();
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                postImmediately();
+                onLazyLoad();
             }
         });
 
@@ -247,8 +247,7 @@ public class MarketFragment extends IntervelFragment {
     };
 
     @Override
-    public void postMethod() {
-        Log.e("postMethod","MarketFragment");
+    public void onLazyLoad() {
         NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
         NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.Constants.STOCK_VALUE_CODE);
     }
