@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.ez08.compass.R;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.tools.SelfCodesManager;
+import com.ez08.compass.ui.Interval;
 import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
@@ -33,7 +34,7 @@ import java.util.List;
  * Created by Administrator on 2018/8/16.
  */
 
-public class OptionalContainerFragment extends IntervalFragment {
+public class OptionalContainerFragment extends BaseFragment implements Interval {
     private final int GET_MYSTOCK = 1000;
 
     private SmartRefreshLayout mListViewFrame;
@@ -46,6 +47,7 @@ public class OptionalContainerFragment extends IntervalFragment {
     Context context;
 
     int current = 0;
+    boolean isLoaded = false; //get_my_stock only once
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -56,7 +58,6 @@ public class OptionalContainerFragment extends IntervalFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = getActivity();
         View view = View.inflate(getActivity(), R.layout.fragment_optional_container, null);
         tabLayout = (SlidingTabLayout) view.findViewById(R.id.tab_content);
         viewPager = (ViewPager) view.findViewById(R.id.vp_content);
@@ -85,14 +86,10 @@ public class OptionalContainerFragment extends IntervalFragment {
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                onLazyLoad();
+                NetInterface.requestGetMyStockList(mHandler, GET_MYSTOCK);
+
             }
         });
-    }
-
-    @Override
-    public void onLazyLoad() {
-        NetInterface.requestGetMyStockList(mHandler, GET_MYSTOCK);
     }
 
     @SuppressLint("HandlerLeak")
@@ -133,13 +130,11 @@ public class OptionalContainerFragment extends IntervalFragment {
                     SelfCodesManager.setData(strs);
 
                     if(viewPager.getCurrentItem() == 0) {
-                        fragment1.setFragmentVisible(true);
-                        fragment2.setFragmentVisible(false);
+                        fragment1.setLazyLoad();
                     }
 
                     if(viewPager.getCurrentItem() == 1){
-                        fragment1.setFragmentVisible(false);
-                        fragment2.setFragmentVisible(true);
+                        fragment2.setLazyLoad();
                     }
                     break;
             }
@@ -153,6 +148,22 @@ public class OptionalContainerFragment extends IntervalFragment {
         tabLayout.setViewPager(viewPager);
         tabLayout.setOnPageChangeListener(new PageChangeListener());
         viewPager.setCurrentItem(current);
+    }
+
+    @Override
+    public void OnPost() {
+        if(!isLoaded) {
+            NetInterface.requestGetMyStockList(mHandler, GET_MYSTOCK);
+            isLoaded = true;
+        }else{
+            if(viewPager.getCurrentItem() == 0) {
+                fragment1.setLazyLoad();
+            }
+
+            if(viewPager.getCurrentItem() == 1){
+                fragment2.setLazyLoad();
+            }
+        }
     }
 
     class ContentPagerAdapter extends FragmentPagerAdapter {
@@ -194,12 +205,10 @@ public class OptionalContainerFragment extends IntervalFragment {
 
             switch (arg0) {
                 case 0:
-                    fragment1.setFragmentVisible(true);
-                    fragment2.setFragmentVisible(false);
+                    fragment1.setLazyLoad();
                     break;
                 case 1:
-                    fragment1.setFragmentVisible(false);
-                    fragment2.setFragmentVisible(true);
+                    fragment2.setLazyLoad();
                     break;
             }
         }

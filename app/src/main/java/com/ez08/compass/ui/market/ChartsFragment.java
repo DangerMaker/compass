@@ -23,6 +23,7 @@ import com.ez08.compass.entity.HolderChartsNetWord;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.ChartsHolderParser;
 import com.ez08.compass.parser.StockMarketParser;
+import com.ez08.compass.ui.Interval;
 import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.adapter.ChartsAdapter;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChartsFragment extends IntervalFragment implements View.OnClickListener {
+public class ChartsFragment extends BaseFragment implements Interval{
 
     private final int WHAT_REFRESH_CHARTS = 1000; //行情数据
     private final int WHAT_REFRESH_STOCK_DETAIL = 1001;
@@ -53,12 +54,9 @@ public class ChartsFragment extends IntervalFragment implements View.OnClickList
     private ChartsAdapter adapter;
 
     List<Object> mList;
-    String hotstocks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        Log.e("BaseFragment",this.getClass().getSimpleName());
 
         View view = View.inflate(getActivity(), R.layout.fragment_watch, null);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.watch_lv_frame);
@@ -87,11 +85,7 @@ public class ChartsFragment extends IntervalFragment implements View.OnClickList
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                if (TextUtils.isEmpty(hotstocks)) {
-//                    NetInterface.getStockBrief(mHandler, WHAT_REFRESH_STOCK_DETAIL, hotstocks);
-//                }
-
-                onLazyLoad();
+                NetInterface.getStockCharts(mHandler, WHAT_REFRESH_CHARTS);
             }
         });
 
@@ -224,7 +218,7 @@ public class ChartsFragment extends IntervalFragment implements View.OnClickList
     };
 
     private List<Object> parseNetWords(String intent) {
-        if (intent != null) {
+        if (!TextUtils.isEmpty(intent)) {
             List<Object> netWords = new ArrayList<>();
 
             try {
@@ -335,13 +329,8 @@ public class ChartsFragment extends IntervalFragment implements View.OnClickList
         return list;
     }
 
-
     @Override
-    public void onClick(View v) {
-    }
-
-    @Override
-    public void onLazyLoad() {
+    public void OnPost() {
         NetInterface.getStockCharts(mHandler, WHAT_REFRESH_CHARTS);
     }
 }

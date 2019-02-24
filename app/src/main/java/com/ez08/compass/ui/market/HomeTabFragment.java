@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import android.widget.Button;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
+import com.ez08.compass.ui.Interval;
+import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.MainActivity;
+import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.market.customtab.SlidingTabLayout;
 import com.ez08.compass.ui.stocks.SearchStockActivity;
@@ -28,7 +32,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/9/18.
  */
-public class HomeTabFragment extends Fragment implements View.OnClickListener {
+public class HomeTabFragment extends IntervalFragment implements View.OnClickListener {
 
     private ViewPager mViewPager;
     private FragmentAdapter mAdapter;
@@ -50,32 +54,8 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
         View view = View.inflate(getActivity(), R.layout.home_tab_layout, null);
         mViewPager = (ViewPager) view.findViewById(R.id.info_tab_pager);
         sliding_tabs = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
-
-        mFragmentList = new ArrayList<>();
-        marketFragment = new MarketFragment();
-        stockFragment = new OptionalContainerFragment();
-        chartsFragment = new ChartsFragment();
-        dingPanFragment = new DingpanFragment();
-
-        mFragmentList.add(new EasyFragment(marketFragment, "行情"));
-        mFragmentList.add(new EasyFragment(stockFragment, "自选股"));
-        mFragmentList.add(new EasyFragment(dingPanFragment, "特色盯盘"));
-        mFragmentList.add(new EasyFragment(chartsFragment, "消息榜"));
-
-        if (CompassApp.GLOBAL.CUSTOMER_LEVEL >= 0) {
-            watchFragment = new WatchFragment();
-            mFragmentList.add(new EasyFragment(watchFragment, "三看榜"));
-        }
-
-        mViewPager.setOffscreenPageLimit(mFragmentList.size());
-
         add_stock = (Button) view.findViewById(R.id.add_stock);
         add_stock.setOnClickListener(this);
-        mAdapter = new FragmentAdapter(getChildFragmentManager(), mFragmentList);
-        mViewPager.addOnPageChangeListener(new PageChangeListener());
-        mViewPager.setAdapter(mAdapter);
-        sliding_tabs.setViewPager(mViewPager);
-
         theme_style = (Button) view.findViewById(R.id.theme_style);
         theme_style.setOnClickListener(this);
         if (CompassApp.GLOBAL.THEME_STYLE == 0) {
@@ -84,6 +64,50 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
             theme_style.setBackgroundResource(R.drawable.day_3x);
         }
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mFragmentList = new ArrayList<>();
+        if (savedInstanceState != null) {
+            if (getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 0) != null)
+                marketFragment = (MarketFragment) getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 0);
+
+            if (getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 1) != null)
+                stockFragment = (OptionalContainerFragment) getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 1);
+
+            if (getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 2) != null)
+                dingPanFragment = (DingpanFragment) getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 2);
+
+            if (getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 3) != null)
+                chartsFragment = (ChartsFragment) getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 3);
+
+            if (getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 4) != null)
+                watchFragment = (WatchFragment) getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.info_tab_pager + ":" + 4);
+        }else {
+            marketFragment = new MarketFragment();
+            stockFragment = new OptionalContainerFragment();
+            chartsFragment = new ChartsFragment();
+            dingPanFragment = new DingpanFragment();
+            watchFragment = new WatchFragment();
+        }
+
+        mFragmentList.clear();
+        mFragmentList.add(new EasyFragment(marketFragment, "行情"));
+        mFragmentList.add(new EasyFragment(stockFragment, "自选股"));
+        mFragmentList.add(new EasyFragment(dingPanFragment, "特色盯盘"));
+        mFragmentList.add(new EasyFragment(chartsFragment, "消息榜"));
+
+        if (CompassApp.GLOBAL.CUSTOMER_LEVEL >= 0) {
+            mFragmentList.add(new EasyFragment(watchFragment, "三看榜"));
+        }
+
+        mViewPager.setOffscreenPageLimit(mFragmentList.size());
+        mAdapter = new FragmentAdapter(getChildFragmentManager(), mFragmentList);
+        mViewPager.addOnPageChangeListener(new PageChangeListener());
+        mViewPager.setAdapter(mAdapter);
+        sliding_tabs.setViewPager(mViewPager);
     }
 
     @Override
@@ -203,10 +227,6 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
 //        stockFragment.setSortStatus();
     }
 
-    private void initTitle(int curPos) {
-        mIndex = curPos;
-    }
-
     //非得这么统计
     public void setCurrentPage() {
         switch (mIndex) {
@@ -238,15 +258,32 @@ public class HomeTabFragment extends Fragment implements View.OnClickListener {
         return false;
     }
 
+    private void initTitle(int curPos) {
+        mIndex = curPos;
+        ((Interval) mFragmentList.get(mIndex).getFragment()).OnPost();
+        resetTime();
+    }
+
+    boolean isVisible = false;
+
     @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(getActivity());
+        isVisible = true;
+        setUserVisible(isVisible);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
+        isVisible = false;
+        setUserVisible(isVisible);
+    }
+
+    @Override
+    public void onLazyLoad() {
+        ((Interval) mFragmentList.get(mIndex).getFragment()).OnPost();
     }
 }

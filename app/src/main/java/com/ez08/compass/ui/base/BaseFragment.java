@@ -41,4 +41,13 @@ public class BaseFragment extends Fragment {
         greenColor = getResources().getColor(typedArray.getResourceId(R.styleable.main_attrs_green_main_color, 0));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

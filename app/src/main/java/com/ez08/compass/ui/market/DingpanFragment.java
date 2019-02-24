@@ -25,6 +25,7 @@ import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.PlateMarketParser;
 import com.ez08.compass.tools.AuthTool;
 import com.ez08.compass.tools.ToastUtils;
+import com.ez08.compass.ui.Interval;
 import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.WebActivity;
 import com.ez08.compass.ui.base.BaseFragment;
@@ -44,9 +45,9 @@ import java.util.List;
  * Created by Administrator on 2016/7/27.
  * 行情fragment
  */
-public class DingpanFragment extends IntervalFragment implements View.OnClickListener {
+public class DingpanFragment extends BaseFragment implements View.OnClickListener,Interval {
 
-    private final int WHAT_REFRESH_MARKLIST = 1000; //行情数据
+    private final int WHAT_REFRESH = 1000; //行情数据
     int day = 0;
 
     private List<PlateMarketEntity> boardlist0;
@@ -71,7 +72,6 @@ public class DingpanFragment extends IntervalFragment implements View.OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("BaseFragment",this.getClass().getSimpleName());
 
         boardlist0 = new ArrayList<>();
         boardlist1 = new ArrayList<>();
@@ -99,7 +99,7 @@ public class DingpanFragment extends IntervalFragment implements View.OnClickLis
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                onLazyLoad();
+                NetInterface.getDingPanData(mHandler, WHAT_REFRESH, day);
             }
         });
 
@@ -185,7 +185,7 @@ public class DingpanFragment extends IntervalFragment implements View.OnClickLis
         @Override
         public void receive(int arg0, boolean b, Intent intent) {
             switch (arg0) {
-                case WHAT_REFRESH_MARKLIST:
+                case WHAT_REFRESH:
                     mListViewFrame.finishRefresh();
 
                     boardlist0.clear();
@@ -361,7 +361,7 @@ public class DingpanFragment extends IntervalFragment implements View.OnClickLis
     }
 
     @Override
-    public void onLazyLoad() {
-        NetInterface.getDingPanData(mHandler, WHAT_REFRESH_MARKLIST, day);
+    public void OnPost() {
+        NetInterface.getDingPanData(mHandler, WHAT_REFRESH, day);
     }
 }

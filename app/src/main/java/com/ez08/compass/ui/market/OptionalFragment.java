@@ -101,10 +101,8 @@ public class OptionalFragment extends BaseFragment implements View.OnClickListen
         return view;
     }
 
-    public void setFragmentVisible(boolean visible) {
-        if (visible) {
-            onLazyLoad();
-        }
+    public void setLazyLoad() {
+        onLazyLoad();
     }
 
 

@@ -25,6 +25,7 @@ import com.ez08.compass.parser.PlateMarketParser;
 import com.ez08.compass.parser.StockDetailListParser;
 import com.ez08.compass.parser.StockMarketParser;
 import com.ez08.compass.tools.AdsManager;
+import com.ez08.compass.ui.Interval;
 import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.base.BaseActivity;
 import com.ez08.compass.ui.base.BaseFragment;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/7/27.
  * 行情fragment
  */
-public class MarketFragment extends IntervalFragment {
+public class MarketFragment extends BaseFragment implements Interval {
 
     private final int WHAT_REFRESH_MARKLIST = 1000; //行情数据
     private final int AUTO_TASK_STOCK = 1005;
@@ -65,8 +66,6 @@ public class MarketFragment extends IntervalFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
 
-        Log.e("BaseFragment",this.getClass().getSimpleName());
-
         boardlist0 = new ArrayList<>();
         boardlist1 = new ArrayList<>();
         boardlist2 = new ArrayList<>();
@@ -81,7 +80,8 @@ public class MarketFragment extends IntervalFragment {
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                onLazyLoad();
+                NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
+                NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.Constants.STOCK_VALUE_CODE);
             }
         });
 
@@ -247,7 +247,7 @@ public class MarketFragment extends IntervalFragment {
     };
 
     @Override
-    public void onLazyLoad() {
+    public void OnPost() {
         NetInterface.getMarketData(mHandler, WHAT_REFRESH_MARKLIST);
         NetInterface.getStockBrief(mHandler, AUTO_TASK_STOCK, CompassApp.Constants.STOCK_VALUE_CODE);
     }

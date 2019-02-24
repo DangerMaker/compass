@@ -22,6 +22,7 @@ import com.ez08.compass.entity.HolderWatchMixTitle;
 import com.ez08.compass.entity.HolderOnlyTitle;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.StockMarketParser;
+import com.ez08.compass.ui.Interval;
 import com.ez08.compass.ui.IntervalFragment;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.adapter.WatchAdapter;
@@ -39,7 +40,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WatchFragment extends IntervalFragment {
+public class WatchFragment extends BaseFragment implements Interval {
 
     private final int WHAT_REFRESH_WATCH = 1000; //行情数据
     private final int WHAT_GET_ALL_DETAIL = 1001; //个股详细
@@ -59,7 +60,6 @@ public class WatchFragment extends IntervalFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("BaseFragment", this.getClass().getSimpleName());
 
         View view = View.inflate(getActivity(), R.layout.fragment_watch, null);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.watch_lv_frame);
@@ -79,10 +79,7 @@ public class WatchFragment extends IntervalFragment {
         mListViewFrame.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                onLazyLoad();
-//                if(TextUtils.isEmpty(target)) {
-//                    NetInterface.getStockBrief(mHandler, WHAT_GET_ALL_DETAIL, target);
-//                }
+                NetInterface.getStock3(mHandler, WHAT_REFRESH_WATCH);
             }
         });
 
@@ -167,7 +164,7 @@ public class WatchFragment extends IntervalFragment {
                             e.printStackTrace();
                         }
 
-                        adapter.clearAndAddAll(mix3List);
+//                        adapter.clearAndAddAll(mix3List);
                     }
                     break;
 
@@ -195,7 +192,7 @@ public class WatchFragment extends IntervalFragment {
                                     }
                                 }
                             }
-                            adapter.notifyDataSetChanged();
+                            adapter.clearAndAddAll(mix3List);
                         }
                     }
 
@@ -206,7 +203,7 @@ public class WatchFragment extends IntervalFragment {
     };
 
     @Override
-    public void onLazyLoad() {
+    public void OnPost() {
         NetInterface.getStock3(mHandler, WHAT_REFRESH_WATCH);
     }
 }
