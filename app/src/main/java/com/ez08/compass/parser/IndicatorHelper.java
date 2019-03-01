@@ -2,6 +2,7 @@ package com.ez08.compass.parser;
 
 import android.util.Log;
 
+import com.ez08.compass.CompassApp;
 import com.ez08.compass.entity.StockDataEntity;
 import com.ez08.compass.entity.StockDetailEntity;
 import com.ez08.compass.tools.DDSID;
@@ -29,13 +30,13 @@ public class IndicatorHelper {
     }
 
     //当前波动值
-    public String getCurrentWaveValue(){
+    public String getCurrentWaveValue() {
         return MathUtils.getFormatPrice(entity.getCurrent() - entity.getLastclose(), entity.getDecm());
     }
 
     //当前波动率
-    public String getCurrentWavePercent(){
-        return MathUtils.formatNum((entity.getCurrent() - entity.getLastclose()) * 100f / entity.getLastclose(),4) + "%";
+    public String getCurrentWavePercent() {
+        return MathUtils.formatNum((entity.getCurrent() - entity.getLastclose()) * 100f / entity.getLastclose(), 4) + "%";
     }
 
     //开
@@ -149,31 +150,34 @@ public class IndicatorHelper {
     }
 
     public List<StockDataEntity> getData() {
+
+        int currentColor = compareAndGetColor(entity.getCurrent(), entity.getLastclose());
+
         List<StockDataEntity> list = new ArrayList<>();
         list.add(new StockDataEntity("名称", getName()));
         list.add(new StockDataEntity("代码", getCode()));
         list.add(new StockDataEntity("成交量", getDealVolume()));
         list.add(new StockDataEntity("成交额", getDealAmount()));
         list.add(new StockDataEntity("振幅", getWave()));
-        list.add(new StockDataEntity("当前价", getCurrentPrice()));
-        list.add(new StockDataEntity("当前波动值", getCurrentWaveValue()));
-        list.add(new StockDataEntity("当前波动率", getCurrentWavePercent()));
-        list.add(new StockDataEntity("开盘价", getOpenPrice()));
+        list.add(new StockDataEntity("当前价", getCurrentPrice(), currentColor));
+        list.add(new StockDataEntity("当前波动值", getCurrentWaveValue(), currentColor));
+        list.add(new StockDataEntity("当前波动率", getCurrentWavePercent(), currentColor));
+        list.add(new StockDataEntity("开盘价", getOpenPrice(), compareAndGetColor(entity.getOpen(), entity.getLastclose())));
         list.add(new StockDataEntity("收盘价", getLastClosePrice()));
-        list.add(new StockDataEntity("最高价", getHighPrice()));
-        list.add(new StockDataEntity("最低价", getLowPrice()));
+        list.add(new StockDataEntity("最高价", getHighPrice(), compareAndGetColor(entity.getHigh(), entity.getLastclose())));
+        list.add(new StockDataEntity("最低价", getLowPrice(), compareAndGetColor(entity.getLow(), entity.getLastclose())));
 
         if (DDSID.isZ(entity.getSecucode())) { //指数 板块
-            list.add(new StockDataEntity("委买", getIndexBuy()));
-            list.add(new StockDataEntity("委卖", getIndexSell()));
-            list.add(new StockDataEntity("委比", getIndexRate()));
-            list.add(new StockDataEntity("涨家数", getUpCount()));
-            list.add(new StockDataEntity("跌家数", getDownCount()));
+            list.add(new StockDataEntity("委买", getIndexBuy(), CompassApp.GLOBAL.RED));
+            list.add(new StockDataEntity("委卖", getIndexSell(), CompassApp.GLOBAL.GREEN));
+            list.add(new StockDataEntity("委比", getIndexRate(), compareAndGetColor(entity.getZbidvolume(), entity.getZaskvolume())));
+            list.add(new StockDataEntity("涨家数", getUpCount(), CompassApp.GLOBAL.RED));
+            list.add(new StockDataEntity("跌家数", getDownCount(), CompassApp.GLOBAL.GREEN));
             list.add(new StockDataEntity("平家数", getEqualCount()));
         } else {
-            list.add(new StockDataEntity("内盘", getInnerVolume()));
-            list.add(new StockDataEntity("外盘", getOuterVolume()));
-            list.add(new StockDataEntity("委比", getStockRate()));
+            list.add(new StockDataEntity("内盘", getInnerVolume(), CompassApp.GLOBAL.GREEN));
+            list.add(new StockDataEntity("外盘", getOuterVolume(), CompassApp.GLOBAL.RED));
+            list.add(new StockDataEntity("委比", getStockRate(), compareAndGetColor(entity.getVolume() - entity.getBuyvolume(), entity.getBuyvolume())));
             list.add(new StockDataEntity("市值", getMarketValue()));
             list.add(new StockDataEntity("流动市值", getTmarketvalue()));
             list.add(new StockDataEntity("换手率", getHandRate()));
@@ -181,6 +185,17 @@ public class IndicatorHelper {
         }
 
         return list;
+    }
+
+    private int compareAndGetColor(long value1, long value2) {
+        int priceColor = CompassApp.GLOBAL.LIGHT_GRAY;
+        if (value1 > value2) {
+            priceColor = CompassApp.GLOBAL.RED;
+        } else if (value1 < value2) {
+            priceColor = CompassApp.GLOBAL.GREEN;
+        }
+
+        return priceColor;
     }
 
 
