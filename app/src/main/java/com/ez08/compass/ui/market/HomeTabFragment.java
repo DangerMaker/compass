@@ -260,8 +260,8 @@ public class HomeTabFragment extends IntervalFragment implements View.OnClickLis
 
     private void initTitle(int curPos) {
         mIndex = curPos;
-        ((Interval) mFragmentList.get(mIndex).getFragment()).OnPost();
         resetTime();
+//        ((Interval) mFragmentList.get(mIndex).getFragment()).OnPost();
     }
 
     boolean isVisible = false;

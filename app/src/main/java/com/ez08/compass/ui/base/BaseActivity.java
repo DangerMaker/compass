@@ -25,6 +25,7 @@ public class BaseActivity extends AppCompatActivity {
     protected int screenHeigh;
     protected int shadow0Color, textContentColor, redColor, greenColor, mainColor;
     public boolean mAddStatus = true;    //是否在appcallback判断的activitys里
+    protected Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class BaseActivity extends AppCompatActivity {
 
         screenWidth = CompassApp.GLOBAL.SCREEN_W;
         screenHeigh = CompassApp.GLOBAL.SCREEN_H;
+        mContext = this;
     }
 
     public static void hideSoftInput(View view) {

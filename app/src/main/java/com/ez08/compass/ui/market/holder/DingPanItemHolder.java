@@ -11,12 +11,14 @@ import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.entity.PlateMarketEntity;
 import com.ez08.compass.entity.StockCodeEntity;
+import com.ez08.compass.tools.JumpHelper;
 import com.ez08.compass.tools.StockUtils;
 import com.ez08.compass.tools.TimeTool;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseViewHolder;
 import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,18 +64,18 @@ public class DingPanItemHolder extends BaseViewHolder<List<PlateMarketEntity>> {
         bg3 = $(R.id.background3);
     }
 
-    public void setState(boolean state){
+    public void setState(boolean state) {
         this.state = state;
     }
 
-    public void setHighsAndLows(String arg1[],String arg2[]){
+    public void setHighsAndLows(String arg1[], String arg2[]) {
         this.highs = arg1;
         this.lows = arg2;
     }
 
     @Override
     public void setData(final List<PlateMarketEntity> data) {
-        title.setText(titleList[getDataPosition()/titleList.length]);
+        title.setText(titleList[getDataPosition() / titleList.length]);
         if (data.size() >= 3) {
             final PlateMarketEntity entity1 = data.get(0);
             PlateMarketEntity entity2 = data.get(1);
@@ -90,9 +92,9 @@ public class DingPanItemHolder extends BaseViewHolder<List<PlateMarketEntity>> {
             bg2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent)); //
             bg3.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent)); //
 
-            setListener(bg1,entity1);
-            setListener(bg2,entity2);
-            setListener(bg3,entity1);
+            setListener(bg1, entity1);
+            setListener(bg2, entity2);
+            setListener(bg3, entity1);
 
             if (!TimeTool.isInTotalTradePlate()) {
 
@@ -137,14 +139,12 @@ public class DingPanItemHolder extends BaseViewHolder<List<PlateMarketEntity>> {
         bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CompassApp.GLOBAL.mStockList.clear();
-                StockCodeEntity entity = new StockCodeEntity();
-                String code = marketEntity.getBoardcode();
-                entity.code = StockUtils.getStockCode(code);
-                entity.codes = Arrays.asList(codesList);
-                CompassApp.GLOBAL.mStockList.add(entity);
-                Intent intent = new Intent(getContext(), StockVerticalActivity.class);
-                getContext().startActivity(intent);
+                ArrayList<String> temp = new ArrayList<>();
+                for (int i = 0; i < codesList.length; i++) {
+                    temp.add(codesList[i]);
+                }
+
+                JumpHelper.startStockVerticalActivity(getContext(), marketEntity.getBoardcode(), temp);
             }
         });
 

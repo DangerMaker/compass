@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/main_main_color">
+
+    <RelativeLayout
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="?attr/main_theme_color"
+        tools:background="@color/red">
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/transparent"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back_indicator" />
+
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/stock_to_search" />
+
+        <LinearLayout
+            android:id="@+id/stock_title_layout"
+            android:layout_width="135dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/page_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#00000000"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:text="基金重仓基金股票(B04016)"
+                android:textColor="?attr/white_text_color"
+                android:textSize="15dp"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                android:id="@+id/stock_main_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:background="#00000000"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:text="交易中 2019-02-26 09:52:19"
+                android:textColor="?attr/white_text_color"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toStartOf="@id/stock_title_layout"
+            android:layout_toLeftOf="@id/stock_title_layout"
+            android:background="@color/transparent"
+            android:padding="18dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/stock_before_img" />
+
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/stock_title_layout"
+            android:layout_toRightOf="@id/stock_title_layout"
+            android:background="@color/transparent"
+            android:padding="18dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/stock_next_img" />
+
+    </RelativeLayout>
+
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/stock_detail_header"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/tool_bar"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="50dp"-->
+        <!--android:paddingTop="10dip"-->
+        <!--android:paddingBottom="10dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/stock_main_last"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="32.23"-->
+            <!--android:textColor="?attr/red_main_color"-->
+            <!--android:textSize="35dp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/stock_main_percent"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/stock_main_last"-->
+            <!--android:layout_marginTop="5dip"-->
+            <!--android:text="+0.53  +0.98%"-->
+            <!--android:textColor="?attr/red_main_color"-->
+            <!--android:textSize="13dp" />-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/line_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="250dp"-->
+        <!--android:layout_below="@id/stock_detail_header"-->
+        <!--android:background="@color/black"></RelativeLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/tool_bar"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

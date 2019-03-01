@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
+import com.ez08.compass.auth.AuthModule;
 import com.ez08.compass.auth.AuthUserInfo;
 import com.ez08.compass.entity.NewAdvertEntity;
 import com.ez08.compass.tools.AdsManager;
@@ -242,17 +243,22 @@ public class SplashActivity extends BaseActivity {
 
     boolean isTimeOver = false;
     String message = "请检查网络";
+    String mCid;
 
     private void startNetWork() {
         if (mContext == null) {
             return;
         }
 
+        if(TextUtils.isEmpty(mCid)){
+            mCid = AuthUserInfo.getMyCid();
+        }
+
         if (NetManager.mState == 0) {
             showNetDialog();
         } else if (NetManager.mState == 2) {
-            String cid = AuthUserInfo.getMyCid();
-            if (!TextUtils.isEmpty(cid) && cid.contains("T-")) {
+
+            if (TextUtils.isEmpty(mCid) || mCid.equals("-1") || mCid.contains("T-")) {
                 Intent i = new Intent(mContext, LoginActivity.class);
                 i.putExtra("fromstart", true);
                 i.putExtra("install", mInstall);
@@ -288,6 +294,12 @@ public class SplashActivity extends BaseActivity {
                         }
                     }
                 } else if (intent.getAction().equals(SOCKET_CONNECT_SUCCESS)) {
+                    String cid = intent.getStringExtra("cid");
+                    if (TextUtils.isEmpty(cid) || (!TextUtils.isEmpty(cid) && cid.contains("T-"))) {
+                        mCid = "-1";
+                    }else{
+                        mCid = cid;
+                    }
                     if (isTimeOver) {
                         startNetWork();
                     }

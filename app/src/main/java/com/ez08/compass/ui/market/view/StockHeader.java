@@ -14,6 +14,7 @@ import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.entity.ItemStock;
 import com.ez08.compass.entity.StockCodeEntity;
+import com.ez08.compass.tools.JumpHelper;
 import com.ez08.compass.tools.StockUtils;
 import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
@@ -258,16 +259,8 @@ public class StockHeader extends LinearLayout implements OnClickListener {
                 break;
         }
 
-        CompassApp.GLOBAL.mStockList.clear();
         String code = item.getCode();
-        code = StockUtils.getStockCode(code);
-        StockCodeEntity entitye = new StockCodeEntity();
-        entitye.code=code;
-        List<String> codes = new ArrayList<String>();
-        entitye.codes = codes;
-        CompassApp.GLOBAL.mStockList.add(entitye);
-        intent.putExtra("plate_index", true);
-        mContext.startActivity(intent);
+        JumpHelper.startStockVerticalActivity(mContext,code,null);
 
     }
 

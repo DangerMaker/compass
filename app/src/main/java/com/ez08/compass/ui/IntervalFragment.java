@@ -26,7 +26,7 @@ public abstract class IntervalFragment extends BaseFragment {
 
     public void resetTime(){
         intervalHandler.removeMessages(INTERVAL_POST_DELAY);
-        intervalHandler.sendEmptyMessageDelayed(INTERVAL_POST_DELAY, INTERVAL_TIME);
+        intervalHandler.sendEmptyMessage(INTERVAL_POST_DELAY);
     }
 
     public abstract void onLazyLoad();

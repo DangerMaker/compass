@@ -16,6 +16,7 @@ import com.ez08.compass.entity.PlateMarketEntity;
 import com.ez08.compass.entity.SimpleEntity;
 import com.ez08.compass.entity.StockCodeEntity;
 import com.ez08.compass.entity.StockMarketEntity;
+import com.ez08.compass.tools.JumpHelper;
 import com.ez08.compass.tools.StockUtils;
 import com.ez08.compass.tools.TimeTool;
 import com.ez08.compass.tools.UtilTools;
@@ -91,26 +92,20 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(boardlist0 == null){
+                    if (boardlist0 == null) {
                         return;
                     }
                     if (boardlist0.size() <= index) {
                         return;
                     }
 
-                    CompassApp.GLOBAL.mStockList.clear();
-                    StockCodeEntity entity = new StockCodeEntity();
                     String code = boardlist0.get(index).getBoardcode();
-                    entity.code = StockUtils.getStockCode(code);
-                    List<String> codes = new ArrayList<String>();
+                    ArrayList<String> codes = new ArrayList<String>();
                     for (int i = 0; i < boardlist0.size(); i++) {
                         codes.add(boardlist0.get(i).getBoardcode());
                     }
-                    entity.codes = codes;
-                    CompassApp.GLOBAL.mStockList.add(entity);
-                    Intent intent = new Intent(mContext, StockVerticalActivity.class);
-                    mContext.startActivity(intent);
 
+                    JumpHelper.startStockVerticalActivity(getContext(),code,codes);
                 }
             });
         }
@@ -127,26 +122,20 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(boardlist1 == null){
+                    if (boardlist1 == null) {
                         return;
                     }
                     if (boardlist1.size() <= index || TextUtils.isEmpty(boardlist1.get(index).getFirststockcode())) {
                         return;
                     }
 
-                    CompassApp.GLOBAL.mStockList.clear();
-                    StockCodeEntity entity = new StockCodeEntity();
                     String code = boardlist1.get(index).getBoardcode();
-                    entity.code = StockUtils.getStockCode(code);
-                    List<String> codes = new ArrayList<String>();
+                    ArrayList<String> codes = new ArrayList<String>();
                     for (int i = 0; i < boardlist1.size(); i++) {
                         codes.add(boardlist1.get(i).getBoardcode());
                     }
-                    entity.codes = codes;
-                    CompassApp.GLOBAL.mStockList.add(entity);
 
-                    Intent intent = new Intent(mContext, StockVerticalActivity.class);
-                    mContext.startActivity(intent);
+                    JumpHelper.startStockVerticalActivity(getContext(),code,codes);
 
                 }
             });
@@ -161,7 +150,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(boardlist2 == null){
+                    if (boardlist2 == null) {
                         return;
                     }
                     if (boardlist2.size() <= index || TextUtils.isEmpty(boardlist2.get(index).getFirststockcode())) {
@@ -169,19 +158,13 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                         return;
                     }
 
-                    CompassApp.GLOBAL.mStockList.clear();
-                    StockCodeEntity entity = new StockCodeEntity();
                     String code = boardlist2.get(index).getBoardcode();
-                    entity.code = StockUtils.getStockCode(code);
-                    List<String> codes = new ArrayList<String>();
+                    ArrayList<String> codes = new ArrayList<String>();
                     for (int i = 0; i < boardlist2.size(); i++) {
                         codes.add(boardlist2.get(i).getBoardcode());
                     }
-                    entity.codes = codes;
-                    CompassApp.GLOBAL.mStockList.add(entity);
 
-                    Intent intent = new Intent(mContext, StockVerticalActivity.class);
-                    mContext.startActivity(intent);
+                    JumpHelper.startStockVerticalActivity(getContext(),code,codes);
 
                 }
             });
@@ -199,30 +182,23 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(stocklist1 == null){
+                    if (stocklist1 == null) {
                         return;
                     }
                     if (index >= stocklist1.size()) {
                         return;
                     }
 
-                    CompassApp.GLOBAL.mStockList.clear();
-                    StockCodeEntity entity = new StockCodeEntity();
                     String code = stocklist1.get(index).getSecucode();
-                    entity.code = StockUtils.getStockCode(code);
-                    List<String> codes = new ArrayList<String>();
+                    ArrayList<String> codes = new ArrayList<String>();
                     for (int i = 0; i < stocklist1.size(); i++) {
                         codes.add(stocklist1.get(i).getSecucode());
                     }
-                    entity.codes = codes;
-                    CompassApp.GLOBAL.mStockList.add(entity);
 
                     if (TextUtils.isEmpty(code)) {
                         return;
                     }
-                    Intent intent = new Intent(mContext,
-                            StockVerticalActivity.class);
-                    mContext.startActivity(intent);
+                    JumpHelper.startStockVerticalActivity(getContext(),code,codes);
 
                 }
             });
@@ -238,7 +214,7 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(stocklist2 == null){
+                    if (stocklist2 == null) {
                         return;
                     }
 
@@ -246,23 +222,16 @@ public class MarketHomeHeader extends LinearLayout implements View.OnClickListen
                         return;
                     }
 
-                    CompassApp.GLOBAL.mStockList.clear();
-                    StockCodeEntity entity = new StockCodeEntity();
                     String code = stocklist2.get(index).getSecucode();
-                    entity.code = StockUtils.getStockCode(code);
-                    List<String> codes = new ArrayList<String>();
+                    ArrayList<String> codes = new ArrayList<String>();
                     for (int i = 0; i < stocklist2.size(); i++) {
                         codes.add(stocklist2.get(i).getSecucode());
                     }
-                    entity.codes = codes;
-                    CompassApp.GLOBAL.mStockList.add(entity);
 
                     if (TextUtils.isEmpty(code)) {
                         return;
                     }
-                    Intent intent = new Intent(mContext,
-                            StockVerticalActivity.class);
-                    mContext.startActivity(intent);
+                    JumpHelper.startStockVerticalActivity(getContext(),code,codes);
 
                 }
             });

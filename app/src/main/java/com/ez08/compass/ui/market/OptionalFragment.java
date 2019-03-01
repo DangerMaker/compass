@@ -111,7 +111,6 @@ public class OptionalFragment extends BaseFragment implements View.OnClickListen
             Log.e(className, "notifyDataSetChanged");
             return;
         }
-        sortMode = 0;
         notifyHeaderMode();
     }
 
