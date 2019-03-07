@@ -37,6 +37,10 @@ public class StockDataAdapter extends BaseAdapter<StockDataEntity> {
         public void setData(StockDataEntity data) {
             dataTitle.setText(data.getTitle());
             dataContent.setText(data.getContent());
+            if(data.getContentColor() != 0){
+                dataContent.setTextColor(data.getContentColor());
+            }
+
         }
     }
 }

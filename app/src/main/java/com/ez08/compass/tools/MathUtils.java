@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 public class MathUtils {
 
     public static String getFormatPrice(int value, int decm) {
-        return formatNum(getPriceInt2Float(value, decm),decm);
+        return formatNum(getPriceInt2Float(value, decm), decm);
     }
 
     public static String getFormatUnit(double num) {
@@ -25,7 +25,29 @@ public class MathUtils {
         return df.format(num) + end;
     }
 
-    private static float getPriceInt2Float(int price, int exp) {
+    public static String getMost4Character(double num) {
+       if(num < 10000){
+           return ((int)num) + "" ;
+       }else if(num < 100000){
+           num = num / 10000D;
+           DecimalFormat df = new DecimalFormat("0.00");
+           return df.format(num) + "万";
+       }else if(num < 1000000){
+           num = num / 10000D;
+           DecimalFormat df = new DecimalFormat("0.0");
+           return df.format(num) + "万";
+       }else if(num < 10000000){//千万
+           num = num / 10000D;
+           DecimalFormat df = new DecimalFormat("0");
+           return df.format(num) + "万";
+       }else {
+           return num + "";
+       }
+
+
+    }
+
+    public static float getPriceInt2Float(int price, int exp) {
         switch (exp) {
             case 0:
                 return (float) (price / 0.01);
@@ -78,5 +100,10 @@ public class MathUtils {
 
         }
         return result;
+    }
+
+    public static float TwoDecimal(double f) {
+        float str = (float) (((Math.round(f * 100)) / 100.0));
+        return str;
     }
 }

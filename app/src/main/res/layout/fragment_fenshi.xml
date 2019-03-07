@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ez08.compass.ui.view.FiveAndDetailView
+        android:id="@+id/in_time"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"></com.ez08.compass.ui.view.FiveAndDetailView>
+
+    <com.ez08.compass.ui.view.FenShiView
+        android:id="@+id/fenshi_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/in_time" />
+
+
+</RelativeLayout>

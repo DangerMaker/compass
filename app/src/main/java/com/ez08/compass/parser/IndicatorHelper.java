@@ -61,12 +61,12 @@ public class IndicatorHelper {
 
     //成交额
     public String getDealAmount() {
-        return MathUtils.getFormatUnit(entity.getAmount()) + "元";
+        return MathUtils.getFormatUnit(entity.getAmount()); //元
     }
 
     //成交量
     public String getDealVolume() {
-        return MathUtils.getFormatUnit(entity.getVolume() / 100) + "手"; //股 -> 手
+        return MathUtils.getFormatUnit(entity.getVolume() / 100); //股 -> 手
     }
 
     //股票名称
@@ -121,12 +121,12 @@ public class IndicatorHelper {
 
     //内盘
     public String getInnerVolume() {
-        return MathUtils.getFormatUnit(entity.getBuyvolume() / 100) + "手"; //股 -> 手
+        return MathUtils.getFormatUnit(entity.getBuyvolume() / 100); //股 -> 手
     }
 
     //外盘
     public String getOuterVolume() {
-        return MathUtils.getFormatUnit((entity.getVolume() - entity.getBuyvolume()) / 100) + "手"; //股 -> 手
+        return MathUtils.getFormatUnit((entity.getVolume() - entity.getBuyvolume()) / 100); //股 -> 手
     }
 
     //委比（个股）
@@ -150,9 +150,7 @@ public class IndicatorHelper {
     }
 
     public List<StockDataEntity> getData() {
-
         int currentColor = compareAndGetColor(entity.getCurrent(), entity.getLastclose());
-
         List<StockDataEntity> list = new ArrayList<>();
         list.add(new StockDataEntity("名称", getName()));
         list.add(new StockDataEntity("代码", getCode()));
@@ -166,6 +164,73 @@ public class IndicatorHelper {
         list.add(new StockDataEntity("收盘价", getLastClosePrice()));
         list.add(new StockDataEntity("最高价", getHighPrice(), compareAndGetColor(entity.getHigh(), entity.getLastclose())));
         list.add(new StockDataEntity("最低价", getLowPrice(), compareAndGetColor(entity.getLow(), entity.getLastclose())));
+
+        if (DDSID.isZ(entity.getSecucode())) { //指数 板块
+            list.add(new StockDataEntity("委买", getIndexBuy(), CompassApp.GLOBAL.RED));
+            list.add(new StockDataEntity("委卖", getIndexSell(), CompassApp.GLOBAL.GREEN));
+            list.add(new StockDataEntity("委比", getIndexRate(), compareAndGetColor(entity.getZbidvolume(), entity.getZaskvolume())));
+            list.add(new StockDataEntity("涨家数", getUpCount(), CompassApp.GLOBAL.RED));
+            list.add(new StockDataEntity("跌家数", getDownCount(), CompassApp.GLOBAL.GREEN));
+            list.add(new StockDataEntity("平家数", getEqualCount()));
+        } else {
+            list.add(new StockDataEntity("内盘", getInnerVolume(), CompassApp.GLOBAL.GREEN));
+            list.add(new StockDataEntity("外盘", getOuterVolume(), CompassApp.GLOBAL.RED));
+            list.add(new StockDataEntity("委比", getStockRate(), compareAndGetColor(entity.getVolume() - entity.getBuyvolume(), entity.getBuyvolume())));
+            list.add(new StockDataEntity("市值", getMarketValue()));
+            list.add(new StockDataEntity("流动市值", getTmarketvalue()));
+            list.add(new StockDataEntity("换手率", getHandRate()));
+            list.add(new StockDataEntity("市盈率", getEarnings()));
+        }
+
+        return list;
+    }
+
+    public StockDataEntity getCurrentPriceEntity() {
+        return new StockDataEntity("", getCurrentPrice(), compareAndGetColor(entity.getCurrent(), entity.getLastclose()));
+    }
+
+    public StockDataEntity getCurrentWaveEntity(){
+        String operator = "";
+        if(entity.getCurrent() - entity.getLastclose() > 0){
+            operator = "+";
+        }else if(entity.getCurrent() - entity.getLastclose() < 0){
+
+        }
+
+        return new StockDataEntity("",operator + getCurrentWaveValue() +
+                "  " + operator + getCurrentWavePercent(),compareAndGetColor(entity.getCurrent(), entity.getLastclose()));
+    }
+
+    public StockDataEntity getOpenPriceEntity(){
+        return new StockDataEntity("开", getOpenPrice(), compareAndGetColor(entity.getOpen(), entity.getLastclose()));
+    }
+
+    public StockDataEntity getClosePriceEntity(){
+        return new StockDataEntity("收",getLastClosePrice()) ;
+    }
+
+    public StockDataEntity getVolumeEntity(){
+        return new StockDataEntity("量", getDealVolume());
+    }
+
+    public StockDataEntity getChangeEntity(){
+        return new StockDataEntity("幅", getWave());
+    }
+
+
+    public List<StockDataEntity> getStockDetailShow() {
+
+        int currentColor = compareAndGetColor(entity.getCurrent(), entity.getLastclose());
+
+        List<StockDataEntity> list = new ArrayList<>();
+        list.add(new StockDataEntity("当前价", getCurrentPrice(), currentColor));
+        list.add(new StockDataEntity("开盘价", getOpenPrice(), compareAndGetColor(entity.getOpen(), entity.getLastclose())));
+        list.add(new StockDataEntity("收盘价", getLastClosePrice()));
+        list.add(new StockDataEntity("最高价", getHighPrice(), compareAndGetColor(entity.getHigh(), entity.getLastclose())));
+        list.add(new StockDataEntity("最低价", getLowPrice(), compareAndGetColor(entity.getLow(), entity.getLastclose())));
+        list.add(new StockDataEntity("成交量", getDealVolume()));
+        list.add(new StockDataEntity("成交额", getDealAmount()));
+        list.add(new StockDataEntity("振幅", getWave()));
 
         if (DDSID.isZ(entity.getSecucode())) { //指数 板块
             list.add(new StockDataEntity("委买", getIndexBuy(), CompassApp.GLOBAL.RED));

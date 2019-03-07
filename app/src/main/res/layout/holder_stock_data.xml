@@ -4,15 +4,17 @@
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     >
 
     <TextView
         android:id="@+id/data_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="市盈率"
+        android:text=""
         android:textColor="?attr/lable_item_style"
-        android:textSize="11sp" />
+        android:textSize="13dp" />
 
     <TextView
         android:id="@+id/data_content"
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:textColor="?attr/lable_list_style"
-        android:text="123"
-        android:textSize="11sp" />
+        android:text=""
+        android:textSize="13dp" />
 
 </RelativeLayout>

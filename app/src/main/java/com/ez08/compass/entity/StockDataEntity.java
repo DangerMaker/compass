@@ -3,7 +3,7 @@ package com.ez08.compass.entity;
 public class StockDataEntity {
     private String title;
     private String content;
-    private int contentColor;
+    private int contentColor = 0;
 
     public StockDataEntity(String title, String content) {
         this.title = title;

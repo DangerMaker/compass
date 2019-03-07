@@ -1,6 +1,8 @@
 package com.ez08.compass.entity;
 
-public class StockDetailEntity {
+import java.io.Serializable;
+
+public class StockDetailEntity implements Serializable {
 //    private int type;  //是否是板块
     private int idstk;  //品种ID
     private int date;   //数据日期
