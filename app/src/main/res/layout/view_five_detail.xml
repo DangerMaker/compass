@@ -64,4 +64,10 @@
         android:layout_height="2px"
         android:layout_below="@id/title_view"
         android:background="@color/light_gray" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray" />
 </RelativeLayout>

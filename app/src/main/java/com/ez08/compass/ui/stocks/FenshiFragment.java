@@ -40,9 +40,6 @@ public class FenshiFragment extends BaseFragment {
     private int sTurnValue; //图中最大量
     private int beforeDate = 0;   //分时最后一条数据的时间
 
-    protected int mContainerWidth;
-    protected int mContainerHeight;
-
     StockDetailEntity detailEntity;
     FenShiAllEntity fenShiAllEntity;
     FenShiView fenShiView;
@@ -72,16 +69,8 @@ public class FenshiFragment extends BaseFragment {
             detailEntity = (StockDetailEntity) getArguments().getSerializable("detail");
             if (DDSID.isZ(detailEntity.getSecucode())) {
                 fiveAndDetailView.setVisibility(View.GONE);
-                mContainerWidth = (int) ScreenUtil.getScreenWidth(mContext) - 2;
-            } else {
-                mContainerWidth = (int) ScreenUtil.getScreenWidth(mContext) - (int) ScreenUtil.dpToPx(mContext, 100);
             }
-            mContainerHeight = (int) ScreenUtil.dpToPx(mContext, 300);
-            fenShiView.initData(mContainerWidth - 1, mContainerHeight - 1);
-            fenShiView.setCanRefresh(false);
-            fenShiView.invalidate();
         }
-
 
         return view;
     }

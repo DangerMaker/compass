@@ -193,6 +193,13 @@ public class FenShiView extends View {
     }
 
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        width = getWidth();
+        height = getHeight();
+        initData();
+    }
 
     public float getTopRectHeight() {
         return topRectHeight;
@@ -424,14 +431,9 @@ public class FenShiView extends View {
      * 初始化数据
      *
      * @param
-     * @param height
+     * @param
      */
-    public void initData(int lWidth, int height) {
-        if (lWidth <= 0) {
-            return;
-        }
-        this.width = lWidth;
-        this.height = height;
+    public void initData() {
         ezbarChart.setWidth(width);
         ezbarChart.setHeight(height);
 

@@ -851,7 +851,21 @@ public class NetInterface {
     /*
        获取k线数据
      */
-    public static int getStockKlineNew(Handler handler, int requestCode, String secucode, String period, int mark, int time, int num) {
+    public static int getStockKlineNew(Handler handler, int requestCode, String secucode, String period, int mark, int num) {
+        Intent intent = new Intent("ez08.zntr.hq.kline.q");
+        intent.putExtra("secucode", secucode);
+        intent.putExtra("period", period);
+        intent.putExtra("date", mark);
+//        intent.putExtra("time", time);
+        intent.putExtra("num", num);
+        EzMessage message = IntentTools.intentToMessage(intent);
+        return EzNet.Request(message, handler, requestCode, 0, TIME_OUT);
+    }
+
+    /*
+          获取k分钟线数据
+        */
+    public static int getStockKMinlineNew(Handler handler, int requestCode, String secucode, String period, int mark,int time, int num) {
         Intent intent = new Intent("ez08.zntr.hq.kline.q");
         intent.putExtra("secucode", secucode);
         intent.putExtra("period", period);

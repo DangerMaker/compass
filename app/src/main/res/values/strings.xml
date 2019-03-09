@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">指南针股票</string>
+    <string name="dr_name">除权</string>
+    <string name="ma">MA5&#160;10&#160;20&#160;60</string>
 </resources>

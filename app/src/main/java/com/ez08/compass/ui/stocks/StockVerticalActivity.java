@@ -51,6 +51,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     LinearLayout tabLayout;
 
     FenshiFragment fenshiFragment;
+    KLineFragment kLineFragment;
     private FragmentManager fragmentManager;
     FragmentTransaction transaction;
 
@@ -132,12 +133,20 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
                                 setStockData(stockVolumeTv, helper.getVolumeEntity());
                                 setStockData(stockChangeTv, helper.getChangeEntity());
 
+//                                transaction = fragmentManager.beginTransaction();
+//                                if (fenshiFragment == null) {
+//                                    fenshiFragment = FenshiFragment.newInstance(detailEntity);
+//                                    transaction.add(R.id.container, fenshiFragment);
+//                                }
+//                                transaction.show(fenshiFragment);
+//                                transaction.commitAllowingStateLoss();
+//
                                 transaction = fragmentManager.beginTransaction();
-                                if (fenshiFragment == null) {
-                                    fenshiFragment = FenshiFragment.newInstance(detailEntity);
-                                    transaction.add(R.id.container, fenshiFragment);
+                                if (kLineFragment == null) {
+                                    kLineFragment = KLineFragment.newInstance(detailEntity,"day");
+                                    transaction.add(R.id.container, kLineFragment);
                                 }
-                                transaction.show(fenshiFragment);
+                                transaction.show(kLineFragment);
                                 transaction.commitAllowingStateLoss();
                             }
 
