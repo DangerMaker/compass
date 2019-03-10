@@ -58,7 +58,7 @@ public class CompassApp extends Application {
         //首页行情代码  上证 深证 创业板 中小板
         public static final String STOCK_VALUE_CODE = "SHHQ000001,SZHQ399001,SZHQ399006,SZHQ399005";
         public static final String VERSION = BuildConfig.VERSION_NAME;
-
+        public static final int ONE_SCREEN_KLINE_NUM = 52;
     }
 
     //全局变量
