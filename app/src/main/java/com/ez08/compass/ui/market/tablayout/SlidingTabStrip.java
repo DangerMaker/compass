@@ -8,10 +8,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ez08.compass.R;
 
@@ -114,41 +116,56 @@ class SlidingTabStrip extends LinearLayout {
         // Thick colored underline below the current selection
         if (childCount > 0) {
             View selectedTitle = getChildAt(mSelectedPosition);
-            int left = selectedTitle.getLeft();
-            int right = selectedTitle.getRight();
-            int color = tabColorizer.getIndicatorColor(mSelectedPosition);
+//            float left = selectedTitle.getLeft();
+//            float right = selectedTitle.getRight();
 
-            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
-                int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
-                if (color != nextColor) {
-                    color = blendColors(nextColor, color, mSelectionOffset);
-                }
+            float left =0;
+            float right=0;
+            float realTextWidth = ((TextView) selectedTitle).getPaint().measureText(((TextView) selectedTitle).getText().toString());
 
-                // Draw the selection partway between the tabs
-                View nextTitle = getChildAt(mSelectedPosition + 1);
-                left = (int) (mSelectionOffset * nextTitle.getLeft() +
-                        (1.0f - mSelectionOffset) * left);
-                right = (int) (mSelectionOffset * nextTitle.getRight() +
-                        (1.0f - mSelectionOffset) * right);
+            if(selectedTitle instanceof TextView){
+                left = (selectedTitle.getWidth() - realTextWidth)/2  + selectedTitle.getLeft() + 20;
+                right = left + realTextWidth - 40;
             }
+
+            int color = tabColorizer.getIndicatorColor(mSelectedPosition);
+//
+//            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
+//                int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
+//                if (color != nextColor) {
+//                    color = blendColors(nextColor, color, mSelectionOffset);
+//                }
+//
+//                // Draw the selection partway between the tabs
+//                View nextTitle = getChildAt(mSelectedPosition + 1);
+//                left = (int) (mSelectionOffset * nextTitle.getLeft() +
+//                        (1.0f - mSelectionOffset) * left);
+//                right = (int) (mSelectionOffset * nextTitle.getRight() +
+//                        (1.0f - mSelectionOffset) * right);
+//            }
 
             mSelectedIndicatorPaint.setColor(color);
 
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
-                    height, mSelectedIndicatorPaint);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                canvas.drawRoundRect(left, height - mSelectedIndicatorThickness, right,
+                        height,10,10, mSelectedIndicatorPaint);
+            }else {
+                canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
+                        height, mSelectedIndicatorPaint);
+            }
         }
 
-        // Thin underline along the entire bottom edge
-        canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
-
-        // Vertical separators between the titles
-        int separatorTop = (height - dividerHeightPx) / 2;
-        for (int i = 0; i < childCount - 1; i++) {
-            View child = getChildAt(i);
-            mDividerPaint.setColor(tabColorizer.getDividerColor(i));
-            canvas.drawLine(child.getRight(), separatorTop, child.getRight(),
-                    separatorTop + dividerHeightPx, mDividerPaint);
-        }
+//        // Thin underline along the entire bottom edge
+//        canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
+//
+//        // Vertical separators between the titles
+//        int separatorTop = (height - dividerHeightPx) / 2;
+//        for (int i = 0; i < childCount - 1; i++) {
+//            View child = getChildAt(i);
+//            mDividerPaint.setColor(tabColorizer.getDividerColor(i));
+//            canvas.drawLine(child.getRight(), separatorTop, child.getRight(),
+//                    separatorTop + dividerHeightPx, mDividerPaint);
+//        }
     }
 
     /**

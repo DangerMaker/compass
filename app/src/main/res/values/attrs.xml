@@ -118,4 +118,11 @@
         <attr name="indicatorUnSelectRes" format="reference" />
         <attr name="indicatorInterval" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SingleLineTextView">
+        <attr name="textContent" format="string"></attr>
+        <attr name="textSize" format="dimension"></attr>
+        <attr name="textColor" format="color"></attr>
+    </declare-styleable>
+
 </resources>
