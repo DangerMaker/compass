@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 
 import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.R;
+import com.ez08.compass.tools.AppUtils;
+import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.HomeTabFragment;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
@@ -23,6 +26,14 @@ import java.util.ArrayList;
 
 public class StockBottomTabFragment extends BaseFragment {
 
+    public static StockBottomTabFragment newInstance(int topPosition) {
+        Bundle args = new Bundle();
+        StockBottomTabFragment fragment = new StockBottomTabFragment();
+        args.putInt("position", topPosition);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     SlidingTabLayout tabLayout;
     private ViewPager mViewPager;
     private EazyFragmentAdpater mAdapter;
@@ -32,7 +43,8 @@ public class StockBottomTabFragment extends BaseFragment {
     HeadNewsFragment fragment2;
     EmptyFragment fragment3;
 
-    int viewPagerHeight = 22 + 50 + 42 + 58; //status bar + toolbar + tab + bottom bar
+    int viewPagerHeight = 0; //status bar + toolbar + tab + bottom bar
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,8 +62,12 @@ public class StockBottomTabFragment extends BaseFragment {
         mFragmentList.add(new EasyFragment(fragment3, "内参"));
 
         mViewPager.setOffscreenPageLimit(mFragmentList.size());
+
+        int position = getArguments().getInt("position");
+
+        viewPagerHeight = (int)ScreenUtil.getScreenHeight(mContext) - position - UtilTools.dip2px(mContext, 58 + 42);
         LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) mViewPager.getLayoutParams();
-        ll.height = (int)(ScreenUtil.getScreenHeight(mContext) - ScreenUtil.dpToPx(mContext,viewPagerHeight));
+        ll.height = viewPagerHeight;
 
         mAdapter = new EazyFragmentAdpater(getChildFragmentManager(), mFragmentList);
         mViewPager.setAdapter(mAdapter);

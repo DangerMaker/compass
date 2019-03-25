@@ -60,7 +60,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     LinearLayout tradeLayout;
 
     private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
-
+    int topBarPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +74,6 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         }
 
         initView();
-
-        if (!TextUtils.isEmpty(stockCode))
-            NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
-
     }
 
 
@@ -97,6 +93,19 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         tradeLayout = (LinearLayout) findViewById(R.id.stock_security_tv);
         tradeLayout.setOnClickListener(this);
         MyAppCompat.setTextBackgroud(tradeLayout,mContext);
+
+        backBtn.post(new Runnable() {
+            @Override
+            public void run() {
+                int[] position = new int[2];
+                backBtn.getLocationInWindow(position);
+                topBarPosition = position[1];
+
+                if (!TextUtils.isEmpty(stockCode))
+                    NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
+
+            }
+        });
     }
 
 
@@ -149,7 +158,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
                                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                                 if(bottomTabFragment == null){
-                                    bottomTabFragment = new StockBottomTabFragment();
+                                    bottomTabFragment =  StockBottomTabFragment.newInstance(topBarPosition);
                                     transaction.replace(R.id.stock_detail_bottom,bottomTabFragment);
                                 }
                                 transaction.show(bottomTabFragment);
