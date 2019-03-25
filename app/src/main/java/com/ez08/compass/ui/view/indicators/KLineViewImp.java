@@ -224,7 +224,7 @@ public class KLineViewImp implements Indicator<List<KChartEntity>> {
         ma60Line.setmLowestData(mLowestData);
         ma60Line.setmHighestData(mHighestData);
 
-        mKPosition = new CGPoint(barLeftGap, 0);
+        mKPosition = new CGPoint(barLeftGap, 2);
         mIndexPosition = new CGPoint(lineLeftGap, 0);
 
         ma5Line.setOriginPoint(mIndexPosition);

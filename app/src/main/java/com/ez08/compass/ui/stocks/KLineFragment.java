@@ -3,6 +3,8 @@ package com.ez08.compass.ui.stocks;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -27,8 +29,10 @@ import com.ez08.support.net.NetResponseHandler2;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 
 public class KLineFragment extends BaseFragment {
 
@@ -36,9 +40,10 @@ public class KLineFragment extends BaseFragment {
     private final int GET_CURRENT_CAPITAL_INFO = 1002;//获取当日资金信息
     private final int GET_DR_LIST = 1003; //获得除权信息
     private final int GET_KLINE_LIST = 1004; //获得k线数据
+    private final int GET_KLINE_LIST_MORE = 1007; //获得k线数据
     private final int GET_KLINE_LIST_HYD = 1005; //获得股价活跃度数据
     private final int GET_KLINE_LIST_CXJC = 1006; //获得长线数据
-    private final int DATA_LENGTH = -100;   //一次性获取多少条k线数据
+    private final int DATA_LENGTH = -KLineView.KLINE_VIEW_NET_ONCE;   //一次性获取多少条k线数据
 
     TextView maText;
     KLineView kLineView;
@@ -68,6 +73,7 @@ public class KLineFragment extends BaseFragment {
         maText = (TextView) view.findViewById(R.id.ma_text);
         maText.setText(Html.fromHtml(StockUtils.MA5102060));
         kLineView = (KLineView) view.findViewById(R.id.k_line_view);
+        kLineView.setHandler(viewHandler);
         return view;
     }
 
@@ -100,6 +106,20 @@ public class KLineFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("HandlerLeak")
+    Handler viewHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case KLineView.GET_MORE_LINE:
+                    mKlineRequestDate = (int) mTotalList.get(0).getlTime();
+                    NetInterface.getStockKlineNew(mHandler, GET_KLINE_LIST_MORE, code, mStockPeriod, mKlineRequestDate, DATA_LENGTH);
+                    break;
+            }
+        }
+    };
+
 
     @SuppressLint("HandlerLeak")
     NetResponseHandler2 mHandler = new NetResponseHandler2() {
@@ -122,7 +142,15 @@ public class KLineFragment extends BaseFragment {
                     mTotalList.clear();
                     mTotalList.addAll(list);
                     kLineView.setData(mTotalList);
-
+                    break;
+                case GET_KLINE_LIST_MORE:
+                    List<KChartEntity> listMore = new KlineNewParser().parse(intent, mDrList, detailEntity.getDecm());
+                    if(listMore != null && listMore.size() > 1){
+                        listMore.remove(listMore.size() - 1);
+                        mTotalList.addAll(0,listMore);
+                        kLineView.setMoreData(mTotalList);
+                    }
+                    break;
 //                    if (isFirstLoad) {
 //                        isFirstLoad = false;
 //                        templList = new ArrayList<>();
@@ -154,7 +182,7 @@ public class KLineFragment extends BaseFragment {
 //                        NetInterface.getCaptialInfo(mHandler2, GET_CAPITAL_INFO, mStockPeriod, mCMD.replace("HQ", ""), mKlineRequestDate, DATA_LENGTH);
 //                        mKlineRequestDate = (int) templList.get(0).getlTime();
 //                    }
-                    break;
+//                    break;
             }
         }
     };

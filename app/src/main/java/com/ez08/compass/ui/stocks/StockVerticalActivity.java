@@ -3,8 +3,10 @@ package com.ez08.compass.ui.stocks;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,13 +20,19 @@ import com.ez08.compass.entity.StockDetailEntity;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.IndicatorHelper;
 import com.ez08.compass.parser.StockDetailParser;
+import com.ez08.compass.tools.MyAppCompat;
 import com.ez08.compass.tools.StockUtils;
 import com.ez08.compass.ui.base.BaseActivity;
+import com.ez08.compass.ui.market.customtab.EasyFragment;
+import com.ez08.compass.ui.stocks.view.IndexQuoteView;
+import com.ez08.compass.ui.view.EazyFragmentAdpater;
+import com.ez08.compass.ui.view.SingleLineAutoResizeTextView;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
 import com.ez08.support.util.EzValue;
 import com.ez08.tools.IntentTools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StockVerticalActivity extends BaseActivity implements View.OnClickListener {
@@ -35,25 +43,23 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     String stockCode;
     StockDetailEntity detailEntity;
 
-    TextView singleTextView;
+    SingleLineAutoResizeTextView singleTextView;
     ImageButton backBtn;
     ImageButton searchBtn;
-    RelativeLayout stockHeader;
+    IndexQuoteView stockHeader;
     StockPopupWindows stockPopupWindows;
 
-    TextView stockBigTv;
-    TextView stockWaveTv;
-    TextView stockOpenTv;
-    TextView stockCloseTv;
-    TextView stockVolumeTv;
-    TextView stockChangeTv;
-
-    LinearLayout tabLayout;
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    EazyFragmentAdpater mAdapter;
 
     FenshiFragment fenshiFragment;
-    KLineFragment kLineFragment;
-    private FragmentManager fragmentManager;
-    FragmentTransaction transaction;
+    KLineFragment m30fragment;
+    FragmentManager fragmentManager;
+    StockBottomTabFragment bottomTabFragment;
+    LinearLayout tradeLayout;
+
+    private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
 
 
     @Override
@@ -76,26 +82,21 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
 
     private void initView() {
-        singleTextView = (TextView) findViewById(R.id.page_name);
+        singleTextView = (SingleLineAutoResizeTextView) findViewById(R.id.page_name);
         backBtn = (ImageButton) findViewById(R.id.back_btn);
         backBtn.setOnClickListener(this);
         searchBtn = (ImageButton) findViewById(R.id.search_btn);
         searchBtn.setOnClickListener(this);
-        stockHeader = (RelativeLayout) findViewById(R.id.stock_detail_header);
+        stockHeader = (IndexQuoteView) findViewById(R.id.stock_detail_header);
         stockHeader.setOnClickListener(this);
 
-        stockBigTv = (TextView) findViewById(R.id.stock_big);
-        stockWaveTv = (TextView) findViewById(R.id.stock_main_percent);
-        stockOpenTv = (TextView) findViewById(R.id.stock_open);
-        stockCloseTv = (TextView) findViewById(R.id.stock_close);
-        stockVolumeTv = (TextView) findViewById(R.id.stock_volume);
-        stockChangeTv = (TextView) findViewById(R.id.stock_change);
-        tabLayout = (LinearLayout) findViewById(R.id.tab_layout);
-        for (int i = 0; i < tabLayout.getChildCount(); i++) {
-            tabLayout.getChildAt(i).setOnClickListener(this);
-        }
-
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         fragmentManager = getSupportFragmentManager();
+
+        tradeLayout = (LinearLayout) findViewById(R.id.stock_security_tv);
+        tradeLayout.setOnClickListener(this);
+        MyAppCompat.setTextBackgroud(tradeLayout,mContext);
     }
 
 
@@ -124,16 +125,37 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
                             detailEntity = parser.parse(stockCode, message);
 
                             if (detailEntity != null) {
-                                singleTextView.setText(detailEntity.getSecuname() + "(" + StockUtils.cutStockCode(detailEntity.getSecucode()) + ")");
+                                singleTextView.setTextContent(detailEntity.getSecuname() + "(" + StockUtils.cutStockCode(detailEntity.getSecucode()) + ")");
                                 IndicatorHelper helper = new IndicatorHelper(detailEntity);
-                                setStockData(stockBigTv, helper.getCurrentPriceEntity());
-                                setStockData(stockWaveTv, helper.getCurrentWaveEntity());
-                                setStockData(stockOpenTv, helper.getOpenPriceEntity());
-                                setStockData(stockCloseTv, helper.getClosePriceEntity());
-                                setStockData(stockVolumeTv, helper.getVolumeEntity());
-                                setStockData(stockChangeTv, helper.getChangeEntity());
+                                stockHeader.setData(helper);
 
-//                                transaction = fragmentManager.beginTransaction();
+                                fenshiFragment = FenshiFragment.newInstance(detailEntity);
+                                m30fragment = KLineFragment.newInstance(detailEntity,"day");
+                                mFragmentList.clear();
+                                mFragmentList.add(new EasyFragment(fenshiFragment, "分时"));
+                                mFragmentList.add(new EasyFragment(m30fragment, "30分"));
+//                                mFragmentList.add(new EasyFragment(m60Fragment, "60分"));
+//                                mFragmentList.add(new EasyFragment(dayFragment, "日K"));
+//                                mFragmentList.add(new EasyFragment(weekFragment, "周K"));
+//                                mFragmentList.add(new EasyFragment(monthFragment, "月K"));
+//                                mFragmentList.add(new EasyFragment(minFragment, "分钟"));
+
+                                viewPager.setOffscreenPageLimit(mFragmentList.size());
+                                mAdapter = new EazyFragmentAdpater(getSupportFragmentManager(), mFragmentList);
+                                viewPager.setAdapter(mAdapter);
+                                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                                tabLayout.setupWithViewPager(viewPager);
+
+
+                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                if(bottomTabFragment == null){
+                                    bottomTabFragment = new StockBottomTabFragment();
+                                    transaction.replace(R.id.stock_detail_bottom,bottomTabFragment);
+                                }
+                                transaction.show(bottomTabFragment);
+                                transaction.commitAllowingStateLoss();
+//
+
 //                                if (fenshiFragment == null) {
 //                                    fenshiFragment = FenshiFragment.newInstance(detailEntity);
 //                                    transaction.add(R.id.container, fenshiFragment);
@@ -141,13 +163,13 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 //                                transaction.show(fenshiFragment);
 //                                transaction.commitAllowingStateLoss();
 //
-                                transaction = fragmentManager.beginTransaction();
-                                if (kLineFragment == null) {
-                                    kLineFragment = KLineFragment.newInstance(detailEntity,"day");
-                                    transaction.add(R.id.container, kLineFragment);
-                                }
-                                transaction.show(kLineFragment);
-                                transaction.commitAllowingStateLoss();
+//                                transaction = fragmentManager.beginTransaction();
+//                                if (kLineFragment == null) {
+//                                    kLineFragment = KLineFragment.newInstance(detailEntity,"day");
+//                                    transaction.add(R.id.container, kLineFragment);
+//                                }
+//                                transaction.show(kLineFragment);
+//                                transaction.commitAllowingStateLoss();
                             }
 
                         }
@@ -156,17 +178,6 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         }
     };
 
-    private void setStockData(TextView textView, StockDataEntity entity) {
-        String title = "";
-        if (!TextUtils.isEmpty(entity.getTitle())) {
-            title = entity.getTitle() + "  ";
-        }
-
-        textView.setText(title + entity.getContent());
-        if (entity.getContentColor() != 0) {
-            textView.setTextColor(entity.getContentColor());
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -187,9 +198,10 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
                 }
                 stockPopupWindows.showPopupWindow(stockHeader);
                 break;
-            case R.id.minute:
+            case R.id.stock_security_tv:
 
                 break;
         }
     }
+
 }

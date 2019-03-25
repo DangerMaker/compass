@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/main_main_color">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/tool_bar"
@@ -43,7 +42,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
+            <com.ez08.compass.ui.view.SingleLineAutoResizeTextView
                 android:id="@+id/page_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +53,10 @@
                 android:text="基金重仓基金股票(B04016)"
                 android:textColor="?attr/white_text_color"
                 android:textSize="15dp"
-                app:autoSizeTextType="uniform" />
+                app:autoSizeTextType="uniform"
+                app:textColor="?attr/white_text_color"
+                app:textContent="股票名称"
+                app:textSize="15dp" />
 
             <TextView
                 android:id="@+id/stock_main_date"
@@ -94,164 +96,131 @@
 
     </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/stock_detail_header"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+    <ScrollView
         android:layout_below="@id/tool_bar"
-        android:paddingLeft="40dp">
+        android:layout_marginBottom="58dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/stock_big"
-                android:layout_width="100dp"
+            <com.ez08.compass.ui.stocks.view.IndexQuoteView
+                android:id="@+id/stock_detail_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="32.23"
-                android:textSize="32dp"
-                app:autoSizeTextType="uniform" />
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
 
-            <TextView
-                android:id="@+id/stock_main_percent"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/stock_big"
-                android:layout_marginTop="5dip"
-                android:gravity="center_horizontal"
-                android:text="+0.53  +0.98%"
-                android:textSize="13dp"
-                app:autoSizeTextType="uniform" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/kefu_item_btn_bg"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
-        </RelativeLayout>
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp">
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/stock_open"
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:text="21.23"
-                app:autoSizeMaxTextSize="16dp"
-                app:autoSizeTextType="uniform" />
+            <com.ez08.compass.ui.view.UnScrollViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"/>
 
-            <TextView
-                android:id="@+id/stock_close"
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/stock_open"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:text="21.23"
-                app:autoSizeMaxTextSize="16dp"
-                app:autoSizeTextType="uniform" />
+            <FrameLayout
+                android:id="@+id/stock_detail_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
 
-            <TextView
-                android:id="@+id/stock_volume"
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/stock_open"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:text="21.23"
-                app:autoSizeMaxTextSize="16dp"
-                app:autoSizeTextType="uniform" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/stock_change"
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/stock_close"
-                android:layout_toRightOf="@id/stock_volume"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:text="21.23"
-                app:autoSizeMaxTextSize="16dp"
-                app:autoSizeTextType="uniform" />
-
-
-        </RelativeLayout>
-
-
-    </RelativeLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:id="@+id/tab_layout"
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/stock_detail_header"
-        android:background="@drawable/kefu_item_btn_bg"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:layout_alignParentBottom="true"
+        android:layout_height="58dp">
 
-        <TextView
-            android:id="@+id/minute"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="分"
-            android:textSize="15sp" />
+            android:id="@+id/stock_security_tv"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/stock_security_tv_img"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/tansaction_2x"
+                android:layout_width="25dip"
+                android:layout_height="25dip" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textColor="?attr/shadow_bottom_text"
+                android:textSize="12sp"
+                android:text="　交易　"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="日"
-            android:textSize="15sp"
+            android:id="@+id/stock_share_ll"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/stock_share_tv"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/share_2x"
+                android:layout_width="25dip"
+                android:layout_height="25dip" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textColor="?attr/shadow_bottom_text"
+                android:textSize="12sp"
+                android:text="　分享　"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-            />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="60分"
-            android:textSize="15sp"
+            android:id="@+id/stock_guess_tv"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/stock_guess_tv_img"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/guess_normal1"
+                android:layout_width="25dip"
+                android:layout_height="25dip" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textColor="?attr/shadow_bottom_text"
+                android:textSize="12sp"
+                android:text="　猜猜　"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-            />
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="30分"
-            android:textSize="15sp"
-
-            />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="15分"
-
-
-            android:textSize="15sp" />
     </LinearLayout>
 
-
-    <RelativeLayout
-        android:layout_below="@id/tab_layout"
-        android:id="@+id/container"
+    <View
+        android:layout_above="@id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="320dp"></RelativeLayout>
+        android:layout_height="1dp"
+        android:background="@color/light_gray"
+        />
 
 </RelativeLayout>

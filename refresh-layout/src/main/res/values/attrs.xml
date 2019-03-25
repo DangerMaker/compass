@@ -22,14 +22,7 @@
     <attr name="srlTextSecondary" format="string"/>
     <attr name="srlTextRefreshing" format="string"/>
 
-    <!--<attr name="srlTextPulling" format="string" />-->
-    <!--<attr name="srlTextRelease" format="string" />-->
-    <!--<attr name="srlTextLoading" format="string" />-->
-    <!--<attr name="srlTextRefreshing" format="string" />-->
-    <!--<attr name="srlTextFinish" format="string" />-->
-    <!--<attr name="srlTextFailed" format="string" />-->
     <attr name="srlTextNothing" format="string" />
-
     <attr name="srlClassicsSpinnerStyle" format="enum">
         <enum name="Translate" value="0"/><!--平行移动-->
         <enum name="Scale" value="1"/><!--拉伸形变-->
