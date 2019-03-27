@@ -9,11 +9,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.R;
 import com.ez08.compass.entity.StockDataEntity;
 import com.ez08.compass.entity.StockDetailEntity;
@@ -22,6 +24,7 @@ import com.ez08.compass.parser.IndicatorHelper;
 import com.ez08.compass.parser.StockDetailParser;
 import com.ez08.compass.tools.MyAppCompat;
 import com.ez08.compass.tools.StockUtils;
+import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseActivity;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.stocks.view.IndexQuoteView;
@@ -49,6 +52,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     IndexQuoteView stockHeader;
     StockPopupWindows stockPopupWindows;
 
+    FrameLayout frameLayout;
     TabLayout tabLayout;
     ViewPager viewPager;
     EazyFragmentAdpater mAdapter;
@@ -92,14 +96,18 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
         tradeLayout = (LinearLayout) findViewById(R.id.stock_security_tv);
         tradeLayout.setOnClickListener(this);
+
+        frameLayout = (FrameLayout) findViewById(R.id.stock_detail_bottom);
+
         MyAppCompat.setTextBackgroud(tradeLayout,mContext);
 
         backBtn.post(new Runnable() {
             @Override
             public void run() {
-                int[] position = new int[2];
-                backBtn.getLocationInWindow(position);
-                topBarPosition = position[1];
+                topBarPosition = backBtn.getBottom();
+                LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
+                ll.height = (int)ScreenUtil.getScreenHeight(mContext) - topBarPosition - UtilTools.dip2px(mContext, 58 + 20);
+                frameLayout.setLayoutParams(ll);
 
                 if (!TextUtils.isEmpty(stockCode))
                     NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
@@ -158,7 +166,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
                                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                                 if(bottomTabFragment == null){
-                                    bottomTabFragment =  StockBottomTabFragment.newInstance(topBarPosition);
+                                    bottomTabFragment =  StockBottomTabFragment.newInstance();
                                     transaction.replace(R.id.stock_detail_bottom,bottomTabFragment);
                                 }
                                 transaction.show(bottomTabFragment);

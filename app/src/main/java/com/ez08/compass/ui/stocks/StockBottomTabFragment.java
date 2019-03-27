@@ -26,10 +26,9 @@ import java.util.ArrayList;
 
 public class StockBottomTabFragment extends BaseFragment {
 
-    public static StockBottomTabFragment newInstance(int topPosition) {
+    public static StockBottomTabFragment newInstance() {
         Bundle args = new Bundle();
         StockBottomTabFragment fragment = new StockBottomTabFragment();
-        args.putInt("position", topPosition);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,8 +41,6 @@ public class StockBottomTabFragment extends BaseFragment {
     EmptyFragment fragment1;
     HeadNewsFragment fragment2;
     EmptyFragment fragment3;
-
-    int viewPagerHeight = 0; //status bar + toolbar + tab + bottom bar
 
     @Nullable
     @Override
@@ -62,13 +59,6 @@ public class StockBottomTabFragment extends BaseFragment {
         mFragmentList.add(new EasyFragment(fragment3, "内参"));
 
         mViewPager.setOffscreenPageLimit(mFragmentList.size());
-
-        int position = getArguments().getInt("position");
-
-        viewPagerHeight = (int)ScreenUtil.getScreenHeight(mContext) - position - UtilTools.dip2px(mContext, 58 + 42);
-        LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) mViewPager.getLayoutParams();
-        ll.height = viewPagerHeight;
-
         mAdapter = new EazyFragmentAdpater(getChildFragmentManager(), mFragmentList);
         mViewPager.setAdapter(mAdapter);
         tabLayout.setViewPager(mViewPager);
