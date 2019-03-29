@@ -4,22 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
-import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.R;
-import com.ez08.compass.tools.AppUtils;
-import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseFragment;
-import com.ez08.compass.ui.market.HomeTabFragment;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.market.tablayout.SlidingTabLayout;
-import com.ez08.compass.ui.stocks.adpater.HeadNewsAdapter;
 import com.ez08.compass.ui.view.EazyFragmentAdpater;
 
 import java.util.ArrayList;
@@ -40,7 +32,7 @@ public class StockBottomTabFragment extends BaseFragment {
     private int mIndex = 0;
     EmptyFragment fragment1;
     HeadNewsFragment fragment2;
-    EmptyFragment fragment3;
+    InnerNewsFragment fragment3;
 
     @Nullable
     @Override
@@ -51,7 +43,7 @@ public class StockBottomTabFragment extends BaseFragment {
 
         fragment1 = new EmptyFragment();
         fragment2 = new HeadNewsFragment();
-        fragment3 = new EmptyFragment();
+        fragment3 = new InnerNewsFragment();
 
         mFragmentList.clear();
         mFragmentList.add(new EasyFragment(fragment1, "当日资金"));

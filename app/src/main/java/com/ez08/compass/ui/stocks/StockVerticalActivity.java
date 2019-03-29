@@ -3,33 +3,36 @@ package com.ez08.compass.ui.stocks;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.android.thinkive.framework.util.ScreenUtil;
 import com.ez08.compass.R;
-import com.ez08.compass.entity.StockDataEntity;
+import com.ez08.compass.entity.InfoEntity;
 import com.ez08.compass.entity.StockDetailEntity;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.IndicatorHelper;
 import com.ez08.compass.parser.StockDetailParser;
-import com.ez08.compass.tools.MyAppCompat;
 import com.ez08.compass.tools.StockUtils;
-import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseActivity;
+import com.ez08.compass.ui.base.BaseViewHolder;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
+import com.ez08.compass.ui.market.tablayout.SlidingTabLayout;
+import com.ez08.compass.ui.stocks.adpater.HeadNewsHolder;
 import com.ez08.compass.ui.stocks.view.IndexQuoteView;
 import com.ez08.compass.ui.view.EazyFragmentAdpater;
 import com.ez08.compass.ui.view.SingleLineAutoResizeTextView;
+import com.ez08.compass.ui.view.StockDetailHeader;
 import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
 import com.ez08.support.util.EzValue;
@@ -49,21 +52,26 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     SingleLineAutoResizeTextView singleTextView;
     ImageButton backBtn;
     ImageButton searchBtn;
-    IndexQuoteView stockHeader;
     StockPopupWindows stockPopupWindows;
+    StockDetailAdapter adapter;
 
-    FrameLayout frameLayout;
-    TabLayout tabLayout;
-    ViewPager viewPager;
-    EazyFragmentAdpater mAdapter;
+    StockDetailHeader headerView;
+    IndexQuoteView indexQuoteView;
+    SlidingTabLayout bottomTabLayout;
 
-    FenshiFragment fenshiFragment;
-    KLineFragment m30fragment;
-    FragmentManager fragmentManager;
-    StockBottomTabFragment bottomTabFragment;
-    LinearLayout tradeLayout;
+//    FrameLayout frameLayout;
+//    TabLayout tabLayout;
+//    ViewPager viewPager;
+//    EazyFragmentAdpater mAdapter;
+//
+//    FenshiFragment fenshiFragment;
+//    KLineFragment m30fragment;
+//    FragmentManager fragmentManager;
+//    StockBottomTabFragment bottomTabFragment;
+//    LinearLayout tradeLayout;
 
-    private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
+    RecyclerView recyclerView;
+
     int topBarPosition = 0;
 
     @Override
@@ -87,33 +95,147 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         backBtn.setOnClickListener(this);
         searchBtn = (ImageButton) findViewById(R.id.search_btn);
         searchBtn.setOnClickListener(this);
-        stockHeader = (IndexQuoteView) findViewById(R.id.stock_detail_header);
-        stockHeader.setOnClickListener(this);
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        fragmentManager = getSupportFragmentManager();
+        headerView = (StockDetailHeader) LayoutInflater.from(this).inflate(R.layout.holder_stock_header, null);
+        indexQuoteView = headerView.findViewById(R.id.stock_index_quote);
+        indexQuoteView.setOnClickListener(this);
+        bottomTabLayout = (SlidingTabLayout) LayoutInflater.from(this).inflate(R.layout.holder_stock_bottom_tab, null);
 
-        tradeLayout = (LinearLayout) findViewById(R.id.stock_security_tv);
-        tradeLayout.setOnClickListener(this);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.line_light_1px));
+        recyclerView.addItemDecoration(divider);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        adapter = new StockDetailAdapter();
+        recyclerView.setAdapter(adapter);
 
-        frameLayout = (FrameLayout) findViewById(R.id.stock_detail_bottom);
+        List<Object> list = new ArrayList<>();
+        list.add(new Object());
+//        list.add(new Object());
 
-        MyAppCompat.setTextBackgroud(tradeLayout,mContext);
+        if (!TextUtils.isEmpty(stockCode))
+            NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
 
-        backBtn.post(new Runnable() {
-            @Override
-            public void run() {
-                topBarPosition = backBtn.getBottom();
-                LinearLayout.LayoutParams ll = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
-                ll.height = (int)ScreenUtil.getScreenHeight(mContext) - topBarPosition - UtilTools.dip2px(mContext, 58 + 20);
-                frameLayout.setLayoutParams(ll);
+//        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+//        viewPager = (ViewPager) findViewById(R.id.view_pager);
+//        fragmentManager = getSupportFragmentManager();
+//
+//        tradeLayout = (LinearLayout) findViewById(R.id.stock_security_tv);
+//        tradeLayout.setOnClickListener(this);
+//
+//        frameLayout = (FrameLayout) findViewById(R.id.stock_detail_bottom);
+//
+//        MyAppCompat.setTextBackgroud(tradeLayout,mContext);
 
-                if (!TextUtils.isEmpty(stockCode))
-                    NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
+    }
 
+
+    int type = 0; //0 head news 1 inner news 2 capital
+    List<InfoEntity> headNewsList = new ArrayList<>();
+
+    public class StockDetailAdapter extends RecyclerView.Adapter {
+
+        public static final int TYPE_HEADER = 0;
+        public static final int TYPE_TAB = 1;
+        public static final int TYPE_HEAD_NEWS = 2;
+        public static final int TYPE_INNER_NEWS = 3;
+        public static final int TYPE_CAPITAL = 4;
+
+        @Override
+        public int getItemViewType(int position) {
+            switch (position) {
+                case 0:
+                    return TYPE_HEADER;
+                case 1:
+                    return TYPE_TAB;
             }
-        });
+
+            switch (type) {
+                case 0:
+                    return TYPE_HEAD_NEWS;
+                case 1:
+                    return TYPE_INNER_NEWS;
+                case 2:
+                    return TYPE_CAPITAL;
+            }
+
+            return 404;
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+            switch (viewType) {
+                case TYPE_HEADER:
+                    Log.e("onCreateViewHolder","TYPE_HEADER");
+                    return new StockHeaderHolder(headerView);
+                case TYPE_TAB:
+                    Log.e("onCreateViewHolder","TYPE_TAB");
+                    return new StockHeaderTabHolder(bottomTabLayout);
+                case TYPE_HEAD_NEWS:
+                    Log.e("onCreateViewHolder","TYPE_HEAD_NEWS");
+                    return new HeadNewsHolder(viewGroup);
+            }
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+            switch (getItemViewType(position)) {
+                case TYPE_HEADER:
+                    Log.e("onBindViewHolder","TYPE_HEADER");
+                    return;
+                case TYPE_TAB:
+                    Log.e("onBindViewHolder","TYPE_TAB");
+                    return;
+                case TYPE_HEAD_NEWS:
+                    Log.e("onBindViewHolder","TYPE_HEAD_NEWS");
+                    ((HeadNewsHolder) viewHolder).setData(headNewsList.get(position - 2));
+                    return;
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return 2 + headNewsList.size();
+        }
+    }
+
+
+    public class StockHeaderHolder extends RecyclerView.ViewHolder {
+
+        public StockHeaderHolder(View itemView) {
+            super(itemView);
+
+        }
+    }
+
+    public class StockHeaderTabHolder extends RecyclerView.ViewHolder {
+
+//        SlidingTabLayout tabLayout;
+//        private ViewPager mViewPager;
+//        private EazyFragmentAdpater mAdapter;
+//        private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
+
+//        HeadNewsFragment fragment2;
+
+        public StockHeaderTabHolder(View itemView) {
+            super(bottomTabLayout);
+
+//            mViewPager = $(R.id.view_pager);
+//            tabLayout = $(R.id.tab_layout);
+//
+//            fragment2 = new HeadNewsFragment();
+//
+//            mFragmentList.clear();
+//            mFragmentList.add(new EasyFragment(fragment2, "头条"));
+//
+//            mViewPager.setOffscreenPageLimit(mFragmentList.size());
+//            mAdapter = new EazyFragmentAdpater(((AppCompatActivity) getContext()).getSupportFragmentManager(), mFragmentList);
+//            mViewPager.setAdapter(mAdapter);
+//            tabLayout.setViewPager(mViewPager);
+
+        }
     }
 
 
@@ -128,12 +250,12 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         }
 
         @Override
-        public void receive(int arg0, boolean b, Intent arg2) {
+        public void receive(int arg0, boolean b, Intent intent) {
             switch (arg0) {
                 case WHAT_GET_STOCK_DETAIL: //获取股票详细报价信息
-                    if (arg2 != null) {
+                    if (intent != null) {
                         EzValue detail = IntentTools.safeGetEzValueFromIntent(
-                                arg2, "detail");
+                                intent, "detail");
                         if (detail != null) {
 //                            String aa = detail.description();
 //                            Log.e(TAG, aa);
@@ -143,34 +265,34 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
                             if (detailEntity != null) {
                                 singleTextView.setTextContent(detailEntity.getSecuname() + "(" + StockUtils.cutStockCode(detailEntity.getSecucode()) + ")");
-                                IndicatorHelper helper = new IndicatorHelper(detailEntity);
-                                stockHeader.setData(helper);
-
-                                fenshiFragment = FenshiFragment.newInstance(detailEntity);
-                                m30fragment = KLineFragment.newInstance(detailEntity,"day");
-                                mFragmentList.clear();
-                                mFragmentList.add(new EasyFragment(fenshiFragment, "分时"));
-                                mFragmentList.add(new EasyFragment(m30fragment, "30分"));
-//                                mFragmentList.add(new EasyFragment(m60Fragment, "60分"));
-//                                mFragmentList.add(new EasyFragment(dayFragment, "日K"));
-//                                mFragmentList.add(new EasyFragment(weekFragment, "周K"));
-//                                mFragmentList.add(new EasyFragment(monthFragment, "月K"));
-//                                mFragmentList.add(new EasyFragment(minFragment, "分钟"));
-
-                                viewPager.setOffscreenPageLimit(mFragmentList.size());
-                                mAdapter = new EazyFragmentAdpater(getSupportFragmentManager(), mFragmentList);
-                                viewPager.setAdapter(mAdapter);
-                                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                                tabLayout.setupWithViewPager(viewPager);
-
-
-                                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                                if(bottomTabFragment == null){
-                                    bottomTabFragment =  StockBottomTabFragment.newInstance();
-                                    transaction.replace(R.id.stock_detail_bottom,bottomTabFragment);
-                                }
-                                transaction.show(bottomTabFragment);
-                                transaction.commitAllowingStateLoss();
+                                headerView.setData(detailEntity);
+//
+                                NetInterface.requestNewInfoList(mHandler, 10000, null, 10, "头条");
+//                                fenshiFragment = FenshiFragment.newInstance(detailEntity);
+//                                m30fragment = KLineFragment.newInstance(detailEntity,"day");
+//                                mFragmentList.clear();
+//                                mFragmentList.add(new EasyFragment(fenshiFragment, "分时"));
+//                                mFragmentList.add(new EasyFragment(m30fragment, "30分"));
+////                                mFragmentList.add(new EasyFragment(m60Fragment, "60分"));
+////                                mFragmentList.add(new EasyFragment(dayFragment, "日K"));
+////                                mFragmentList.add(new EasyFragment(weekFragment, "周K"));
+////                                mFragmentList.add(new EasyFragment(monthFragment, "月K"));
+////                                mFragmentList.add(new EasyFragment(minFragment, "分钟"));
+//
+//                                viewPager.setOffscreenPageLimit(mFragmentList.size());
+//                                mAdapter = new EazyFragmentAdpater(getSupportFragmentManager(), mFragmentList);
+//                                viewPager.setAdapter(mAdapter);
+//                                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//                                tabLayout.setupWithViewPager(viewPager);
+//
+//
+//                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                                if(bottomTabFragment == null){
+//                                    bottomTabFragment =  StockBottomTabFragment.newInstance();
+//                                    transaction.replace(R.id.stock_detail_bottom,bottomTabFragment);
+//                                }
+//                                transaction.show(bottomTabFragment);
+//                                transaction.commitAllowingStateLoss();
 //
 
 //                                if (fenshiFragment == null) {
@@ -191,6 +313,23 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
                         }
                     }
+                case 10000:
+                    if (intent != null) {
+                        EzValue value = IntentTools.safeGetEzValueFromIntent(
+                                intent, "list");
+                        if (value != null) {
+                            EzMessage[] messages = value.getMessages();
+                            if (messages != null) {
+                                EzParser<InfoEntity> parser =  new InfoParser();
+                                for (int i = 0; i < messages.length; i++) {
+                                    InfoEntity entity = parser.invoke(messages[i]);
+                                    headNewsList.add(entity);
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                    break;
             }
         }
     };
@@ -205,7 +344,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
             case R.id.search_btn:
 
                 break;
-            case R.id.stock_detail_header:
+            case R.id.stock_index_quote:
                 if (stockPopupWindows == null) {
                     if (detailEntity == null) {
                         return;
@@ -213,7 +352,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
                     stockPopupWindows = new StockPopupWindows(this);
                     stockPopupWindows.setData(detailEntity);
                 }
-                stockPopupWindows.showPopupWindow(stockHeader);
+                stockPopupWindows.showPopupWindow(indexQuoteView);
                 break;
             case R.id.stock_security_tv:
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ez08.compass.ui.view.StockDetailHeader xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.ez08.compass.ui.stocks.view.IndexQuoteView
+        android:id="@+id/stock_index_quote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/light_gray"
+        />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="visible" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/light_gray"
+        />
+
+
+
+    <com.ez08.compass.ui.view.UnScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:visibility="visible" />
+
+
+</com.ez08.compass.ui.view.StockDetailHeader>

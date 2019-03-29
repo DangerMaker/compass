@@ -96,48 +96,61 @@
 
     </RelativeLayout>
 
-
-    <com.ez08.compass.ui.stocks.view.StickyHeaderLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tool_bar"
+        android:layout_marginBottom="58dp" />
+
+    <FrameLayout
+        android:id="@+id/sticky_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/tool_bar"
         android:layout_marginBottom="58dp"
-        android:orientation="vertical">
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/sticky_header"
-            android:orientation="vertical"
+        <com.ez08.compass.ui.market.tablayout.SlidingTabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.ez08.compass.ui.stocks.view.IndexQuoteView
-                android:id="@+id/stock_detail_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp" />
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            android:layout_height="42dp"/>
 
 
-            <com.ez08.compass.ui.view.UnScrollViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:visibility="visible" />
+        <!--<LinearLayout-->
+            <!--android:id="@+id/sticky_header"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
 
-        </LinearLayout>
+            <!--<com.ez08.compass.ui.stocks.view.IndexQuoteView-->
+                <!--android:id="@+id/stock_detail_header"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:paddingBottom="5dp" />-->
 
-        <FrameLayout
-            android:id="@+id/stock_detail_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/tab_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:visibility="gone" />-->
 
-    </com.ez08.compass.ui.stocks.view.StickyHeaderLayout>
+
+            <!--<com.ez08.compass.ui.view.UnScrollViewPager-->
+                <!--android:id="@+id/view_pager"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="320dp"-->
+                <!--android:visibility="gone" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--<FrameLayout-->
+            <!--android:id="@+id/stock_detail_bottom"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"></FrameLayout>-->
+
+    </FrameLayout>
 
 
     <LinearLayout

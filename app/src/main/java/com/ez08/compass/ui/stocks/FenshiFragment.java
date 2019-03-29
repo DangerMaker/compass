@@ -192,7 +192,6 @@ public class FenshiFragment extends BaseFragment {
                     fenShiView.setDesEntityList(mEntityList);
                     fenShiView.setCanRefresh(true);
                     fenShiView.setHandler(mHandler);
-
                     mFenShiMark = mFenshiList.size() - 1;
                     break;
             }

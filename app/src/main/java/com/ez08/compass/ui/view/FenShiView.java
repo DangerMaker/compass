@@ -303,7 +303,6 @@ public class FenShiView extends View {
                         handler.sendMessage(message);
                     }
 
-                    canRefresh = true;
                     invalidate();
 
                     if (isScrollDetail) {
@@ -360,7 +359,6 @@ public class FenShiView extends View {
                         } else {
                             shiziGone();
                         }
-                        canRefresh = true;
                         invalidate();
                     }
                 }
@@ -389,7 +387,6 @@ public class FenShiView extends View {
                 isScrollDetail = false;
                 CompassApp.GLOBAL.isScroll = isScrollDetail;
                 shiziGone();
-                canRefresh = true;
                 invalidate();
             }
         }
@@ -417,10 +414,6 @@ public class FenShiView extends View {
         }
     }
 
-
-    public boolean isCanRefresh() {
-        return canRefresh;
-    }
 
     public void setCanRefresh(boolean canRefresh) {
         this.canRefresh = canRefresh;
@@ -805,7 +798,6 @@ public class FenShiView extends View {
                         timeScalePaint);
 
             }
-            canRefresh = false;
         } else {
 
             float textLength = loadPaint.measureText("数据加载中");
