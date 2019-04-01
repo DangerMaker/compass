@@ -43,7 +43,7 @@ public class StockDetailHeader extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         indexQuoteView = findViewById(R.id.stock_index_quote);
-        tabLayout = findViewById(R.id.tab_layout);
+        tabLayout = findViewById(R.id.tab_layout_header);
         viewPager = findViewById(R.id.view_pager);
     }
 

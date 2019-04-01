@@ -30,6 +30,7 @@ import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.market.tablayout.SlidingTabLayout;
 import com.ez08.compass.ui.stocks.adpater.HeadNewsHolder;
 import com.ez08.compass.ui.stocks.view.IndexQuoteView;
+import com.ez08.compass.ui.stocks.view.LoremIpsumAdapter;
 import com.ez08.compass.ui.view.EazyFragmentAdpater;
 import com.ez08.compass.ui.view.SingleLineAutoResizeTextView;
 import com.ez08.compass.ui.view.StockDetailHeader;
@@ -53,7 +54,6 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     ImageButton backBtn;
     ImageButton searchBtn;
     StockPopupWindows stockPopupWindows;
-    StockDetailAdapter adapter;
 
     StockDetailHeader headerView;
     IndexQuoteView indexQuoteView;
@@ -72,12 +72,10 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
     RecyclerView recyclerView;
 
-    int topBarPosition = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ativity_stock_detail_vertical);
+        setContentView(R.layout.ativity_stock_detail_vertical1);
 
         Intent getIntent = getIntent();
         if (getIntent != null) {
@@ -96,22 +94,18 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         searchBtn = (ImageButton) findViewById(R.id.search_btn);
         searchBtn.setOnClickListener(this);
 
-        headerView = (StockDetailHeader) LayoutInflater.from(this).inflate(R.layout.holder_stock_header, null);
+        headerView = (StockDetailHeader)findViewById(R.id.stock_detail_header);
         indexQuoteView = headerView.findViewById(R.id.stock_index_quote);
         indexQuoteView.setOnClickListener(this);
-        bottomTabLayout = (SlidingTabLayout) LayoutInflater.from(this).inflate(R.layout.holder_stock_bottom_tab, null);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.card_recyclerview);
         DividerItemDecoration divider = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
         divider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.line_light_1px));
         recyclerView.addItemDecoration(divider);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        adapter = new StockDetailAdapter();
+        LoremIpsumAdapter adapter = new LoremIpsumAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        List<Object> list = new ArrayList<>();
-        list.add(new Object());
-//        list.add(new Object());
 
         if (!TextUtils.isEmpty(stockCode))
             NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
@@ -130,113 +124,113 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    int type = 0; //0 head news 1 inner news 2 capital
-    List<InfoEntity> headNewsList = new ArrayList<>();
-
-    public class StockDetailAdapter extends RecyclerView.Adapter {
-
-        public static final int TYPE_HEADER = 0;
-        public static final int TYPE_TAB = 1;
-        public static final int TYPE_HEAD_NEWS = 2;
-        public static final int TYPE_INNER_NEWS = 3;
-        public static final int TYPE_CAPITAL = 4;
-
-        @Override
-        public int getItemViewType(int position) {
-            switch (position) {
-                case 0:
-                    return TYPE_HEADER;
-                case 1:
-                    return TYPE_TAB;
-            }
-
-            switch (type) {
-                case 0:
-                    return TYPE_HEAD_NEWS;
-                case 1:
-                    return TYPE_INNER_NEWS;
-                case 2:
-                    return TYPE_CAPITAL;
-            }
-
-            return 404;
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-            switch (viewType) {
-                case TYPE_HEADER:
-                    Log.e("onCreateViewHolder","TYPE_HEADER");
-                    return new StockHeaderHolder(headerView);
-                case TYPE_TAB:
-                    Log.e("onCreateViewHolder","TYPE_TAB");
-                    return new StockHeaderTabHolder(bottomTabLayout);
-                case TYPE_HEAD_NEWS:
-                    Log.e("onCreateViewHolder","TYPE_HEAD_NEWS");
-                    return new HeadNewsHolder(viewGroup);
-            }
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-            switch (getItemViewType(position)) {
-                case TYPE_HEADER:
-                    Log.e("onBindViewHolder","TYPE_HEADER");
-                    return;
-                case TYPE_TAB:
-                    Log.e("onBindViewHolder","TYPE_TAB");
-                    return;
-                case TYPE_HEAD_NEWS:
-                    Log.e("onBindViewHolder","TYPE_HEAD_NEWS");
-                    ((HeadNewsHolder) viewHolder).setData(headNewsList.get(position - 2));
-                    return;
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return 2 + headNewsList.size();
-        }
-    }
-
-
-    public class StockHeaderHolder extends RecyclerView.ViewHolder {
-
-        public StockHeaderHolder(View itemView) {
-            super(itemView);
-
-        }
-    }
-
-    public class StockHeaderTabHolder extends RecyclerView.ViewHolder {
-
-//        SlidingTabLayout tabLayout;
-//        private ViewPager mViewPager;
-//        private EazyFragmentAdpater mAdapter;
-//        private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
-
-//        HeadNewsFragment fragment2;
-
-        public StockHeaderTabHolder(View itemView) {
-            super(bottomTabLayout);
-
-//            mViewPager = $(R.id.view_pager);
-//            tabLayout = $(R.id.tab_layout);
+//    int type = 0; //0 head news 1 inner news 2 capital
+//    List<InfoEntity> headNewsList = new ArrayList<>();
 //
-//            fragment2 = new HeadNewsFragment();
+//    public class StockDetailAdapter extends RecyclerView.Adapter {
 //
-//            mFragmentList.clear();
-//            mFragmentList.add(new EasyFragment(fragment2, "头条"));
+//        public static final int TYPE_HEADER = 0;
+//        public static final int TYPE_TAB = 1;
+//        public static final int TYPE_HEAD_NEWS = 2;
+//        public static final int TYPE_INNER_NEWS = 3;
+//        public static final int TYPE_CAPITAL = 4;
 //
-//            mViewPager.setOffscreenPageLimit(mFragmentList.size());
-//            mAdapter = new EazyFragmentAdpater(((AppCompatActivity) getContext()).getSupportFragmentManager(), mFragmentList);
-//            mViewPager.setAdapter(mAdapter);
-//            tabLayout.setViewPager(mViewPager);
-
-        }
-    }
+//        @Override
+//        public int getItemViewType(int position) {
+//            switch (position) {
+//                case 0:
+//                    return TYPE_HEADER;
+//                case 1:
+//                    return TYPE_TAB;
+//            }
+//
+//            switch (type) {
+//                case 0:
+//                    return TYPE_HEAD_NEWS;
+//                case 1:
+//                    return TYPE_INNER_NEWS;
+//                case 2:
+//                    return TYPE_CAPITAL;
+//            }
+//
+//            return 404;
+//        }
+//
+//        @NonNull
+//        @Override
+//        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+//            switch (viewType) {
+//                case TYPE_HEADER:
+//                    Log.e("onCreateViewHolder","TYPE_HEADER");
+//                    return new StockHeaderHolder(headerView);
+//                case TYPE_TAB:
+//                    Log.e("onCreateViewHolder","TYPE_TAB");
+//                    return new StockHeaderTabHolder(bottomTabLayout);
+//                case TYPE_HEAD_NEWS:
+//                    Log.e("onCreateViewHolder","TYPE_HEAD_NEWS");
+//                    return new HeadNewsHolder(viewGroup);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+//            switch (getItemViewType(position)) {
+//                case TYPE_HEADER:
+//                    Log.e("onBindViewHolder","TYPE_HEADER");
+//                    return;
+//                case TYPE_TAB:
+//                    Log.e("onBindViewHolder","TYPE_TAB");
+//                    return;
+//                case TYPE_HEAD_NEWS:
+//                    Log.e("onBindViewHolder","TYPE_HEAD_NEWS");
+//                    ((HeadNewsHolder) viewHolder).setData(headNewsList.get(position - 2));
+//                    return;
+//            }
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return 2 + headNewsList.size();
+//        }
+//    }
+//
+//
+//    public class StockHeaderHolder extends RecyclerView.ViewHolder {
+//
+//        public StockHeaderHolder(View itemView) {
+//            super(itemView);
+//
+//        }
+//    }
+//
+//    public class StockHeaderTabHolder extends RecyclerView.ViewHolder {
+//
+////        SlidingTabLayout tabLayout;
+////        private ViewPager mViewPager;
+////        private EazyFragmentAdpater mAdapter;
+////        private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
+//
+////        HeadNewsFragment fragment2;
+//
+//        public StockHeaderTabHolder(View itemView) {
+//            super(bottomTabLayout);
+//
+////            mViewPager = $(R.id.view_pager);
+////            tabLayout = $(R.id.tab_layout);
+////
+////            fragment2 = new HeadNewsFragment();
+////
+////            mFragmentList.clear();
+////            mFragmentList.add(new EasyFragment(fragment2, "头条"));
+////
+////            mViewPager.setOffscreenPageLimit(mFragmentList.size());
+////            mAdapter = new EazyFragmentAdpater(((AppCompatActivity) getContext()).getSupportFragmentManager(), mFragmentList);
+////            mViewPager.setAdapter(mAdapter);
+////            tabLayout.setViewPager(mViewPager);
+//
+//        }
+//    }
 
 
     @SuppressLint("HandlerLeak")
@@ -313,23 +307,23 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
 
                         }
                     }
-                case 10000:
-                    if (intent != null) {
-                        EzValue value = IntentTools.safeGetEzValueFromIntent(
-                                intent, "list");
-                        if (value != null) {
-                            EzMessage[] messages = value.getMessages();
-                            if (messages != null) {
-                                EzParser<InfoEntity> parser =  new InfoParser();
-                                for (int i = 0; i < messages.length; i++) {
-                                    InfoEntity entity = parser.invoke(messages[i]);
-                                    headNewsList.add(entity);
-                                }
-                            }
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                    break;
+//                case 10000:
+//                    if (intent != null) {
+//                        EzValue value = IntentTools.safeGetEzValueFromIntent(
+//                                intent, "list");
+//                        if (value != null) {
+//                            EzMessage[] messages = value.getMessages();
+//                            if (messages != null) {
+//                                EzParser<InfoEntity> parser =  new InfoParser();
+//                                for (int i = 0; i < messages.length; i++) {
+//                                    InfoEntity entity = parser.invoke(messages[i]);
+//                                    headNewsList.add(entity);
+//                                }
+//                            }
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                    break;
             }
         }
     };
