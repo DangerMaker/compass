@@ -6,7 +6,12 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+
+import com.ez08.compass.R;
+import com.ez08.compass.ui.view.StockDetailHeader;
+import com.ez08.compass.ui.view.UnScrollViewPager;
 
 /**
  * A custom {@link NestedScrollView} that customizes the sample app's
@@ -16,6 +21,22 @@ public class CustomNestedScrollView2 extends NestedScrollView2 {
 
   public CustomNestedScrollView2(Context context, AttributeSet attrs) {
     super(context, attrs);
+  }
+
+  StockDetailHeader header;
+
+  @Override
+  protected void onFinishInflate() {
+    super.onFinishInflate();
+    header = findViewById(R.id.stock_detail_header);
+  }
+
+  @Override
+  public boolean onInterceptTouchEvent(MotionEvent ev) {
+    if(header.getFocus()){
+      return false;
+    }
+    return super.onInterceptTouchEvent(ev);
   }
 
   @Override

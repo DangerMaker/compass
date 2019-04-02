@@ -66,6 +66,14 @@ public class KLineFragment extends BaseFragment {
         return fragment;
     }
 
+    public boolean getFocus() {
+        if (kLineView != null) {
+            return kLineView.getFocus();
+
+        }
+        return false;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -151,38 +159,6 @@ public class KLineFragment extends BaseFragment {
                         kLineView.setMoreData(mTotalList);
                     }
                     break;
-//                    if (isFirstLoad) {
-//                        isFirstLoad = false;
-//                        templList = new ArrayList<>();
-//                        templList.addAll(list);
-//                    } else {
-//                        if (templList.size() > 0 && list.size() > 0 && list.get(list.size() - 1).getlTime() == templList.get(0).getlTime()) {
-//                            templList.remove(0);
-//                        }
-//                        templList.addAll(0, list);
-//                        if (list.size() >= -DATA_LENGTH) {
-//                            hasDayData = true;
-//                        } else {
-//                            hasDayData = false;
-//                        }
-//                    }
-//                    if (mEntity != null) {
-//                        setStockDetailInfo();
-//                    }
-//                    mKline.setIndex(DECM == 4 ? false : true);
-//                    mKline.setData(templList);
-//
-//                    NetInterface.getStockDHYD(mHandler2, GET_KLINE_LIST_HYD, mCMD, mStockPeriod, mKlineRequestDate1, DATA_LENGTH);
-//
-//                    if (!isVertical) {
-//                        mChipsView.setKlineData(templList);
-//                    }
-////
-//                    if (templList.size() > 0) {
-//                        NetInterface.getCaptialInfo(mHandler2, GET_CAPITAL_INFO, mStockPeriod, mCMD.replace("HQ", ""), mKlineRequestDate, DATA_LENGTH);
-//                        mKlineRequestDate = (int) templList.get(0).getlTime();
-//                    }
-//                    break;
             }
         }
     };

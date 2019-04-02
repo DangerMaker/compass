@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.ez08.compass.ui.stocks.view.SegmentedGroup
+        android:id="@+id/segmented_group"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_width="200dp"
+        android:layout_height="28dp">
+
+        <RadioButton
+            android:id="@+id/zl_radio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="主力"
+            android:textSize="14dp"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/gsd_radio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="敢死队"
+            android:textSize="14dp"
+            style="@style/RadioButton" />
+
+        <RadioButton
+            android:id="@+id/dk_radio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="多空"
+            android:textSize="14dp"
+            style="@style/RadioButton" />
+
+    </com.ez08.compass.ui.stocks.view.SegmentedGroup>
+
+    <com.ez08.compass.ui.stocks.view.LineChartView
+        android:layout_marginTop="50dp"
+        android:id="@+id/line_chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"></com.ez08.compass.ui.stocks.view.LineChartView>
+
+</LinearLayout>

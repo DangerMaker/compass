@@ -32,7 +32,7 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
     // List the toolbar container as a dependency to ensure that it will
     // always be laid out before the child (which depends on the toolbar
     // container's height in onLayoutChild() below).
-    return dependency.getId() == R.id.toolbar_container;
+    return dependency.getId() == R.id.tool_bar;
   }
 
   @Override
@@ -42,16 +42,15 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
     parent.onLayoutChild(child, layoutDirection);
 
     // Center the FAB vertically along the top edge of the card.
-    final int fabHalfHeight = child.findViewById(R.id.fab).getHeight() / 2;
-    setTopMargin(child.findViewById(R.id.cardview), fabHalfHeight);
+//    final int fabHalfHeight = child.findViewById(R.id.fab).getHeight() / 2;
+    setTopMargin(child.findViewById(R.id.card_container), 0);
 
     // Give the RecyclerView a maximum height to ensure the card will never
     // overlap the toolbar as it scrolls.
     final int rvMaxHeight =
         child.getHeight()
-            - fabHalfHeight
             - child.findViewById(R.id.tab_layout_bottom).getHeight();
-    final MaxHeightRecyclerView rv = child.findViewById(R.id.card_recyclerview);
+    final MaxHeightViewPager rv = child.findViewById(R.id.view_pager_bottom);
     rv.setMaxHeight(rvMaxHeight);
 
     // Give the card container top padding so that only the top edge of the card

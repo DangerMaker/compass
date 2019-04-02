@@ -86,7 +86,7 @@ public class FenShiView extends View {
     private Paint cursorPaint;
     private Paint blackPaint;
     private Paint shiziPaint;
-    private boolean isScrollDetail = false;
+    public boolean isScrollDetail = false;
     private Paint dashedPaint;
 
     private List<Float> value;

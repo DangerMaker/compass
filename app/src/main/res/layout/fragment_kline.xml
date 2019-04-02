@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/light_gray"
+        />
+
     <RelativeLayout
         android:id="@+id/setting_title"
         android:layout_width="match_parent"

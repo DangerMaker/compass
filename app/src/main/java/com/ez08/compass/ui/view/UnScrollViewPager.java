@@ -39,4 +39,5 @@ public class UnScrollViewPager extends ViewPager {
             return super.onInterceptTouchEvent(arg0);
         return false;
     }
+
 }

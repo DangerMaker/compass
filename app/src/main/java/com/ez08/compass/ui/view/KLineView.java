@@ -82,7 +82,7 @@ public class KLineView extends View {
     private int decm = 4;
     int screenStart = 0;
     int screenEnd = 0;
-    boolean tenLineState = false; //十字线状态
+    public boolean tenLineState = false; //十字线状态
     int currentLineNum = 52;
     float currentX = 0;
     float currentY = 0;
@@ -521,6 +521,7 @@ public class KLineView extends View {
                 touchUp = true;
                 removeCallbacks(delayRunnable);
                 postDelayed(delayRunnable, 3 * 1000);
+                pointCount = 1;
                 break;
         }
         return true;
@@ -544,4 +545,8 @@ public class KLineView extends View {
         this.handler = handler;
     }
 
+
+    public boolean getFocus(){
+        return tenLineState || pointCount == 2;
+    }
 }

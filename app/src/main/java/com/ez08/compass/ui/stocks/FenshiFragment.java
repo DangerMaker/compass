@@ -59,6 +59,14 @@ public class FenshiFragment extends BaseFragment {
         return fragment;
     }
 
+    public boolean getFocus() {
+        if (fenShiView != null) {
+            return fenShiView.isScrollDetail;
+
+        }
+        return false;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,7 +92,7 @@ public class FenshiFragment extends BaseFragment {
         mBarList = new ArrayList<ColumnValuesDataModel>();
         mEntityList = new ArrayList<FenShiDesEntity>();
 
-        if(!DDSID.isZ(detailEntity.getSecucode())) {
+        if (!DDSID.isZ(detailEntity.getSecucode())) {
             fiveAndDetailView.setFiveData(detailEntity);
         }
         NetInterface.getStockmLineNew(mHandler, WHAT_MLINE_HISTORY, detailEntity.getSecucode(), mFenShiMark);
