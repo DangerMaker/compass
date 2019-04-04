@@ -109,78 +109,7 @@ public class KLineView extends View {
         mContext = context;
         redColor = CompassApp.GLOBAL.RED;
         greenColor = CompassApp.GLOBAL.GREEN;
-        gestureDetector = new GestureDetector(mContext, new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent e) {
-                Log.e(TAG, "onDown");
-                scrollDistanceX = 0;
-                scrollStartIndex = screenStart;
-                scrollEndIndex = screenEnd;
-                MODE = 0;
-                return true;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-                Log.e(TAG, "onShowPress");
-            }
-
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                Log.e(TAG, "onSingleTapUp");
-                if (chartRectF.contains(e.getX(), e.getY())) {
-                    chartPress();
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                if (MODE == 1) {
-                    return false;
-                }
-
-                scrollDistanceX = scrollDistanceX + distanceX;
-                Log.e(TAG, "onScroll scrollDistanceX=" + scrollDistanceX);
-                int num = (int) (scrollDistanceX / widthAverage);
-                int start = scrollStartIndex + num;
-                int end = scrollEndIndex + num;
-
-                if (start < 0) {
-                    start = 0;
-                    end = scrollEndIndex - scrollStartIndex;
-                    if (checkIfNeedLoadMore) {
-                        handler.sendEmptyMessage(GET_MORE_LINE);
-                        checkIfNeedLoadMore = false;
-                    }
-                }
-
-                if (end > mTotalList.size()) {
-                    end = mTotalList.size();
-                    start = scrollStartIndex + mTotalList.size() - scrollEndIndex;
-                }
-
-                refreshUI(start, end);
-                return true;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-                Log.e(TAG, "onLongPress");
-                if (pointCount > 1) {
-                    return;
-                }
-                tenLineState = true;
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.e(TAG, "onFling");
-                return false;
-            }
-
-        });
+        gestureDetector = new GestureDetector(new MySimpleGesture());
 
         scaleGestureDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.OnScaleGestureListener() {
             @Override
@@ -395,9 +324,9 @@ public class KLineView extends View {
         int start;
         int end;
         int increment = lists.size() - mTotalList.size();
-        if(increment < KLINE_VIEW_NET_ONCE - 1){
+        if (increment < KLINE_VIEW_NET_ONCE - 1) {
             checkIfNeedLoadMore = false;
-        }else{
+        } else {
             checkIfNeedLoadMore = true;
         }
 
@@ -546,7 +475,86 @@ public class KLineView extends View {
     }
 
 
-    public boolean getFocus(){
+    public boolean getFocus() {
         return tenLineState || pointCount == 2;
+    }
+
+    public class MySimpleGesture extends GestureDetector.SimpleOnGestureListener{
+        @Override
+        public boolean onDown(MotionEvent e) {
+            Log.e(TAG, "onDown");
+            scrollDistanceX = 0;
+            scrollStartIndex = screenStart;
+            scrollEndIndex = screenEnd;
+            MODE = 0;
+            return true;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+            Log.e(TAG, "onShowPress");
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            Log.e(TAG, "onSingleTapUp");
+            if (chartRectF.contains(e.getX(), e.getY())) {
+                chartPress();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            if (MODE == 1) {
+                return false;
+            }
+
+            scrollDistanceX = scrollDistanceX + distanceX;
+            Log.e(TAG, "onScroll scrollDistanceX=" + scrollDistanceX);
+            int num = (int) (scrollDistanceX / widthAverage);
+            int start = scrollStartIndex + num;
+            int end = scrollEndIndex + num;
+
+            if (start < 0) {
+                start = 0;
+                end = scrollEndIndex - scrollStartIndex;
+                if (checkIfNeedLoadMore) {
+                    handler.sendEmptyMessage(GET_MORE_LINE);
+                    checkIfNeedLoadMore = false;
+                }
+            }
+
+            if (end > mTotalList.size()) {
+                end = mTotalList.size();
+                start = scrollStartIndex + mTotalList.size() - scrollEndIndex;
+            }
+
+            refreshUI(start, end);
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            Log.e(TAG, "onLongPress");
+            if (pointCount > 1) {
+                return;
+            }
+            tenLineState = true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.e(TAG, "onFling");
+            return false;
+        }
+
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            Log.e(TAG, "onDoubleTap");
+            return super.onDoubleTap(e);
+        }
     }
 }

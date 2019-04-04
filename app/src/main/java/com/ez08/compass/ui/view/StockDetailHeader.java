@@ -1,10 +1,8 @@
 package com.ez08.compass.ui.view;
 
 import android.content.Context;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.ez08.compass.R;
@@ -24,7 +22,7 @@ public class StockDetailHeader extends LinearLayout {
     SlidingTabLayout tabLayout;
     UnScrollViewPager viewPager;
 
-    EazyFragmentAdpater mAdapter;
+    EasyFragmentAdapter1 mAdapter;
     FenshiFragment fenshiFragment;
     KLineFragment dayFragment;
     KLineFragment weekFragment;
@@ -70,7 +68,7 @@ public class StockDetailHeader extends LinearLayout {
 //        mFragmentList.add(new EasyFragment(minFragment, "分钟"));
 
         viewPager.setOffscreenPageLimit(mFragmentList.size());
-        mAdapter = new EazyFragmentAdpater(((AppCompatActivity) getContext()).getSupportFragmentManager(), mFragmentList);
+        mAdapter = new EasyFragmentAdapter1(((AppCompatActivity) getContext()).getSupportFragmentManager(), mFragmentList);
         viewPager.setAdapter(mAdapter);
         tabLayout.setViewPager(viewPager);
     }

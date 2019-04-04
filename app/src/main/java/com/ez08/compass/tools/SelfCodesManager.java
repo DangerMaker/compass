@@ -70,7 +70,7 @@ public class SelfCodesManager {
         return list;
     }
 
-    public static String getSelfOnlyCode(int type){
+    public static String getSelfOnlyCode(int type) {
         String path = "";
         List<ItemStock> requestCodeList = getSelfCodes(type);
         for (int i = 0; i < requestCodeList.size(); i++) {
@@ -85,6 +85,17 @@ public class SelfCodesManager {
         return path;
     }
 
+    public static ArrayList<String> getSelfOnlyCodeList(int type) {
+        ArrayList<String> list = new ArrayList<>();
+        List<ItemStock> requestCodeList = getSelfCodes(type);
+        for (int i = 0; i < requestCodeList.size(); i++) {
+            if (requestCodeList.get(i).getCode() != null) {
+                list.add(requestCodeList.get(i).getCode().toUpperCase());
+            }
+        }
+        return list;
+    }
+
     public static void deleteSelfCode(String code) {
         for (int i = 0; i < finalSelfCodesList.size(); i++) {
             ItemStock stock = finalSelfCodesList.get(i);
@@ -96,7 +107,7 @@ public class SelfCodesManager {
     }
 
     public static void turnSelfCode(String code, int type) {
-        int codePos=0;
+        int codePos = 0;
         for (int i = 0; i < finalSelfCodesList.size(); i++) {
             ItemStock stock = finalSelfCodesList.get(i);
             if (stock.getCode().equals(code)) {
@@ -110,14 +121,14 @@ public class SelfCodesManager {
             }
         }
 
-        if(type == 0){
+        if (type == 0) {
             ItemStock item = finalSelfCodesList.get(codePos);
             finalSelfCodesList.remove(codePos);
-            finalSelfCodesList.add(0,item);
-        }else{
+            finalSelfCodesList.add(0, item);
+        } else {
             ItemStock item = finalSelfCodesList.get(codePos);
             finalSelfCodesList.remove(codePos);
-            finalSelfCodesList.add(getSelfCodes(1).size() ,item);
+            finalSelfCodesList.add(getSelfCodes(1).size(), item);
         }
 
         uploadInformation();
@@ -129,43 +140,43 @@ public class SelfCodesManager {
         for (int i = 0; i < finalSelfCodesList.size(); i++) {
             ItemStock stock = finalSelfCodesList.get(i);
             if (stock.getCode().equals(code)) {
-               codePos = i;
+                codePos = i;
                 break;
             }
         }
 
-        if(type == 0){
+        if (type == 0) {
             ItemStock item = finalSelfCodesList.get(codePos);
             finalSelfCodesList.remove(codePos);
-            finalSelfCodesList.add(position + getSelfCodes(1).size(),item);
-        }else{
+            finalSelfCodesList.add(position + getSelfCodes(1).size(), item);
+        } else {
             ItemStock item = finalSelfCodesList.get(codePos);
             finalSelfCodesList.remove(codePos);
-            finalSelfCodesList.add(position ,item);
+            finalSelfCodesList.add(position, item);
         }
 
         uploadInformation();
     }
 
-    public static void addSelfCode(String code){
-        code = code + ItemStock.splitChar + 0 +  ItemStock.splitChar + 0 +  ItemStock.splitChar + 0 +  ItemStock.splitChar + 0;
+    public static void addSelfCode(String code) {
+        code = code + ItemStock.splitChar + 0 + ItemStock.splitChar + 0 + ItemStock.splitChar + 0 + ItemStock.splitChar + 0;
         ItemStock itemStock = new ItemStock();
         itemStock.setExtra(code);
-        finalSelfCodesList.add(getSelfCodes(1).size(),itemStock);
+        finalSelfCodesList.add(getSelfCodes(1).size(), itemStock);
 
         uploadInformation();
     }
 
-    public static void addImportantSelfCode(String code){
-        code = code + ItemStock.splitChar + 0 +  ItemStock.splitChar + 0 +  ItemStock.splitChar + 0 +  ItemStock.splitChar + 0;
+    public static void addImportantSelfCode(String code) {
+        code = code + ItemStock.splitChar + 0 + ItemStock.splitChar + 0 + ItemStock.splitChar + 0 + ItemStock.splitChar + 0;
         ItemStock itemStock = new ItemStock();
         itemStock.setExtra(code);
-        finalSelfCodesList.add(0,itemStock);
+        finalSelfCodesList.add(0, itemStock);
 
         uploadInformation();
     }
 
-    public static boolean isExsit(String code){
+    public static boolean isExsit(String code) {
         for (int i = 0; i < finalSelfCodesList.size(); i++) {
             ItemStock stock = finalSelfCodesList.get(i);
             if (stock.getCode().equals(code)) {
@@ -177,7 +188,7 @@ public class SelfCodesManager {
 
     static Handler handler = new Handler();
 
-    public static void uploadInformation(){
+    public static void uploadInformation() {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < finalSelfCodesList.size(); i++) {
             ItemStock stock = finalSelfCodesList.get(i);
@@ -186,7 +197,7 @@ public class SelfCodesManager {
 
         String[] str = new String[list.size()];
         list.toArray(str);
-        NetInterface.editMyStock(handler,1000,str);
+        NetInterface.editMyStock(handler, 1000, str);
     }
 
 

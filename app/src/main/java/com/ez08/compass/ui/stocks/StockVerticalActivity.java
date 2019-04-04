@@ -12,13 +12,15 @@ import com.ez08.compass.R;
 import com.ez08.compass.entity.StockDetailEntity;
 import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.StockDetailParser;
+import com.ez08.compass.tools.DDSID;
 import com.ez08.compass.tools.StockUtils;
 import com.ez08.compass.ui.base.BaseActivity;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.market.tablayout.SlidingTabLayout;
 import com.ez08.compass.ui.stocks.view.IndexQuoteView;
 import com.ez08.compass.ui.stocks.view.MaxHeightViewPager;
-import com.ez08.compass.ui.view.EazyFragmentAdpater;
+import com.ez08.compass.ui.view.EasyFragmentAdapter;
+import com.ez08.compass.ui.view.EasyFragmentAdapter1;
 import com.ez08.compass.ui.view.SingleLineAutoResizeTextView;
 import com.ez08.compass.ui.view.StockDetailHeader;
 import com.ez08.support.net.EzMessage;
@@ -40,6 +42,8 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     SingleLineAutoResizeTextView singleTextView;
     ImageButton backBtn;
     ImageButton searchBtn;
+    ImageButton lastOne;
+    ImageButton nextOne;
     StockPopupWindows stockPopupWindows;
 
     StockDetailHeader headerView;
@@ -50,7 +54,8 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     Fragment capitalFragment;
     Fragment headNewsFragment;
     Fragment innerNewsFragment;
-    private EazyFragmentAdpater mAdapter;
+    Fragment changeListFragment;
+    private EasyFragmentAdapter1 mAdapter;
     private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
 
     @Override
@@ -74,28 +79,62 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
         backBtn.setOnClickListener(this);
         searchBtn = (ImageButton) findViewById(R.id.search_btn);
         searchBtn.setOnClickListener(this);
-        headerView = (StockDetailHeader)findViewById(R.id.stock_detail_header);
+        lastOne = (ImageButton) findViewById(R.id.last_one);
+        lastOne.setOnClickListener(this);
+        nextOne = (ImageButton) findViewById(R.id.next_one);
+        nextOne.setOnClickListener(this);
+
+        headerView = (StockDetailHeader) findViewById(R.id.stock_detail_header);
         indexQuoteView = headerView.findViewById(R.id.stock_index_quote);
         indexQuoteView.setOnClickListener(this);
-        bottomTabLayout = (SlidingTabLayout)findViewById(R.id.tab_layout_bottom);
+        bottomTabLayout = (SlidingTabLayout) findViewById(R.id.tab_layout_bottom);
         scrollViewPager = (MaxHeightViewPager) findViewById(R.id.view_pager_bottom);
 
-        capitalFragment = CapitalFragment.newInstance(stockCode);
-        headNewsFragment = new HeadNewsFragment();
-        innerNewsFragment = new InnerNewsFragment();
+        refreshData();
+    }
+
+    public void refreshData(){
+        if(stockList == null || stockList.isEmpty()){
+            lastOne.setVisibility(View.INVISIBLE);
+            nextOne.setVisibility(View.INVISIBLE);
+        }else{
+            if(stockList.indexOf(stockCode) == 0){
+                lastOne.setVisibility(View.INVISIBLE);
+            }else if(stockList.indexOf(stockCode) == stockList.size() - 1){
+                nextOne.setVisibility(View.INVISIBLE);
+            }else{
+                lastOne.setVisibility(View.VISIBLE);
+                nextOne.setVisibility(View.VISIBLE);
+            }
+        }
 
         mFragmentList.clear();
-        mFragmentList.add(new EasyFragment(capitalFragment, "当日资金"));
-        mFragmentList.add(new EasyFragment(headNewsFragment, "头条"));
-        mFragmentList.add(new EasyFragment(innerNewsFragment, "内参"));
-        scrollViewPager.setOffscreenPageLimit(mFragmentList.size());
-        mAdapter = new EazyFragmentAdpater(getSupportFragmentManager(), mFragmentList);
+
+        if (DDSID.hasChangeList(stockCode)) {
+            changeListFragment = ChangeListFragment.newInstance(stockCode);
+            mFragmentList.add(new EasyFragment(changeListFragment, "涨跌幅"));
+        }
+
+        if (DDSID.hasCapital(stockCode)) {
+            capitalFragment = CapitalFragment.newInstance(stockCode);
+            mFragmentList.add(new EasyFragment(capitalFragment, "当日资金"));
+        }
+
+        if(DDSID.hasGlobalNews(stockCode)){
+            headNewsFragment = new HeadNewsFragment();
+            mFragmentList.add(new EasyFragment(headNewsFragment, "头条"));
+
+            innerNewsFragment = new InnerNewsFragment();
+            mFragmentList.add(new EasyFragment(innerNewsFragment, "内参"));
+        }
+
+        mAdapter = new EasyFragmentAdapter1(getSupportFragmentManager(), mFragmentList);
         scrollViewPager.setAdapter(mAdapter);
+        scrollViewPager.setOffscreenPageLimit(mFragmentList.size());
         bottomTabLayout.setViewPager(scrollViewPager);
 
         if (!TextUtils.isEmpty(stockCode))
             NetInterface.getStockDetailNew(mHandler, WHAT_GET_STOCK_DETAIL, stockCode);
-
     }
 
 
@@ -141,6 +180,14 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.search_btn:
 
+                break;
+            case R.id.last_one:
+                stockCode = stockList.get(stockList.indexOf(stockCode) - 1);
+                refreshData();
+                break;
+            case R.id.next_one:
+                stockCode = stockList.get(stockList.indexOf(stockCode) + 1);
+                refreshData();
                 break;
             case R.id.stock_index_quote:
                 if (stockPopupWindows == null) {

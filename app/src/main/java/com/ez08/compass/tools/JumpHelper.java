@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.ez08.compass.ui.stocks.StockVerticalActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JumpHelper {
 

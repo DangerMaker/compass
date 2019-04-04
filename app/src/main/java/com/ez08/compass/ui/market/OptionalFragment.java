@@ -255,6 +255,7 @@ public class OptionalFragment extends BaseFragment implements View.OnClickListen
 
     public void onLazyLoad() {
         String path = SelfCodesManager.getSelfOnlyCode(listType);
+        OptionalAdapter.myCodes = SelfCodesManager.getSelfOnlyCodeList(listType);
         mStockList = SelfCodesManager.getSelfCodes(listType);
         if (!TextUtils.isEmpty(path))
             NetInterface.getStockBrief(mHandler, AUTO_STOCK, path);

@@ -58,28 +58,40 @@ public class DDSID {
     //指南针指数
     public final static int _STOCK_CATEGORY_Z_SK = 901;// 特殊指数
 
-    //zhishu
-    public static boolean isZ(String szCode)
-    {
+    public final static String markBoardList = "BR01B04001,BR01B04002,BR01B04003,BR01B04004,BR01B04005,BR01B04006,"
+            + "BR01B04007,BR01B04008,BR01B04009,BR01B04010,BR01B04011,BR01B04012"
+            + "BR01B04013,BR01B04014,BR01B04015,BR01B04016,BR01B04017,BR01B04018,BR010Z";
+
+    //zhishu(指数和板块)
+    public static boolean isZ(String szCode) {
         int type = GetStockCategory(szCode);
-        if( (type>=200 && type<=203) || (type>=400 && type<=403) || type == _STOCK_CATEGORY_BOARD_Z || type == _STOCK_CATEGORY_Z_SK)
-        {
+        if ((type >= 200 && type <= 203) || (type >= 400 && type <= 403) || type == _STOCK_CATEGORY_BOARD_Z || type == _STOCK_CATEGORY_Z_SK) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    public static boolean isExistsCapital(String szCode){
-        if(szCode.equals("SHHQ000001") || szCode.equals("SZHQ399001")){
+    public static boolean hasChangeList(String szCode){
+        if(isZ(szCode) &&  szCode.startsWith("BR01") && !markBoardList.contains(szCode)){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean hasGlobalNews(String szCode){
+        return isZ(szCode);
+    }
+
+    public static boolean hasCapital(String szCode){
+        if (szCode.equals("SHHQ000001") || szCode.equals("SZHQ399001")) {
             return true;
         }
 
-        if(!isZ(szCode)){
+        if (!isZ(szCode)) {
             return true;
         }
 
-        if(isZ(szCode) && szCode.startsWith("BR01")){
+        if (isZ(szCode) && szCode.startsWith("BR01")) {
             return true;
         }
 
@@ -88,15 +100,11 @@ public class DDSID {
 
     // 获取股票类别,包含市场标记的代码
     public static int GetStockCategory(String szCode) {
-        if (szCode.startsWith("BR01"))
-        {
+        if (szCode.startsWith("BR01")) {
             return _STOCK_CATEGORY_BOARD_Z;
-        }
-        else if (szCode.startsWith("Z_SK"))
-        {
+        } else if (szCode.startsWith("Z_SK")) {
             return _STOCK_CATEGORY_Z_SK;
-        }
-        else if (szCode.startsWith("SHHQ")) {
+        } else if (szCode.startsWith("SHHQ")) {
             if (szCode.length() == 10) {
                 String code = szCode.substring(4);
                 // 特殊国债

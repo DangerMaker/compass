@@ -63,7 +63,7 @@ public class IndexSortManager {
         if (TextUtils.isEmpty(szCode)) {
             return;
         }
-        if (!DDSID.isExistsCapital(szCode)) {
+        if (!DDSID.hasCapital(szCode)) {
             if (list.contains("主力资金")) {
                 list.remove("主力资金");
             }

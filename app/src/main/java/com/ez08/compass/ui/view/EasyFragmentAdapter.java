@@ -8,11 +8,11 @@ import com.ez08.compass.ui.market.customtab.EasyFragment;
 
 import java.util.List;
 
-public class EazyFragmentAdpater extends FragmentPagerAdapter {
+public class EasyFragmentAdapter extends FragmentPagerAdapter {
 
     private List<EasyFragment> mFragments;
 
-    public EazyFragmentAdpater(FragmentManager fm, List<EasyFragment> mFragments) {
+    public EasyFragmentAdapter(FragmentManager fm, List<EasyFragment> mFragments) {
         super(fm);
         this.mFragments = mFragments;
     }

@@ -8,11 +8,14 @@ import android.widget.TextView;
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.entity.ItemStock;
+import com.ez08.compass.entity.StockCodeEntity;
 import com.ez08.compass.event.OptionalPriceModeEvent;
+import com.ez08.compass.tools.JumpHelper;
 import com.ez08.compass.tools.MyAppCompat;
 import com.ez08.compass.tools.TimeTool;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.base.BaseViewHolder;
+import com.ez08.compass.ui.market.adapter.OptionalAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,7 +41,7 @@ public class StockOptionalHolder extends BaseViewHolder<ItemStock> {
     }
 
     @Override
-    public void setData(ItemStock sc) {
+    public void setData(final ItemStock sc) {
         if (sc.getCode().length() == 0) {
             codeTV.setText("— —");
             nameTV.setText("— —");
@@ -108,23 +111,12 @@ public class StockOptionalHolder extends BaseViewHolder<ItemStock> {
         if ((sc.getState() != 0 && sc.getState() != 2) || (value.equals("0.00") || value.equals("0.000"))) { //不是开盘和临时停牌
             setValueInvalid();
         }
-//        itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CompassApp.GLOBAL.mStockList.clear();
-//                StockCodeEntity entity = new StockCodeEntity();
-//                entity.code = arr.get(position).getCode();
-//                List<String> codes = new ArrayList<String>();
-//                for (int i = 0; i < arr.size(); i++) {
-//                    codes.add(arr.get(i).getCode());
-//                }
-//                entity.codes = codes;
-//                CompassApp.mStockList.add(entity);
-//                Intent intent = new Intent(context,
-//                        StockVertcialTabActivity.class);
-//                context.startActivity(intent);
-//            }
-//        });
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JumpHelper.startStockVerticalActivity(getContext(),sc.getCode(),OptionalAdapter.myCodes);
+            }
+        });
 
 //        if (mOnItemLongClickListener != null) {
 //            ((OptionListHolder) holder).rl_stock_info_item.setOnLongClickListener(new View.OnLongClickListener() {

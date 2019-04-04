@@ -186,4 +186,9 @@ public class StockUtils {
         }
         return volList;
     }
+
+//    public static int getCodePositionInList(String code,List<String> codes){
+//        int result = -1;
+//        if(codes.contains(con))
+//    }
 }

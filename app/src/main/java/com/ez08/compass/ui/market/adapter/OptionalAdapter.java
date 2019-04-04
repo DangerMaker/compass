@@ -8,6 +8,7 @@ import com.ez08.compass.ui.base.BaseAdapter;
 import com.ez08.compass.ui.base.BaseViewHolder;
 import com.ez08.compass.ui.market.holder.StockOptionalHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
 public class OptionalAdapter extends BaseAdapter<ItemStock> {
 
     boolean mSetPriceValue;
+    public static ArrayList<String> myCodes;
 
     public OptionalAdapter(Context context, List<ItemStock> mList,boolean flag) {
         super(context,mList);

@@ -62,6 +62,7 @@ public class OptionalContainerFragment extends BaseFragment implements Interval 
         tabLayout = (SlidingTabLayout) view.findViewById(R.id.tab_content);
         viewPager = (ViewPager) view.findViewById(R.id.vp_content);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.info_lv_frame);
+        mListViewFrame.setEnableLoadMore(false);
         return view;
     }
 

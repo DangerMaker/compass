@@ -12,7 +12,7 @@ import com.ez08.compass.R;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.market.tablayout.SlidingTabLayout;
-import com.ez08.compass.ui.view.EazyFragmentAdpater;
+import com.ez08.compass.ui.view.EasyFragmentAdapter;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class StockBottomTabFragment extends BaseFragment {
 
     SlidingTabLayout tabLayout;
     private ViewPager mViewPager;
-    private EazyFragmentAdpater mAdapter;
+    private EasyFragmentAdapter mAdapter;
     private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
     private int mIndex = 0;
     EmptyFragment fragment1;
@@ -51,7 +51,7 @@ public class StockBottomTabFragment extends BaseFragment {
         mFragmentList.add(new EasyFragment(fragment3, "内参"));
 
         mViewPager.setOffscreenPageLimit(mFragmentList.size());
-        mAdapter = new EazyFragmentAdpater(getChildFragmentManager(), mFragmentList);
+        mAdapter = new EasyFragmentAdapter(getChildFragmentManager(), mFragmentList);
         mViewPager.setAdapter(mAdapter);
         tabLayout.setViewPager(mViewPager);
         return view;

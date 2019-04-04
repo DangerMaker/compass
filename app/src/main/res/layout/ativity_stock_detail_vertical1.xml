@@ -75,6 +75,7 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/last_one"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_toStartOf="@id/stock_title_layout"
@@ -85,6 +86,7 @@
             android:src="@drawable/stock_before_img" />
 
         <ImageButton
+            android:id="@+id/next_one"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_toEndOf="@id/stock_title_layout"
