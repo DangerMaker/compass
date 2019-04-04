@@ -64,6 +64,9 @@
         <activity android:name=".ui.market.IndexListActivity" />
         <activity android:name=".ui.market.StockListActivity" />
         <activity android:name=".ui.stocks.StockTopActivity" />
+        <activity
+            android:name=".ui.stocks.StockHorizontalActivity"
+            android:screenOrientation="landscape" />
 
         <!-- 友盟统计 -->
         <meta-data
@@ -71,7 +74,7 @@
             android:value="compass10001" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55a8a80f67e58ec0420006ef"/>
+            android:value="55a8a80f67e58ec0420006ef" />
 
 
         <service android:name=".tools.MessageService" />

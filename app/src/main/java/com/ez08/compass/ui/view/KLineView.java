@@ -1,6 +1,7 @@
 package com.ez08.compass.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -20,6 +21,7 @@ import com.ez08.compass.R;
 import com.ez08.compass.entity.ColumnValuesDataModel;
 import com.ez08.compass.entity.KChartEntity;
 import com.ez08.compass.entity.StockDetailEntity;
+import com.ez08.compass.tools.JumpHelper;
 import com.ez08.compass.tools.UtilTools;
 import com.ez08.compass.ui.view.indicators.Indicator;
 import com.ez08.compass.ui.view.indicators.KLineViewImp;
@@ -554,7 +556,8 @@ public class KLineView extends View {
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             Log.e(TAG, "onDoubleTap");
-            return super.onDoubleTap(e);
+            JumpHelper.startStockHorizontalActivity(mContext,detailEntity.getSecucode(),null);
+            return true;
         }
     }
 }
