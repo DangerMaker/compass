@@ -50,4 +50,8 @@ dependencies {
     implementation files('libs/wechat-sdk-android-without-mta-5.1.4.jar')
     implementation project(':socket')
     implementation project(':refresh-layout')
+
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
+
 }

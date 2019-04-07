@@ -550,23 +550,25 @@ public class MyClassFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     break;
                 case WHAT_ADD_LIVING:
-                    if (intent != null) {
-                        boolean result = intent.getBooleanExtra("result", false);
-                        if (!result) {
-                            String tips = intent.getStringExtra("tips");
-                            Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG)
-                                    .show();
-                            CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "1", CompassApp.GLOBAL.mLivingRoomId,
-                                    System.currentTimeMillis());
-                        } else {
-                            Intent sintent = new Intent(getActivity(),
-                                    ClassRoomActivity.class);
-
-                            sintent.putExtra("roomid", mRoomId);
-                            sintent.putExtra("roomname", mRoonName);
-                            startActivity(sintent);
-                        }
-                    }
+//                    if (intent != null) {
+//                        boolean result = intent.getBooleanExtra("result", false);
+//                        if (!result) {
+//                            String tips = intent.getStringExtra("tips");
+//                            Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG)
+//                                    .show();
+//                            CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "1", CompassApp.GLOBAL.mLivingRoomId,
+//                                    System.currentTimeMillis());
+//                        } else {
+//                            Intent sintent = new Intent(getActivity(),
+//                                    ClassRoomActivity.class);
+//
+//                            sintent.putExtra("roomid", mRoomId);
+//                            sintent.putExtra("roomname", mRoonName);
+//                            startActivity(sintent);
+//                        }
+//                    }
+                    Intent intent1 = new Intent(getActivity(),MediaPlayerActivity.class);
+                    startActivity(intent1);
                     break;
                 default:
                     break;

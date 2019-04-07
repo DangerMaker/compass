@@ -4,189 +4,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@color/orange"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/name_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:paddingRight="5dp">
-
-            <LinearLayout
-                android:id="@+id/chart_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/chart_landscape_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="上证指数"
-                    android:textColor="?attr/lable_list_style"
-                    android:textSize="17dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/chart_landscape_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SH000001"
-                    android:textColor="?attr/lable_item_style"
-                    android:textSize="12dp" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/name_nav"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@id/chart_title"
-                android:src="@drawable/jiantou_day" />
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/chart_landscape_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dip"
-            android:text="3000.22    + 57    +0.94%"
-            android:textColor="?attr/red_main_color"
-            android:textSize="15dp" />
-
-
-        <TextView
-            android:id="@+id/chart_des_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dip"
-            android:text="成交"
-            android:textColor="?attr/lable_item_style"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/chart_landscape_volumn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="1000.01亿"
-            android:textColor="?attr/lable_list_style"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/chart_des_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dip"
-            android:text="时间"
-            android:textColor="?attr/lable_item_style"
-            android:textSize="15dp" />
-
-        <TextView
-            android:id="@+id/chart_landscape_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="12:33:12"
-            android:textColor="?attr/lable_list_style"
-            android:textSize="15dp" />
-
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/go_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dip"
-            android:padding="10dp"
-            android:src="@drawable/x" />
-
-
-    </LinearLayout>
+    <include layout="@layout/layout_stock_horizontal_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/stock_list_view"
             android:layout_width="100dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/yellow"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/container"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/index_list_view"
             android:layout_width="100dp"
-            android:visibility="gone"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/red"
+            android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/chouma_view"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"/>
+            android:id="@+id/chips_view"
+            android:background="@color/gray"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:background="@color/blue"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <Button
-            android:id="@+id/chouma"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="筹码"
-            />
-
-        <Button
-            android:id="@+id/zhibiao"
-            android:layout_toLeftOf="@id/chouma"
-            android:layout_marginRight="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="指标"
-            />
-
-
-        <com.ez08.compass.ui.market.tablayout.SlidingTabLayout
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@id/zhibiao"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </RelativeLayout>
+    <include layout="@layout/layout_stock_horizontal_tab" />
 </LinearLayout>
