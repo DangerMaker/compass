@@ -493,8 +493,10 @@ public class InfoNewFragment extends BaseFragment implements View.OnClickListene
                                     ItemStock entity = new ItemStock();
                                     entity.setUrl(infourl);
                                     Intent intentWeb = new Intent(getActivity(), WebActivity.class);
-                                    intentWeb.putExtra("entity", entity);
-                                    intentWeb.putExtra("ifFromAd", true);
+//                                    intentWeb.putExtra("entity", entity);
+////                                    intentWeb.putExtra("ifFromAd", true);
+                                    intentWeb.putExtra("title",finalInfo.getTitle());
+                                    intentWeb.putExtra("url",finalInfo.getUrl());
                                     startActivity(intentWeb);
                                     CompassApp.addStatis(CompassApp.GLOBAL.mgr.ADVERT_INFO, "1", "", System.currentTimeMillis());
                                 }

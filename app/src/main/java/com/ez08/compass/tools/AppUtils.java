@@ -15,6 +15,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
@@ -186,7 +188,7 @@ public class AppUtils {
         c.drawBitmap(bmpNew, 0, tempTop, paint);
 
 //        return bmp;
-        return ThumbnailUtils.extractThumbnail(bmp, w , (tempTop + tempBottom));
+        return ThumbnailUtils.extractThumbnail(bmp, w, (tempTop + tempBottom));
     }
 
     public static int getStatusHeight(Context context) {
@@ -222,6 +224,18 @@ public class AppUtils {
         return null;
     }
 
+    public static void hideSoftInput(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
+    public static void showSoftInput(View view) {
+        view.requestFocus();
+        InputMethodManager manager = ((InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE));
+        if (manager != null) manager.showSoftInput(view, 0);
+
+    }
 
 }

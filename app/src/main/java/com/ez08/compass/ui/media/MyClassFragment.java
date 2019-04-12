@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.entity.ClassEntity;
@@ -36,8 +37,6 @@ import com.ez08.support.net.EzMessage;
 import com.ez08.support.net.NetResponseHandler2;
 import com.ez08.support.util.EzValue;
 import com.ez08.tools.IntentTools;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -80,17 +79,6 @@ public class MyClassFragment extends BaseFragment {
         // TODO Auto-generated method stub
         CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "0", "",
                 System.currentTimeMillis());
-        if (CompassApp.GLOBAL.THEME_STYLE == 0) {
-            options = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.chaogu)
-                    .showImageOnFail(R.drawable.chaogu).cacheInMemory(true)
-                    .cacheOnDisk(true).considerExifParams(true).build();
-        } else {
-            options = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.chaogu_night)
-                    .showImageOnFail(R.drawable.chaogu_night).cacheInMemory(true)
-                    .cacheOnDisk(true).considerExifParams(true).build();
-        }
 
         View view = inflate(getActivity(), R.layout.fragment_my_class,
                 null);
@@ -228,10 +216,9 @@ public class MyClassFragment extends BaseFragment {
 
                 String imageId = entity.getImageid();
                 if (entity.getList() != null && entity.getList().size() > 0) {
-                    imageLoader.displayImage(entity.getList().get(0).getImageid(),
-                            classHolder.lImage, options);
+                    Glide.with(MyClassFragment.this).load(entity.getList().get(0).getImageid()).into(classHolder.lImage);
                 } else {
-                    imageLoader.displayImage(imageId, classHolder.lImage, options);
+                    Glide.with(MyClassFragment.this).load(imageId).into(classHolder.lImage);
                 }
                 // holder.lContent.setVisibility(View.VISIBLE);
                 if (entity.getType() == 0) {
@@ -550,25 +537,23 @@ public class MyClassFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     break;
                 case WHAT_ADD_LIVING:
-//                    if (intent != null) {
-//                        boolean result = intent.getBooleanExtra("result", false);
-//                        if (!result) {
-//                            String tips = intent.getStringExtra("tips");
-//                            Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG)
-//                                    .show();
-//                            CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "1", CompassApp.GLOBAL.mLivingRoomId,
-//                                    System.currentTimeMillis());
-//                        } else {
-//                            Intent sintent = new Intent(getActivity(),
-//                                    ClassRoomActivity.class);
-//
-//                            sintent.putExtra("roomid", mRoomId);
-//                            sintent.putExtra("roomname", mRoonName);
-//                            startActivity(sintent);
-//                        }
-//                    }
-                    Intent intent1 = new Intent(getActivity(),MediaPlayerActivity.class);
-                    startActivity(intent1);
+                    if (intent != null) {
+                        boolean result = intent.getBooleanExtra("result", false);
+                        if (!result) {
+                            String tips = intent.getStringExtra("tips");
+                            Toast.makeText(getActivity(), tips, Toast.LENGTH_LONG)
+                                    .show();
+                            CompassApp.addStatis(CompassApp.GLOBAL.mgr.LIVE_ROOMLIST, "1", CompassApp.GLOBAL.mLivingRoomId,
+                                    System.currentTimeMillis());
+                        } else {
+                            Intent sintent = new Intent(getActivity(),
+                                    ClassRoomActivity.class);
+
+                            sintent.putExtra("roomid", mRoomId);
+                            sintent.putExtra("roomname", mRoonName);
+                            startActivity(sintent);
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -680,9 +665,6 @@ public class MyClassFragment extends BaseFragment {
         classEntity.setUrl(curl);
         return classEntity;
     }
-
-    ImageLoader imageLoader = ImageLoader.getInstance();
-    DisplayImageOptions options = null;
 
     private void showSetDialog(String title, String content, final String key,
                                final int what) {

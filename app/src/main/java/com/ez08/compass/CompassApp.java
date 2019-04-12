@@ -22,6 +22,7 @@ import com.ez08.compass.tools.AuthTool;
 import com.ez08.compass.tools.LoadBalancingManager;
 import com.ez08.compass.tools.SharedPreferenceUtils;
 import com.ez08.compass.ui.personal.LoginActivity;
+import com.ez08.compass.ui.view.input.EmojiManager;
 import com.ez08.compass.update.updateModule.AutoUpdateModule;
 import com.ez08.compass.database.DBManager;
 import com.ez08.compass.entity.ItemStock;
@@ -189,6 +190,7 @@ public class CompassApp extends Application {
         GLOBAL.BLACK = ContextCompat.getColor(this,R.color.market_area_title);
 
         LoadBalancingManager.getInstance(this).setUrl(Constants.REQUEST_URL);
+        EmojiManager.init(this);
     }
     //加入埋点
     public static void addStatis(String action, String type, String params, long times) {

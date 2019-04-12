@@ -76,7 +76,7 @@ public class OptionalContainerFragment extends BaseFragment implements Interval 
 
             if (getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.vp_content + ":" + 1) != null)
                 fragment2 = (OptionalFragment) getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.vp_content + ":" + 1);
-        }else {
+        } else {
             fragment1 = OptionalFragment.getInstance(0);
             fragment2 = OptionalFragment.getInstance(1);
         }
@@ -91,6 +91,8 @@ public class OptionalContainerFragment extends BaseFragment implements Interval 
 
             }
         });
+
+        NetInterface.requestGetMyStockList(mHandler, GET_MYSTOCK);
     }
 
     @SuppressLint("HandlerLeak")
@@ -130,11 +132,11 @@ public class OptionalContainerFragment extends BaseFragment implements Interval 
 
                     SelfCodesManager.setData(strs);
 
-                    if(viewPager.getCurrentItem() == 0) {
+                    if (viewPager.getCurrentItem() == 0) {
                         fragment1.setLazyLoad();
                     }
 
-                    if(viewPager.getCurrentItem() == 1){
+                    if (viewPager.getCurrentItem() == 1) {
                         fragment2.setLazyLoad();
                     }
                     break;
@@ -153,17 +155,12 @@ public class OptionalContainerFragment extends BaseFragment implements Interval 
 
     @Override
     public void OnPost() {
-        if(!isLoaded) {
-            NetInterface.requestGetMyStockList(mHandler, GET_MYSTOCK);
-            isLoaded = true;
-        }else{
-            if(viewPager.getCurrentItem() == 0) {
-                fragment1.setLazyLoad();
-            }
+        if (viewPager.getCurrentItem() == 0) {
+            fragment1.setLazyLoad();
+        }
 
-            if(viewPager.getCurrentItem() == 1){
-                fragment2.setLazyLoad();
-            }
+        if (viewPager.getCurrentItem() == 1) {
+            fragment2.setLazyLoad();
         }
     }
 

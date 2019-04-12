@@ -82,6 +82,10 @@ public class DDSID {
         return isZ(szCode);
     }
 
+    public static boolean hasStockNews(String szCode){
+        return !isZ(szCode);
+    }
+
     public static boolean hasCapital(String szCode){
         if (szCode.equals("SHHQ000001") || szCode.equals("SZHQ399001")) {
             return true;

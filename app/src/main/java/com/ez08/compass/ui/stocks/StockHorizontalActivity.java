@@ -109,7 +109,7 @@ public class StockHorizontalActivity extends BaseActivity implements View.OnClic
 
                                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                                 if (kLineFragment == null) {
-                                    kLineFragment = KLineFragment.newInstance(detailEntity, "day");
+                                    kLineFragment = KLineFragment.newInstance( "day");
                                     transaction.replace(R.id.container, kLineFragment);
                                 }
                                 transaction.show(kLineFragment);

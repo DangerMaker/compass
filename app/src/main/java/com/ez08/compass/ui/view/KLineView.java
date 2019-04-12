@@ -288,6 +288,7 @@ public class KLineView extends View {
             return;
         }
 
+        canRefresh = true;
         checkIfNeedLoadMore = true;
         mTotalList.clear();
         mTotalList.addAll(lists);
@@ -401,7 +402,6 @@ public class KLineView extends View {
             float textLength = textPaint.measureText("数据加载中");
             canvas.drawRect(uprightGroup[0][0], uprightGroup[0][1], uprightGroup[0][2], uprightGroup[1][3], rectPaint);
             canvas.drawText("数据加载中", width / 2 - textLength / 2, height / 2, textPaint);
-            canRefresh = true;
         }
     }
 
@@ -559,5 +559,11 @@ public class KLineView extends View {
             JumpHelper.startStockHorizontalActivity(mContext,detailEntity.getSecucode(),null);
             return true;
         }
+    }
+
+
+    public void setCanRefresh(boolean canRefresh) {
+        this.canRefresh = canRefresh;
+        invalidate();
     }
 }

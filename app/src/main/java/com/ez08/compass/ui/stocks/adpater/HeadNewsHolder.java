@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.entity.InfoEntity;
@@ -49,9 +50,9 @@ public class HeadNewsHolder extends BaseViewHolder<InfoEntity> {
         String timer = formatter.format(calendar.getTime());
         lDate.setText(timer);
 
-//        String imageid = info.getImageid();
-//        if (!imageid.equals("")) {
-//            imageLoader.displayImage(imageid,lImg, options);
-//        }
+        String imageid = info.getImageid();
+        if (!imageid.equals("")) {
+            Glide.with(itemView).load(imageid).into(lImg);
+        }
     }
 }

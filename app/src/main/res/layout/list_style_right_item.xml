@@ -73,7 +73,7 @@
                     android:text="2怀孕覅客户广泛宽高汇丰控股昆明铁路22"
                     android:textColor="?attr/lable_item_style"
                     android:lineSpacingMultiplier="1.2"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_marginTop="3dp"

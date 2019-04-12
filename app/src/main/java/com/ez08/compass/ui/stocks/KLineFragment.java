@@ -23,6 +23,7 @@ import com.ez08.compass.net.NetInterface;
 import com.ez08.compass.parser.KlineNewParser;
 import com.ez08.compass.tools.DDSID;
 import com.ez08.compass.tools.StockUtils;
+import com.ez08.compass.ui.KInterface;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.view.KLineView;
 import com.ez08.support.net.NetResponseHandler2;
@@ -34,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class KLineFragment extends BaseFragment {
+public class KLineFragment extends BaseFragment implements KInterface {
 
     private final int GET_CAPITAL_INFO = 1001;//获取历史资金信息
     private final int GET_CURRENT_CAPITAL_INFO = 1002;//获取当日资金信息
@@ -57,21 +58,41 @@ public class KLineFragment extends BaseFragment {
     String code;
     List<KChartEntity> mTotalList;
 
-    public static KLineFragment newInstance(StockDetailEntity detailEntity, String period) {
+    public static KLineFragment newInstance(String period) {
         KLineFragment fragment = new KLineFragment();
         Bundle args = new Bundle();
-        args.putSerializable("detail", detailEntity);
         args.putString("mStockPeriod", period);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
     public boolean getFocus() {
         if (kLineView != null) {
             return kLineView.getFocus();
 
         }
         return false;
+    }
+
+    @Override
+    public void setRefreshStock(StockDetailEntity entity) {
+        if (detailEntity != null && detailEntity.getSecucode().equals(entity.getSecucode())) {
+            return;
+        }
+
+        detailEntity = entity;
+        if (kLineView == null) {
+            return;
+        }
+        kLineView.setDesEntity(detailEntity);
+        code = detailEntity.getSecucode();
+        if (mTotalList != null) {
+            mTotalList.clear();
+        }
+
+        kLineView.setCanRefresh(false);
+        NetInterface.getStockDrHistory(mHandler, GET_DR_LIST, code);
     }
 
     @Nullable
@@ -104,7 +125,6 @@ public class KLineFragment extends BaseFragment {
                 type = -1;
             }
 
-            detailEntity = (StockDetailEntity) getArguments().getSerializable("detail");
             kLineView.setDesEntity(detailEntity);
             code = detailEntity.getSecucode();
             mTotalList = new ArrayList<>();
@@ -153,9 +173,9 @@ public class KLineFragment extends BaseFragment {
                     break;
                 case GET_KLINE_LIST_MORE:
                     List<KChartEntity> listMore = new KlineNewParser().parse(intent, mDrList, detailEntity.getDecm());
-                    if(listMore != null && listMore.size() > 1){
+                    if (listMore != null && listMore.size() > 1) {
                         listMore.remove(listMore.size() - 1);
-                        mTotalList.addAll(0,listMore);
+                        mTotalList.addAll(0, listMore);
                         kLineView.setMoreData(mTotalList);
                     }
                     break;

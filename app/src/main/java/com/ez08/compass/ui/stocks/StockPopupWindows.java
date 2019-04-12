@@ -1,9 +1,11 @@
 package com.ez08.compass.ui.stocks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.ez08.compass.R;
@@ -51,6 +53,13 @@ public class StockPopupWindows extends BasePopupWindows<StockDetailEntity> imple
 
     }
 
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = ((Activity)context).getWindow().getAttributes();
+        lp.alpha = bgAlpha; // 0.0~1.0
+        ((Activity)context).getWindow().setAttributes(lp); //act 是上下文context
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -59,4 +68,18 @@ public class StockPopupWindows extends BasePopupWindows<StockDetailEntity> imple
                 break;
         }
     }
+
+
+    @Override
+    public void showPopupWindow(View parent) {
+        super.showPopupWindow(parent);
+        backgroundAlpha(0.7f);
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        backgroundAlpha(1f);
+    }
+
 }

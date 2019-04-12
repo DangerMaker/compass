@@ -749,8 +749,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, NetSt
                     }
                 }
                 transaction.show(mClassFragment);
-                mClassFragment.refreshClassData();
-
                 break;
             case 3:
                 CompassApp.addStatis(CompassApp.GLOBAL.mgr.KEFU_MAIN, "0", "",

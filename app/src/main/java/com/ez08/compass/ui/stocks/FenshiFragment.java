@@ -22,6 +22,7 @@ import com.ez08.compass.parser.StockMlineParser;
 import com.ez08.compass.tools.DDSID;
 import com.ez08.compass.tools.MathUtils;
 import com.ez08.compass.tools.StockUtils;
+import com.ez08.compass.ui.KInterface;
 import com.ez08.compass.ui.base.BaseFragment;
 import com.ez08.compass.ui.view.FenShiView;
 import com.ez08.compass.ui.view.FiveAndDetailView;
@@ -30,7 +31,7 @@ import com.ez08.support.net.NetResponseHandler2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FenshiFragment extends BaseFragment {
+public class FenshiFragment extends BaseFragment implements KInterface {
 
     private final static int WHAT_MLINE_HISTORY = 10008;  //分时
     private int mFenShiMark = 0;   //分时索引值，默认为0
@@ -51,14 +52,52 @@ public class FenshiFragment extends BaseFragment {
     private List<ColumnValuesDataModel> mBarList;
     private List<FenShiDesEntity> mEntityList;
 
-    public static FenshiFragment newInstance(StockDetailEntity detailEntity) {
+    public static FenshiFragment newInstance() {
         FenshiFragment fragment = new FenshiFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("detail", detailEntity);
-        fragment.setArguments(args);
         return fragment;
     }
 
+
+    @Override
+    public void setRefreshStock(StockDetailEntity entity) {
+        if (detailEntity != null && detailEntity.getSecucode().equals(entity.getSecucode())) {
+            return;
+        }
+
+        isFirstLoad = true;
+        mFenShiMark = 0;   //分时索引值，默认为0
+        isFirstLoad = true;
+        beforeColumn = 0;
+        beforeValue = 0;
+        sTurnValue = 0; //图中最大量
+        beforeDate = 0;   //分时最后一条数据的
+        detailEntity = entity;
+        if (mFenshiList != null)
+            mFenshiList.clear();
+        if (mAverageList != null)
+            mAverageList.clear();
+        if (mBarList != null)
+            mBarList.clear();
+        if (mEntityList != null)
+            mEntityList.clear();
+
+        if (fiveAndDetailView == null) {
+            return;
+        }
+
+        if (DDSID.isZ(detailEntity.getSecucode())) {
+            fiveAndDetailView.setVisibility(View.GONE);
+        } else {
+            fiveAndDetailView.setFiveData(detailEntity);
+        }
+
+        if(fenShiView != null){
+            fenShiView.setCanRefresh(false);
+        }
+        NetInterface.getStockmLineNew(mHandler, WHAT_MLINE_HISTORY, detailEntity.getSecucode(), mFenShiMark);
+    }
+
+    @Override
     public boolean getFocus() {
         if (fenShiView != null) {
             return fenShiView.isScrollDetail;
@@ -73,28 +112,23 @@ public class FenshiFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_fenshi, null);
         fenShiView = (FenShiView) view.findViewById(R.id.fenshi_view);
         fiveAndDetailView = (FiveAndDetailView) view.findViewById(R.id.in_time);
-        if (getArguments() != null) {
-            detailEntity = (StockDetailEntity) getArguments().getSerializable("detail");
-            if (DDSID.isZ(detailEntity.getSecucode())) {
-                fiveAndDetailView.setVisibility(View.GONE);
-            }
-        }
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         mFenshiList = new ArrayList<Float>();
         mAverageList = new ArrayList<Float>();
         mBarList = new ArrayList<ColumnValuesDataModel>();
         mEntityList = new ArrayList<FenShiDesEntity>();
 
-        if (!DDSID.isZ(detailEntity.getSecucode())) {
+        if (DDSID.isZ(detailEntity.getSecucode())) {
+            fiveAndDetailView.setVisibility(View.GONE);
+        } else {
             fiveAndDetailView.setFiveData(detailEntity);
         }
+
         NetInterface.getStockmLineNew(mHandler, WHAT_MLINE_HISTORY, detailEntity.getSecucode(), mFenShiMark);
     }
 

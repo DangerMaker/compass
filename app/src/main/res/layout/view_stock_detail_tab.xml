@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ez08.compass.ui.stocks.view.StockTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_layout_header"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/timeshare"
+            style="@style/TabStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分时" />
+
+        <View
+            android:id="@+id/timeshare_line"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/red" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/day"
+            style="@style/TabStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日K" />
+
+        <View
+            android:id="@+id/day_line"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/red" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/week"
+            style="@style/TabStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="周K" />
+
+        <View
+            android:id="@+id/week_line"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/red" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/month"
+            style="@style/TabStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="月K" />
+
+        <View
+            android:id="@+id/month_line"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/red" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/minute"
+            style="@style/TabStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分钟" />
+
+        <ImageView
+            android:id="@+id/min_nav"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="3dp"
+            android:src="@drawable/jiantou_day"
+            android:layout_toRightOf="@id/minute"
+            android:layout_centerVertical="true"
+            />
+
+        <View
+            android:id="@+id/minute_line"
+            android:layout_width="15dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/red" />
+    </RelativeLayout>
+
+</com.ez08.compass.ui.stocks.view.StockTabLayout>

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ez08.compass.CompassApp;
 import com.ez08.compass.R;
 import com.ez08.compass.database.IMDBHelper;
@@ -61,22 +62,10 @@ public class VideoFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (CompassApp.GLOBAL.THEME_STYLE == 0) {
-            options = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.chaogu)
-                    .showImageOnFail(R.drawable.chaogu).cacheInMemory(true)
-                    .cacheOnDisk(true).considerExifParams(true).build();
-        } else {
-            options = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.chaogu_night)
-                    .showImageOnFail(R.drawable.chaogu_night).cacheInMemory(true)
-                    .cacheOnDisk(true).considerExifParams(true).build();
-        }
         mHistoryList = new ArrayList<>();
 
         mHelper = IMDBHelper.getInstance(getActivity());
-        View view = View.inflate(getActivity(), R.layout.fragment_video_list,
-                null);
+        View view = View.inflate(getActivity(), R.layout.fragment_video_list, null);
         mListView = (RecyclerView) view.findViewById(R.id.my_class_lv);
         mListViewFrame = (SmartRefreshLayout) view.findViewById(R.id.my_class_lv_frame);
         mListViewFrame.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -99,7 +88,6 @@ public class VideoFragment extends BaseFragment {
         });
 
         mListViewFrame.autoRefresh();
-
         adapter = new VideoAdapter();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mListView.setLayoutManager(linearLayoutManager);
@@ -160,7 +148,7 @@ public class VideoFragment extends BaseFragment {
             }
             String imageid = entity.getImageid();
             if (!imageid.equals("")) {
-                imageLoader.displayImage(imageid, holder.lImage, options);
+                Glide.with(VideoFragment.this).load(imageid).into(holder.lImage);
             }
 
             if (!hasInfoId(mList.get(position).getId())) {
@@ -321,19 +309,5 @@ public class VideoFragment extends BaseFragment {
         String content = msg.getKVData("content").getStringWithDefault("");
         entity.setContent(content);
         return entity;
-    }
-
-    ImageLoader imageLoader = ImageLoader.getInstance();
-    DisplayImageOptions options = null;
-
-    public boolean isNetworkAvailble() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null || !info.isAvailable()) {
-            Toast.makeText(getActivity(), "没有可用网络", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
     }
 }

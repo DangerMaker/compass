@@ -43,6 +43,29 @@ public class StockUtils {
         return resultCode;
     }
 
+    public static String cutShortStockCode(String code) {
+        if (TextUtils.isEmpty(code)) {
+            return "";
+        }
+
+        String resultCode = "";
+        String lCode = code.toLowerCase();
+        if (lCode.startsWith("shhq")) {
+            resultCode = lCode.replace("shhq","sh");
+        } else if (lCode.startsWith("szhq")) {
+            resultCode = lCode.replace("szhq","sz");
+        } else if (lCode.startsWith("br01")) {
+            resultCode = lCode.toUpperCase();
+        } else if (lCode.startsWith("sh")) {
+            resultCode = lCode;
+        } else if (lCode.startsWith("sz")) {
+            resultCode = lCode;
+        } else {
+            resultCode = code.toUpperCase();
+        }
+        return resultCode;
+    }
+
     public static String cutStockCode(String code) {
         if (TextUtils.isEmpty(code)) {
             return "";
@@ -67,7 +90,6 @@ public class StockUtils {
         resultCode = resultCode.toUpperCase();
         return resultCode;
     }
-
 
     /**
      * 分时图计算平均线

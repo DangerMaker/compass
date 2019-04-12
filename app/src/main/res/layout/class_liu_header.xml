@@ -14,7 +14,6 @@
         app:indicatorSelectRes="@drawable/shape_point_select"
         app:indicatorStyle="ORDINARY"
         app:indicatorUnSelectRes="@drawable/shape_point_unselect" />
-    //指示器的点的间隔
 
 
 </com.ez08.compass.ui.media.banner.ClassLiuHeader>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:id="@+id/stock_main_report_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_centerInParent="true"
+        android:text="点击查看更多"
+        android:textColor="?attr/lable_item_style"
+        android:textSize="15sp" />
+</RelativeLayout>

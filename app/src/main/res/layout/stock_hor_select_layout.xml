@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/stock_popup_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stock_hor_select_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/stock_hor_select_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stock_hor_min0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="1分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_light_1px" />
+
+        <TextView
+            android:id="@+id/stock_hor_min1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="3分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_light_1px" />
+
+        <TextView
+            android:id="@+id/stock_hor_min2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="5分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_light_1px" />
+
+        <TextView
+            android:id="@+id/stock_hor_min3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="10分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_light_1px" />
+
+        <TextView
+            android:id="@+id/stock_hor_min4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="15分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_light_1px" />
+
+        <TextView
+            android:id="@+id/stock_hor_min5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="30分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_light_1px" />
+
+        <TextView
+            android:id="@+id/stock_hor_min6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dip"
+            android:gravity="center"
+            android:text="60分"
+            android:textColor="?attr/lable_list_style"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

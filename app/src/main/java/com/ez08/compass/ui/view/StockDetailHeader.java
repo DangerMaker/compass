@@ -1,36 +1,47 @@
 package com.ez08.compass.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.ez08.compass.R;
 import com.ez08.compass.entity.StockDetailEntity;
 import com.ez08.compass.parser.IndicatorHelper;
+import com.ez08.compass.ui.KInterface;
 import com.ez08.compass.ui.market.customtab.EasyFragment;
 import com.ez08.compass.ui.market.tablayout.SlidingTabLayout;
+import com.ez08.compass.ui.stocks.EmptyFragment;
 import com.ez08.compass.ui.stocks.FenshiFragment;
 import com.ez08.compass.ui.stocks.KLineFragment;
 import com.ez08.compass.ui.stocks.view.IndexQuoteView;
+import com.ez08.compass.ui.stocks.view.StockTabLayout;
 
 import java.util.ArrayList;
 
 public class StockDetailHeader extends LinearLayout {
 
     IndexQuoteView indexQuoteView;
-    SlidingTabLayout tabLayout;
-    UnScrollViewPager viewPager;
+    StockTabLayout tabLayout;
+    FrameLayout container;
 
-    EasyFragmentAdapter1 mAdapter;
     FenshiFragment fenshiFragment;
     KLineFragment dayFragment;
     KLineFragment weekFragment;
     KLineFragment monthFragment;
+    Fragment currentFragment;
 
     StockDetailEntity detailEntity;
-    private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
     private boolean isFocus = false;
+    private int position = 0;
+    private FragmentManager fragmentManager;
 
     public StockDetailHeader(Context context) {
         super(context);
@@ -45,61 +56,80 @@ public class StockDetailHeader extends LinearLayout {
         super.onFinishInflate();
         indexQuoteView = findViewById(R.id.stock_index_quote);
         tabLayout = findViewById(R.id.tab_layout_header);
-        viewPager = findViewById(R.id.view_pager);
+        container = findViewById(R.id.k_container);
+        fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+        currentFragment = new EmptyFragment();
+        tabLayout.setHandler(handler);
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            select(msg.what);
+        }
+    };
+
+    public void select(int position) {
+        switch (position) {
+            case 0:
+                if (fenshiFragment == null) {
+                    fenshiFragment = FenshiFragment.newInstance();
+                }
+                fenshiFragment.setRefreshStock(detailEntity);
+                showFragment(fenshiFragment);
+                break;
+            case 1:
+                if (dayFragment == null) {
+                    dayFragment = KLineFragment.newInstance("day");
+                }
+                dayFragment.setRefreshStock(detailEntity);
+                showFragment(dayFragment);
+                break;
+            case 2:
+                if (weekFragment == null) {
+                    weekFragment = KLineFragment.newInstance("week");
+                }
+                weekFragment.setRefreshStock(detailEntity);
+                showFragment(weekFragment);
+                break;
+            case 3:
+                if (monthFragment == null) {
+                    monthFragment = KLineFragment.newInstance("month");
+                }
+                monthFragment.setRefreshStock(detailEntity);
+                showFragment(monthFragment);
+                break;
+        }
+        this.position = position;
     }
 
     public void setData(StockDetailEntity entity) {
         detailEntity = entity;
         IndicatorHelper helper = new IndicatorHelper(detailEntity);
         indexQuoteView.setData(helper);
+        tabLayout.reset(position);
+    }
 
-        fenshiFragment = FenshiFragment.newInstance(detailEntity);
-        dayFragment = KLineFragment.newInstance(detailEntity, "day");
-        weekFragment = KLineFragment.newInstance(detailEntity, "week");
-        monthFragment = KLineFragment.newInstance(detailEntity, "month");
-
-        mFragmentList.clear();
-        mFragmentList.add(new EasyFragment(fenshiFragment, "分时"));
-//        mFragmentList.add(new EasyFragment(m30fragment, "日K"));
-//        mFragmentList.add(new EasyFragment(m60Fragment, "60分"));
-        mFragmentList.add(new EasyFragment(dayFragment, "日K"));
-        mFragmentList.add(new EasyFragment(weekFragment, "周K"));
-        mFragmentList.add(new EasyFragment(monthFragment, "月K"));
-//        mFragmentList.add(new EasyFragment(minFragment, "分钟"));
-
-        viewPager.setOffscreenPageLimit(mFragmentList.size());
-        mAdapter = new EasyFragmentAdapter1(((AppCompatActivity) getContext()).getSupportFragmentManager(), mFragmentList);
-        viewPager.setAdapter(mAdapter);
-        tabLayout.setViewPager(viewPager);
+    private void showFragment(Fragment fragment) {
+        if (currentFragment != fragment) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.hide(currentFragment);
+            currentFragment = fragment;
+            if (!fragment.isAdded()) {
+                transaction.add(R.id.k_container, fragment).show(fragment).commit();
+            } else {
+                transaction.show(fragment).commit();
+            }
+        }
     }
 
     public boolean getFocus() {
-        if (viewPager == null)
+        if (currentFragment == null) {
             return false;
-
-        switch (viewPager.getCurrentItem()) {
-            case 0:
-                if (fenshiFragment != null) {
-                    isFocus = fenshiFragment.getFocus();
-                }
-                break;
-            case 1:
-                if (dayFragment != null) {
-                    isFocus = dayFragment.getFocus();
-                }
-                break;
-            case 2:
-                if (weekFragment != null) {
-                    isFocus = weekFragment.getFocus();
-                }
-                break;
-            case 3:
-                if (monthFragment != null) {
-                    isFocus = monthFragment.getFocus();
-                }
-                break;
         }
-
+        isFocus = ((KInterface) currentFragment).getFocus();
         return isFocus;
     }
 }

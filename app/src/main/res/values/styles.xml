@@ -126,4 +126,17 @@
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
     </style>
+
+    <style name="InversProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/drawable_horizontal_progress_bar</item>
+        <item name="android:indeterminateDrawable">@drawable/drawable_indeterminate_horizontal_progress_bar</item>
+    </style>
+
+    <style name="TabStock">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
 </resources>

@@ -55,6 +55,9 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
     Fragment headNewsFragment;
     Fragment innerNewsFragment;
     Fragment changeListFragment;
+    Fragment stockNewsFragment;
+    Fragment stockReportFragment;
+    Fragment stockNoticeFragment;
     private EasyFragmentAdapter1 mAdapter;
     private ArrayList<EasyFragment> mFragmentList = new ArrayList<>();
 
@@ -120,6 +123,15 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
             mFragmentList.add(new EasyFragment(capitalFragment, "当日资金"));
         }
 
+        if(DDSID.hasStockNews(stockCode)){
+            stockNewsFragment = SimpleListFragment.newInstance(stockCode,0);
+            mFragmentList.add(new EasyFragment(stockNewsFragment,"新闻"));
+            stockNoticeFragment = SimpleListFragment.newInstance(stockCode,1);
+            mFragmentList.add(new EasyFragment(stockNoticeFragment,"公告"));
+            stockReportFragment = SimpleListFragment.newInstance(stockCode,2);
+            mFragmentList.add(new EasyFragment(stockReportFragment,"研报"));
+        }
+
         if(DDSID.hasGlobalNews(stockCode)){
             headNewsFragment = new HeadNewsFragment();
             mFragmentList.add(new EasyFragment(headNewsFragment, "头条"));
@@ -179,7 +191,7 @@ public class StockVerticalActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.search_btn:
-
+                startActivity(new Intent(StockVerticalActivity.this,SearchStockActivity.class));
                 break;
             case R.id.last_one:
                 stockCode = stockList.get(stockList.indexOf(stockCode) - 1);
